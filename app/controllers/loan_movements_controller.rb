@@ -5,11 +5,10 @@ class LoanMovementsController < ApplicationController
     payment_week = payments.where("payment_date <= ?", DateTime.now).order('id DESC').first&.week
     movement = movements.find_by(week: payment_week)
     @loan = Loan.find(movement_params[:loan_id])
-
-    if movement_params[:movement_type_id] == 2
+    if movement_params[:movement_type_id] == '2'
       if movement.update(movement_params)
         
-          adjust_loan
+        adjust_loan
         @client_movements = @loan.loan_movements.where("amount > 0")
 
         respond_to do |format|
@@ -39,7 +38,7 @@ class LoanMovementsController < ApplicationController
   def update
     loan_movement = LoanMovement.find(params[:id])
     loan_movement.update(amount: params[:amount])
-    if params[:movement_type_id] == 2
+    if params[:movement_type_id] == '2'
       adjust_payment
     end
   end
