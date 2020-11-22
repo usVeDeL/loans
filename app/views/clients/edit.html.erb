@@ -1,0 +1,27 @@
+<%= render "clients/form" %>
+
+<script>
+  $('#clientAddressModal form').submit(function() {
+    $('#clientAddressModal').modal('hide');
+  });
+
+  $('#clientAddressModal').on('hidden.bs.modal', function () {
+    $('#clientAddressModal form')[0].reset();
+  });
+
+  $('#clientContactTypesModal form').submit(function() {
+    $('#clientContactTypesModal').modal('hide');
+  });
+
+  $('#clientContactTypesModal').on('hidden.bs.modal', function () {
+    $('#clientContactTypesModal form')[0].reset();
+  });
+
+  $('#clientPersonalDocumentsModal form').submit(function() {
+    $('#clientPersonalDocumentsModal').modal('hide');
+  });
+
+  $('#clientPersonalDocumentsModal').on('hidden.bs.modal', function () {
+    $('#clientPersonalDocumentsModal form')[0].reset();
+  });
+</script>

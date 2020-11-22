@@ -1,0 +1,42 @@
+<br><br><br>
+<h1 class="text-center">Tipo de contactos</h1>
+<br><br><br>
+<%= link_to 'Nuevo', new_contact_type_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+<br><br>
+<table id="dttb" class="table table-hover">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Activo</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @contact_types.each do |contact| %>
+          <tr>
+            <td><%= link_to contact.name.capitalize, edit_contact_type_path(contact) %></td>
+            <td>
+              <% if contact.active %>
+                <%= fa_icon 'check-circle', class: "fa-2x text-success" %>
+              <% else %>
+                <%= '' %>
+              <% end %>
+            </td>
+            <td><%= link_to 'Editar', edit_contact_type_path(contact), class: 'btn  btn-sm btn-outline-warning' %></td>
+            <td><%= link_to 'Eliminar', contact_type_path(contact), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+<script>
+  $(document).ready(function() {
+    $("#dttb").dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+  });
+</script>

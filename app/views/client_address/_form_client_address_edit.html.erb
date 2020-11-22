@@ -1,0 +1,60 @@
+<%= form_with(model: client_address, remote: true, id: 'add_client_address_form') do |f| %>
+  <div class="form-group row">
+    <%= f.label 'Estado:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field(:state_name,  class: 'form-control')%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Municipio:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field(:town, class: 'form-control')%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Colonia:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field(:neighborhood, class: 'form-control')%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Código postal:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field(:code_zip, class: 'form-control')%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Calle:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field(:street, class: 'form-control')%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Número exterior:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field(:number_exterior, class: 'form-control')%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Número interior:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field(:number_interior, class: 'form-control')%>
+    </div>
+  </div><br>
+  <%= f.hidden_field :client_id, value: @client.id %>
+
+  <div class="row col-md-2 offset-md-10">
+    <%= f.submit('Guardar', class: 'text-center btn btn-success', 'data-toggle': "modal", 'data-target': "#amountLoanModal" ) %>
+  </div>
+<% end %>
+
+
+<script>
+  $('#add_client_address_form').submit(function() {
+    $('#editClientAddressModal').modal('hide');
+  });
+
+  $('#editClientAddressModal').on('hidden.bs.modal', function () {
+    $('#editClientAddressModal form')[0].reset();
+  });
+</script>

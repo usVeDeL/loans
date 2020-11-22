@@ -1,0 +1,31 @@
+<%= form_with(model: client_contact_type, remote: true, id: 'add_client_contact_type_form') do |f| %>
+  <div class="form-group row">
+    <%= f.label 'Estado:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.select :contact_type_id, options_for_select(ContactType.all.map{|c| [c.name, c.id]}), class: 'custom-select' %>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Detalle:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field(:details, class: 'form-control')%>
+    </div>
+  </div><br>
+
+  <%= f.hidden_field :client_id, value: @client.id %>
+
+  <div class="row col-md-2 offset-md-10">
+    <%= f.submit('Guardar', class: 'text-center btn btn-success' ) %>
+  </div>
+<% end %>
+
+
+<script>
+  $('#add_client_contact_type_form').submit(function() {
+    $('#editClientContactTypeModal').modal('hide');
+  });
+
+  $('#editClientContactTypeModal').on('hidden.bs.modal', function () {
+    $('#editClientContactTypeModal form')[0].reset();
+  });
+</script>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Financierav2</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= tinymce_assets %>
+    <script type="text/javascript" src="/assets/tinymce.js"></script>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    
+
+  </head>
+
+  <body>
+    <%= render partial: 'shared/navigation_bar' %>
+    <div class="container">
+      <% flash.each do |type, msg| %>
+        <div class="alert alert-<%= type %>">
+          <%= msg %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>
+
+
+<script>
+window.setTimeout(function() {
+  $(".alert, .flash").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove(); 
+  });
+}, 2000);
+
+</script>

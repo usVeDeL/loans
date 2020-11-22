@@ -1,0 +1,96 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Semana</th>
+      <th scope="col">Fecha Pago</th>
+      <th scope="col">Pago capital</th>
+      <th scope="col">Pago interes</th>
+      <th scope="col">Pago semanal</th>
+      <th scope="col">Saldo capital</th>
+      <th scope="col">Saldo interes</th>
+      <th scope="col">Cartera vigente</th>
+      <th scope="col">Ajustar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% unless weekly_payments.nil? %>
+      <% weekly_payments.each do |payment| %>
+        <% loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last %>
+        <tr>
+          <th><%= payment.week %></th>
+          <th><%= payment.payment_date.strftime("%F") %></th>
+          <th><%= number_to_currency(payment.payment_capital, precision: 2) %></th>
+          <th><%= number_to_currency(payment.payment_interest, precision: 2) %></th>
+          <th><%= number_to_currency(payment.week_payment, precision: 2) %></th>
+          <th><%= number_to_currency(payment.balance_capital, precision: 2) %></th>
+          <th><%= number_to_currency(payment.balance_interest, precision: 2) %></th>
+          <th><%= number_to_currency(payment.wallet_amout, precision: 2) %></th>
+          <th>
+            <% if payment.payment_date < DateTime.now %>
+              <button 
+                type="button"
+                class="btn btn-outline-warning"
+                id="add_client_button"
+                data-toggle="modal"
+                data-target="#editMovementModal"
+                data-amount="<%= payment.week_payment %>"
+                data-id="<%= loan_movement&.id %>"
+              >
+                Editar
+              </button>
+            <% end %>
+          </th>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+
+<div class="modal fade" id="editMovementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Monto de Préstramo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: @loan_movement, method: :patch, remote: true, id: 'update_loan_movement_form') do |f| %>
+          <div class="form-group row">
+            <%= f.label 'Tipo de movimiento:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.select :movement_type_id, options_for_select(MovementType.all[1..-1].map{|c| [c.name.capitalize, c.id]}), class: 'custom-select' %>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Monto:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field :amount,  class: 'form-control' %>
+            </div>
+          </div><br>
+          <%= f.hidden_field :loan_id, value: @loan.id %>
+          <div class="row col-md-2 offset-md-10">
+            <%= f.submit('Guardar', class: 'text-center btn btn-success') %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#editMovementModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var amount = button.data('amount');
+    var id = button.data('id');
+    var url = '/loan_movements/'+ id 
+
+    $('#update_loan_movement_form').attr('action', url);
+    $('#amount').val(amount);
+  })
+
+</script>

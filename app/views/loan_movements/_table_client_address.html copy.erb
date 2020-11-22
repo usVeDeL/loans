@@ -1,0 +1,49 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Estado</th>
+      <th scope="col">Municipio</th>
+      <th scope="col">Colonia</th>
+      <th scope="col">Código postal</th>
+      <th scope="col">Calle</th>
+      <th scope="col">Número exterior</th>
+      <th scope="col">Número interior</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Quitar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% unless @client_addresses.nil? %>
+      <% @client_addresses.each do |c| %>
+        <tr>
+          <th><%= c.state_name %></th>
+          <th><%= c.town %></th>
+          <th><%= c.neighborhood %></th>
+          <th><%= c.code_zip %></th>
+          <th><%= c.street %></th>
+          <th><%= c.number_exterior %></th>
+          <th><%= c.number_interior %></th>
+          <th><%= link_to 'Editar', edit_client_address_path(c), remote: true, class:'btn btn-warning', 'data-toggle': "modal", 'data-target': '#editClientAddressModal'%></th>
+          <th><%= link_to 'Eliminar', client_address_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div class="modal fade" id="editClientAddressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="client_address_form">
+        <%= render partial: 'client_address/form_client_address_edit', locals: { client_address: @client_address, client: @client } %>
+      </div>
+    </div>
+  </div>
+</div>

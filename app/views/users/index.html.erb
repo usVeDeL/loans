@@ -1,0 +1,48 @@
+<br><br><br>
+<h1 class="text-center">Usuarios</h1>
+<br><br><br>
+<%= link_to 'Nuevo', new_user_registration_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+<br><br>
+<table id="dttb" class="table table-hover">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Correo</th>
+          <th>Activo</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |u| %>
+          <tr>
+            <td><%= link_to u.username.capitalize, edit_user_path(u) %></td>
+            <td><%= link_to u.name.capitalize, edit_user_path(u) %></td>
+            <td><%= link_to u.last_name.capitalize, edit_user_path(u) %></td>
+            <td><%= link_to u.mail, edit_user_path(u) %></td>
+            <td>
+              <% if u.active %>
+                <%= fa_icon 'check-circle', class: "fa-2x text-success" %>
+              <% else %>
+                <%= '' %>
+              <% end %>
+            </td>
+            <td><%= link_to 'Editar', edit_user_path(u), class: 'btn  btn-sm btn-outline-warning' %></td>
+            <td><%= link_to 'Eliminar', user_path(u), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+<script>
+  $(document).ready(function() {
+    $("#dttb").dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+  });
+</script>

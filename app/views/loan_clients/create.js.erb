@@ -1,0 +1,3 @@
+$("#grid_loan_resume").html("<%= escape_javascript(render partial: 'loans/table_loan_resume', locals: { loan: @loan } ) %>"); 
+$("#grid_table_amortization").html("<%= escape_javascript(render partial: 'table_amortization', locals: { weekly_payments: @weekly_payments } ) %>"); 
+$("#loan_clients_grid").html("<%= escape_javascript(render partial: 'table_loan_clients', locals: { clients: @clients, loan: @loan } ) %>"); 

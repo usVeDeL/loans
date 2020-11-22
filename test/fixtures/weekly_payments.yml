@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  week: 1
+  loan_id: 1
+  payment_date: 2020-11-19 11:11:35
+  payment_capital: 1.5
+  payment_interest: 1.5
+  week_payment: 1.5
+  balance_capital: 1.5
+  balance_interest: 1.5
+  wallet_amout: 1.5
+  percent_capital: 1.5
+  percent_interest: 1.5
+
+two:
+  week: 1
+  loan_id: 1
+  payment_date: 2020-11-19 11:11:35
+  payment_capital: 1.5
+  payment_interest: 1.5
+  week_payment: 1.5
+  balance_capital: 1.5
+  balance_interest: 1.5
+  wallet_amout: 1.5
+  percent_capital: 1.5
+  percent_interest: 1.5

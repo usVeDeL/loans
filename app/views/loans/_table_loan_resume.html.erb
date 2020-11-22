@@ -1,0 +1,46 @@
+<hr>
+<h5 class='text-center'>Resúmen</h5>
+<span class="badge badge-primary">Primary</span>
+<span class="badge badge-secondary">Secondary</span>
+<span class="badge badge-success">Success</span>
+<span class="badge badge-danger">Danger</span>
+<span class="badge badge-warning">Warning</span>
+<span class="badge badge-info">Info</span>
+<span class="badge badge-light">Light</span>
+<span class="badge badge-dark">Dark</span>
+
+
+<table style="border: 1px solid transparent" class="col-md-12">
+  <tr>
+    <td>Estado</td>
+    <td><%= loan.state.state_name %></td>
+  </tr>
+  <tr>
+    <td>Préstamo</td>
+    <td><%= number_to_currency(loan.loan_amount, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Interéses</td>
+    <td><%= number_to_currency(loan.interest_amount, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Pago Semanal</td>
+    <td><%= number_to_currency(loan.weekly_amount, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Garantia</td>
+    <td><%= number_to_currency(loan.warranty, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Fecha Inicial</td>
+    <td id="start_date_label"><%= loan.start_date.strftime("%F") %></td>
+  </tr>
+  <tr>
+    <td>Fecha Final</td>
+    <td id=""><%= loan.end_date.strftime("%F") %></td>
+  </tr>
+  <tr>
+    <td>Semanas</td>
+    <td>16</td>
+  </tr>  
+</table>

@@ -1,0 +1,71 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Tipo de contacto</th>
+      <th scope="col">Documento</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% unless @personal_documents.nil? %>
+      <% @personal_documents.each do |c| %>
+        <tr>
+          <th><%= c.document_type.name %></th>
+          <th>
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#showPersonalDocumentImageModal" data-url="<%= c.document.url %>">Ver</button></th>
+          <th><%= link_to 'Editar', edit_personal_document_path(c), remote: true, class:'btn btn-outline-warning', 'data-toggle': "modal", 'data-target': '#editPersonalDocumentModal'%></th>
+          <th><%= link_to 'Eliminar', personal_document_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div class="modal fade" id="editPersonalDocumentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="personal_document_form">
+        <%= render partial: 'personal_documents/form_personal_documents_edit', locals: { personal_document: @personal_document, client: @client } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="showPersonalDocumentImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <%= image_tag '', class:"img-fluid"%>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+$('#showPersonalDocumentImageModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('url') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-body img').attr('src', recipient)
+})
+</script>

@@ -1,0 +1,71 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col">A.Paterno</th>
+      <th scope="col">A.Materno</th>
+      <th scope="col">Fecha Nacimiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% unless clients.nil? %>
+      <% clients.each do |c| %>
+        <tr>
+          <td id="client_name"><%= c.name %></td>
+          <td id="client_last_name"><%= c.last_name %></td>
+          <td id="client_mother_last_name"><%= c.mother_last_name %></td>
+          <td id="client_birth_date"><%= c.birth_date.strftime("%F") %></td>
+          <td >
+            <button 
+              type="button"
+              class="btn btn-primary"
+              id="add_client_button"
+              data-toggle="modal"
+              data-target="#amountLoanModal"
+              data-client-name="<%= c.name %>"
+              data-client-last-name="<%= c.last_name %>"
+              data-client-mother-last-name="<%= c.mother_last_name %>"
+              data-client-birth-date="<%= c.birth_date %>"
+            >
+              +
+            </button>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+
+<script>
+  $('#amountLoanModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var name = button.data('client-name');
+    var last_name = button.data('client-last-name');
+    var mother_last_name = button.data('client-mother-last-name');
+    var birth_date = button.data('client-birth-date');
+
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    $('#loan_client_name').val(name);
+    $('#loan_client_last_name').val(last_name);
+    $('#loan_client_mother_last_name').val(mother_last_name);
+    $('#loan_client_birth_date').val(birth_date);
+  })
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

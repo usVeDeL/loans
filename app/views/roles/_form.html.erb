@@ -1,0 +1,157 @@
+<br><br>
+<%= link_to 'Ir al listado', roles_path, class: 'btn btn-outline-primary' %>
+<div class=" col-md-8 offset-md-2 card">
+  <div class="card-body">
+    <% if @role.errors.any? %>
+      <div id="error_explanation">
+        <% @role.errors.full_messages.each do |msg| %>
+          <div class="alert alert-danger">
+            <%= msg %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <br><br>
+    <%= form_with model: @role, method: :patch, local: true do |f| %>
+      <div class="form-group row">
+        <%= f.label 'Nombre:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+        <div class="col-sm-10">
+          <%= f.text_field :name, class: 'form-control'%>
+        </div>
+      </div>
+      <br><br>
+      <h5 class='text-center'>Permisos</h5>
+      <div class="form-group row">
+        <table id="dttb" class="table table-hover">
+          <thead>
+            <tr>
+              <th>Modelo</th>
+              <th>Crear</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+              <th>Ver</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= f.label 'Detalle prestamo:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.detail_loan[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.detail_loan[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.detail_loan[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.detail_loan[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Grupo prestamo:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.group_loan[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.group_loan[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.group_loan[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.group_loan[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Estado:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.state[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.state[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.state[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.state[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Tipo de movimientos:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.movement_type[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.movement_type[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.movement_type[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.movement_type[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Préstamo:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.loan[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.loan[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.loan[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.loan[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Movimiento:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.movement[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.movement[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.movement[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.movement[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Contacto:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.contact[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.contact[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.contact[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.contact[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Tipo de documento:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.document_type[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.document_type[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.document_type[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.document_type[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Tipo de contacto:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.contact_type[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.contact_type[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.contact_type[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.contact_type[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Dirección:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.address[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.address[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.address[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.address[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Cliente:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.client[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.client[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.client[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.client[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Configuración:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.configuration[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.configuration[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.configuration[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.configuration[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Tipo:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.kind_type[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.kind_type[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.kind_type[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.kind_type[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Notificación:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.notification[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.notification[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.notification[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.notification[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Usuario:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.user[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.user[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.user[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.user[:show], class: 'form-check-input'%></td>
+            </tr>
+             <tr>
+              <td><%= f.label 'Perfil:', class: 'col-sm-6 col-form-label font-weight-bold' %></td>
+              <td><%= f.check_box @role.profile[:create], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.profile[:update], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.profile[:detele], class: 'form-check-input'%></td>
+              <td><%= f.check_box @role.profile[:show], class: 'form-check-input'%></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="row col-md-2 offset-md-10">
+        <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
+      </div>
+    <% end %>
+  </div>
+</div>

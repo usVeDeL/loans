@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  loan_amount: 1.5
+  interest_amount: 1.5
+  weekly_amount: 1.5
+  warranty: 1.5
+  start_date: 2020-11-14 15:57:04
+  end_date: 2020-11-14 15:57:04
+  state_id: 1
+  user_id: 1
+  interest_percent: 1.5
+  adviser_id: 1
+  cycle: 1
+
+two:
+  name: MyString
+  loan_amount: 1.5
+  interest_amount: 1.5
+  weekly_amount: 1.5
+  warranty: 1.5
+  start_date: 2020-11-14 15:57:04
+  end_date: 2020-11-14 15:57:04
+  state_id: 1
+  user_id: 1
+  interest_percent: 1.5
+  adviser_id: 1
+  cycle: 1

@@ -1,0 +1,39 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Tipo de contacto</th>
+      <th scope="col">Detalle</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% unless @client_contact_types.nil? %>
+      <% @client_contact_types.each do |c| %>
+        <tr>
+          <th><%= c.contact_type.name %></th>
+          <th><%= c.details %></th>
+          <th><%= link_to 'Editar', edit_client_contact_type_path(c), remote: true, class:'btn btn-outline-warning', 'data-toggle': "modal", 'data-target': '#editClientContactTypeModal'%></th>
+          <th><%= link_to 'Eliminar', client_contact_type_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+
+<div class="modal fade" id="editClientContactTypeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="client_contact_type_form">
+        <%= render partial: 'client_contact_types/form_client_contact_type_edit', locals: { client_contact_type: @client_contact_type, client: @client } %>
+      </div>
+    </div>
+  </div>
+</div>

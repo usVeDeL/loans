@@ -1,0 +1,2 @@
+module PersonalDocumentsHelper
+end

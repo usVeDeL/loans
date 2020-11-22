@@ -1,0 +1,226 @@
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+
+<br><br>
+<%= link_to 'Ir al listado', clients_path, class: 'btn btn-outline-primary' %>
+<br><br>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">General</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Dirección</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contacto</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="document-tab" data-toggle="tab" href="#document" role="tab" aria-controls="document" aria-selected="false">Documentos</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="col-md-8 offset-md-2">
+      <% if @client.errors.any? %>
+        <div id="error_explanation">
+          <% @client.errors.full_messages.each do |msg| %>
+            <div class="alert alert-danger">
+              <%= msg %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <br><br>
+      <%= form_with model: @client, local: true do |f| %>
+        <div class="form-group row">
+          <%= f.label 'Nombre:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+          <div class="col-sm-10">
+            <%= f.text_field :name, class: 'form-control'%>
+          </div>
+        </div><br>
+        <div class="form-group row">
+          <%= f.label 'Apellido paterno:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+          <div class="col-sm-10">
+            <%= f.text_field :last_name, class: 'form-control'%>
+          </div>
+        </div><br>
+        <div class="form-group row">
+          <%= f.label 'Apellido materno:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+          <div class="col-sm-10">
+            <%= f.text_field :mother_last_name, class: 'form-control'%>
+          </div>
+        </div><br>
+        <div class="form-group row">
+          <%= f.label 'Fecha de nacimiento:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+          <div class="col-sm-10">
+            <%= f.date_field :birth_date, class: 'form-control'%>
+          </div>
+        </div><br>
+        <div class="row col-md-2 offset-md-10">
+          <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <br><br>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientAddressModal">
+      Agregar
+    </button><br><br>
+    <div id="client_address_grid">
+      <%= render partial: 'client_address/table_client_address', locals: { client_addresses: @client_addresses } %>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <br><br>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientContactTypesModal">
+      Agregar
+    </button><br><br>
+    <div id="client_contact_types_grid">
+      <%= render partial: 'client_contact_types/table_client_contact_types', locals: { client_contact_types: @client_contact_types, client: @client } %>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
+    <br><br>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientPersonalDocumentsModal">
+      Agregar
+    </button><br><br>
+    <div id="personal_documents_grid">
+      <%= render partial: 'personal_documents/table_personal_documents', locals: { personal_documents: @personal_documents, client: @client } %>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="clientAddressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: ClientAddress.new, url: '/client_address', method: :post, remote: true, id: 'add_client_address_form') do |f| %>
+          <div class="form-group row">
+            <%= f.label 'Estado:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:state_name,  class: 'form-control')%>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Municipio:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:town, class: 'form-control')%>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Colonia:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:neighborhood, class: 'form-control')%>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Código postal:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:code_zip, class: 'form-control')%>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Calle:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:street, class: 'form-control')%>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Número exterior:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:number_exterior, class: 'form-control')%>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Número interior:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:number_interior, class: 'form-control')%>
+            </div>
+          </div><br>
+          <%= f.hidden_field :client_id, value: @client.id %>
+
+          <div class="row col-md-2 offset-md-10">
+            <%= f.submit('Guardar', class: 'text-center btn btn-success' ) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="clientContactTypesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: ClientContactType.new, url: '/client_contact_types', method: :post, remote: true, id: 'add_client_contact_type_form') do |f| %>
+          <div class="form-group row">
+            <%= f.label 'Estado:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.select :contact_type_id, options_for_select(ContactType.all.map{|c| [c.name, c.id]}), class: 'custom-select' %>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Detalle:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:details, class: 'form-control')%>
+            </div>
+          </div><br>
+
+          <%= f.hidden_field :client_id, value: @client.id %>
+
+          <div class="row col-md-2 offset-md-10">
+            <%= f.submit('Guardar', class: 'text-center btn btn-success' ) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="clientPersonalDocumentsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(model: PersonalDocument.new, url: '/personal_documents', method: :post, remote: true, id: 'add_personal_document_form') do |f| %>
+          <div class="form-group row">
+            <%= f.label 'Tipo Documento:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.select :document_type_id, options_for_select(DocumentType.all.map{|c| [c.name, c.id]}), class: 'custom-select' %>
+            </div>
+          </div><br>
+          <div class="form-group row">
+            <%= f.label 'Detalle:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.file_field(:document, class: 'form-control')%>
+            </div>
+          </div><br>
+          <%= f.hidden_field :client_id, value: @client.id %>
+          <div class="row col-md-2 offset-md-10">
+            <%= f.submit('Guardar', class: 'text-center btn btn-success' ) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
