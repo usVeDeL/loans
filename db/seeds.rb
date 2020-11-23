@@ -80,12 +80,29 @@ require 'csv'
 
 #contactos clients
 
-file = Rails.root.join('db', 'contactos.csv')
-contactos = CSV.read(file)
-contactos[1..-1].each do |c|
-    ClientContactType.create!(details: c[0], client_id: c[1], contact_type_id: c[2])
-end
+# file = Rails.root.join('db', 'contactos.csv')
+# contactos = CSV.read(file)
+# contactos[1..-1].each do |c|
+#     ClientContactType.create!(details: c[0], client_id: c[1], contact_type_id: c[2])
+# end
 
+
+
+#Direcciones
+file = Rails.root.join('db', 'address.csv')
+address = CSV.read(file)
+address[1..-1].each do |c|
+    ClientAddress.create!(
+        state_name: c[0],
+        town: c[1],
+        neighborhood: c[2],
+        code_zip: c[3],
+        street: c[4],
+        number_exterior: c[5],
+        number_interior: c[6],
+        client_id: c[7]
+    )
+end
 
 
 
