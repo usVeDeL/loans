@@ -86,11 +86,11 @@ class ContractsController < ApplicationController
       number_exterior = c.client_address&.last&.number_exterior || ''
       number_interior = c.client_address&.last&.number_interior || ''
       neighborhood = c.client_address&.last&.neighborhood || ''
-      zip_code = c.client_address&.last&.zip_code || ''
+      code_zip = c.client_address&.last&.code_zip || ''
       state_name = c.client_address&.last&.state_name || ''
       town = c.client_address&.last&.town || ''
 
-      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{zip_code} #{state_name} #{town}"
+      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_s} #{state_name} #{town}"
     end.join('<br/>')
 
     mutuarios_loans = @loan.loan_clients.map do |l| 
@@ -120,11 +120,11 @@ class ContractsController < ApplicationController
       number_exterior = c.client_address.last&.number_exterior || ''
       number_interior = c.client_address.last&.number_interior || ''
       neighborhood = c.client_address.last&.neighborhood || ''
-      zip_code = c.client_address.last&.zip_code || ''
+      code_zip = c.client_address.last&.code_zip || ''
       state_name = c.client_address.last&.state_name || ''
       town = c.client_address.last&.town || ''
 
-      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{zip_code} #{state_name} #{town}"
+      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}"
     end.join('<br/>')
 
 
