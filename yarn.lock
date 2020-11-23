@@ -2716,23 +2716,6 @@ datatables.net-scroller@2.0.3:
     datatables.net "^1.10.15"
     jquery ">=1.7"
 
-datatables.net-searchbuilder-bs4@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/datatables.net-searchbuilder-bs4/-/datatables.net-searchbuilder-bs4-1.0.0.tgz#4ff812f374510d2a93f9ec9de264611e3ef67dd5"
-  integrity sha512-B507bmZ6ZOWPLuzPPD0GYpkcfcn1tZVJya4NLJe+TXtEDpaGMrtT691kh41Oi9vFM7KmFP4QvcJNjHQtPNvsdw==
-  dependencies:
-    datatables.net-bs4 "^1.10.15"
-    datatables.net-searchbuilder "1.0.0"
-    jquery ">=1.7"
-
-datatables.net-searchbuilder@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/datatables.net-searchbuilder/-/datatables.net-searchbuilder-1.0.0.tgz#0dbd7e628cc223a4c537f7719de79b9edfe2e71f"
-  integrity sha512-C9TaB+SGSA9mMcpIcN71JmS8q+hIAqMt6jr5PbVBn8Y3atmHb3t7o5R+MUNd12fjzJvSEdr4Mg5iu6ONDGAOZw==
-  dependencies:
-    datatables.net "^1.10.15"
-    jquery ">=1.7"
-
 datatables.net-searchpanes-bs4@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/datatables.net-searchpanes-bs4/-/datatables.net-searchpanes-bs4-1.2.1.tgz#55f471e8c5aa7aa2dfe55ebba5b8cac846049baf"

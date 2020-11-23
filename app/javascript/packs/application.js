@@ -25,7 +25,6 @@ require( 'datatables.net-responsive-bs4' )();
 require( 'datatables.net-rowgroup-bs4' )();
 require( 'datatables.net-rowreorder-bs4' )();
 require( 'datatables.net-scroller-bs4' )();
-require( 'datatables.net-searchbuilder-bs4' )();
 require( 'datatables.net-searchpanes-bs4' )();
 require( 'datatables.net-select-bs4' )();
 
