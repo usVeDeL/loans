@@ -82,13 +82,13 @@ class ContractsController < ApplicationController
     mutuarios = @loan.clients.map{ |c| "#{c.name} #{c.last_name} #{c.mother_last_name}"}.join(', ')
 
     mutuarios_address = @loan.clients.map do |c| 
-      street = c.client_address.last&.street || ''
-      number_exterior = c.client_address.last&.number_exterior || ''
-      number_interior = c.client_address.last&.number_interior || ''
-      neighborhood = c.client_address.last&.neighborhood || ''
-      zip_code = c.client_address.last&.zip_code || ''
-      state_name = c.client_address.last&.state_name || ''
-      town = c.client_address.last&.town || ''
+      street = c.client_address&.last&.street || ''
+      number_exterior = c.client_address&.last&.number_exterior || ''
+      number_interior = c.client_address&.last&.number_interior || ''
+      neighborhood = c.client_address&.last&.neighborhood || ''
+      zip_code = c.client_address&.last&.zip_code || ''
+      state_name = c.client_address&.last&.state_name || ''
+      town = c.client_address&.last&.town || ''
 
       "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{zip_code} #{state_name} #{town}"
     end.join('<br/>')
