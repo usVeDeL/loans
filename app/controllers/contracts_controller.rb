@@ -90,7 +90,7 @@ class ContractsController < ApplicationController
       state_name = c.client_address&.last&.state_name || ''
       town = c.client_address&.last&.town || ''
 
-      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_s} #{state_name} #{town}"
+      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}"
     end.join('<br/>')
 
     mutuarios_loans = @loan.loan_clients.map do |l| 
