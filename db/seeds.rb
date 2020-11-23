@@ -69,12 +69,7 @@ require 'csv'
 file = Rails.root.join('db', 'users.csv')
 clients = CSV.read(file)
 clients[1..-1].each do |client|
-    client = Client.new(name: client[1], last_name: client[2], mother_last_name: client[3], birth_date: client[4].to_datetime)
-    client.save!
-    if client.id > 51
-        new_id = client.id + 2
-        client.update!(id: new_id)
-    end
+    client = Client.create!(name: client[1], last_name: client[2], mother_last_name: client[3], birth_date: client[4].to_datetime)
 end
 
 User.create!(username: 'admin', password: 'password', password_confirmation: 'password', role_id: 1) if Rails.env.development?
