@@ -64,13 +64,41 @@ require 'csv'
 # end
 
 
-#clients
+# #clients
 
-file = Rails.root.join('db', 'users.csv')
-clients = CSV.read(file)
-clients[1..-1].each do |client|
-    client = Client.create!(name: client[1], last_name: client[2], mother_last_name: client[3], birth_date: client[4].to_datetime)
+# file = Rails.root.join('db', 'users.csv')
+# clients = CSV.read(file)
+# Client.all.order("id DESC").each do |client|
+#     if client.id > 51
+#         new_id = client.id + 2
+#         client.update!(id: new_id)
+#     end
+# end
+
+# User.create!(username: 'admin', password: 'password', password_confirmation: 'password', role_id: 1) if Rails.env.development?
+
+
+#contactos clients
+
+file = Rails.root.join('db', 'contactos.csv')
+contactos = CSV.read(file)
+contactos[1..-1].each do |c|
+    ClientContactType.create!(details: c[0], client_id: c[1], contact_type_id: c[2])
 end
 
-User.create!(username: 'admin', password: 'password', password_confirmation: 'password', role_id: 1) if Rails.env.development?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
