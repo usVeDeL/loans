@@ -5,10 +5,12 @@
       <th scope="col">Paterno</th>
       <th scope="col">Materno</th>
       <th scope="col">Préstamo</th>
+      <th scope="col">Expediente</th>
+      <th scope="col">Eliminar</th>
     </tr>
   </thead>
   <tbody>
-    <% unless clients.nil? %><div class="modal fade" id="editMovementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <% unless clients.nil? %><div class="modal " id="editMovementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -44,13 +46,12 @@
       <% clients.each do |c| %>
         <% loan_client = c.loan_clients.find_by(loan_id: loan.id) %>
         <tr>
-          <th><%= c.name %></th>
-          <th><%= c.last_name %></th>
-          <th><%= c.mother_last_name %></th>
-          <th><%= number_to_currency(loan_client.amount, precision: 2) %></th>
+          <th><%= c.name.capitalize %></th>
+          <th><%= c.last_name.capitalize %></th>
+          <th><%= c.mother_last_name.capitalize%></th>
           <th><%= number_to_currency(loan_client.amount, precision: 2) %></th>
           <td><%= link_to 'Expediente', edit_client_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <th><%= link_to 'Quitar', loan_client_path(loan_client), remote: true, class: 'btn btn-danger', method: :delete, data: { confirm: 'Estás seguro?' } %></th>
+          <th><%= link_to 'Quitar', loan_client_path(loan_client), remote: true, class: 'btn btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' } %></th>
         </tr>
       <% end %>
     <% end %>

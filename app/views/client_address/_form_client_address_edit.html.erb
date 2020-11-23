@@ -55,6 +55,6 @@
   });
 
   $('#editClientAddressModal').on('hidden.bs.modal', function () {
-    $('#editClientAddressModal form')[0].reset();
+    setTimeout(function(){ $('#editClientAddressModal form')[0].reset(); }, 2000);
   });
 </script>

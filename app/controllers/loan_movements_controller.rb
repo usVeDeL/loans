@@ -10,6 +10,7 @@ class LoanMovementsController < ApplicationController
         
         adjust_loan
         @client_movements = @loan.loan_movements.where("amount > 0")
+        @weekly_payments = @loan.weekly_payments.order('week ASC')
 
         respond_to do |format|
           format.js
@@ -20,6 +21,7 @@ class LoanMovementsController < ApplicationController
     else
       LoanMovement.create(movement_params)
       @client_movements = @loan.loan_movements.where("amount > 0")
+      @weekly_payments = @loan.weekly_payments.order('week ASC')
 
       respond_to do |format|
         format.js
@@ -41,14 +43,19 @@ class LoanMovementsController < ApplicationController
     if params[:movement_type_id] == '2'
       adjust_payment
     end
+    @weekly_payments = @loan.weekly_payments.order('week ASC')
+    @client_movements = @loan.loan_movements.where("amount > 0")
   end
 
   def destroy
     @loan_movement = LoanMovement.find(params[:id])
     @loan = @loan_movement.loan
-    @client_movements = @loan.loan_movements.where("amount > 0")
+    
 
     if @loan_movement.update(amount: 0.0)
+      adjust_payment
+      @weekly_payments = @loan.weekly_payments.order('week ASC')
+      @client_movements = @loan.loan_movements.where("amount > 0")
       respond_to do |format|
         format.js
       end
@@ -101,14 +108,16 @@ class LoanMovementsController < ApplicationController
 
 
   def adjust_payment
-    loan = Loan.find(params[:loan_id])
-    payments = WeeklyPayment.where(loan_id: params[:loan_id])
+    loan_id = params[:loan_id] || LoanMovement.find(params[:id]).loan_id
+    amount = params[:amount] || LoanMovement.find(params[:id]).amount
+    loan = Loan.find(loan_id)
+    payments = WeeklyPayment.where(loan_id: loan_id)
     payment_week = LoanMovement.find(params[:id]).week || 0
 
     payments.each do |payment|
       if payment.week >= payment_week
         week_payment = payment.week_payment 
-        week_payment = params[:amount].to_f if payment.week == payment_week
+        week_payment = amount.to_f if payment.week == payment_week
         percent_capital = capital_payment_table[payment.week.to_s.to_sym]
         
         payment_capital = week_payment*(percent_capital/100.0)

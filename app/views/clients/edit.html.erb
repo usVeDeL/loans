@@ -6,7 +6,7 @@
   });
 
   $('#clientAddressModal').on('hidden.bs.modal', function () {
-    $('#clientAddressModal form')[0].reset();
+    setTimeout(function(){ $('#clientAddressModal form')[0].reset(); }, 2000);
   });
 
   $('#clientContactTypesModal form').submit(function() {
@@ -14,14 +14,14 @@
   });
 
   $('#clientContactTypesModal').on('hidden.bs.modal', function () {
-    $('#clientContactTypesModal form')[0].reset();
+    setTimeout(function(){ $('#clientContactTypesModal form')[0].reset(); }, 2000);
   });
 
   $('#clientPersonalDocumentsModal form').submit(function() {
-    $('#clientPersonalDocumentsModal').modal('hide');
+    setTimeout(function(){ $('#clientPersonalDocumentsModal form')[0].reset(); }, 2000);
   });
 
   $('#clientPersonalDocumentsModal').on('hidden.bs.modal', function () {
-    $('#clientPersonalDocumentsModal form')[0].reset();
+    setTimeout(function(){ $('#clientPersonalDocumentsModal form')[0].reset(); }, 2000);
   });
 </script>

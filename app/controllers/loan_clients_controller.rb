@@ -11,7 +11,7 @@ class LoanClientsController < ApplicationController
       create_update_amortization_table(loan)
       @loan = loan
       @clients = @loan.clients
-      @weekly_payments = WeeklyPayment.where(loan_id: loan.id)
+      @weekly_payments = WeeklyPayment.where(loan_id: loan.id).order('week ASC')
       
       respond_to do |format|
         format.js
@@ -34,7 +34,7 @@ class LoanClientsController < ApplicationController
       
       @loan = loan
       @clients = @loan.clients
-      @weekly_payments = WeeklyPayment.where(loan_id: loan.id)
+      @weekly_payments = WeeklyPayment.where(loan_id: loan.id).order('week ASC')
       respond_to do |format|
         format.js
       end
@@ -49,7 +49,7 @@ class LoanClientsController < ApplicationController
 
     return create_weekly_payments(loan) if weekly_payments.blank?
       
-    update_weekly_payments(loan, loan.weekly_payments.order("id ASC"))
+    update_weekly_payments(loan, loan.weekly_payments.order('week ASC'))
   end
 
   def create_update_amortization_table(loan)
@@ -57,7 +57,7 @@ class LoanClientsController < ApplicationController
 
     return create_weekly_payments(loan) if weekly_payments.blank?
       
-    update_weekly_payments(loan, loan.weekly_payments.order("id ASC"))
+    update_weekly_payments(loan, loan.weekly_payments.order('week ASC'))
   end
 
   private
@@ -75,7 +75,7 @@ class LoanClientsController < ApplicationController
     .where(name: loan_client_params[:name])
     .where(last_name: loan_client_params[:last_name])
     .where(mother_last_name: loan_client_params[:mother_last_name])
-    .where(birth_date: loan_client_params[:birth_date]).last
+    .where(birth_date: loan_client_params[:birth_date]).last || Client.last
   end
 
   def create_weekly_payments(loan)

@@ -11,7 +11,7 @@
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Generak</a>
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">General</a>
   </li>
   <li class="nav-item" role="presentation">
     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Grupo</a>
@@ -21,7 +21,7 @@
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <div class="tab-pane  show active" id="home" role="tabpanel" aria-labelledby="home-tab">
     <br>
     <div class='row col-md-12'>
       <div class='col-md-8'>
@@ -70,7 +70,7 @@
       </div>
     </div>
   </div>
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+  <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">
     <br><br>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
       Buscador de clientes
@@ -80,7 +80,7 @@
       <%= render partial: 'loan_clients/table_loan_clients', locals: { clients: @clients, loan: @loan } %>
     </div>
   </div>
-  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+  <div class="tab-pane " id="contact" role="tabpanel" aria-labelledby="contact-tab">
     <br><br>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMovementModal">
       Agregar movimiento
@@ -103,7 +103,7 @@
 
 
 
-<div class="modal fade" id="addMovementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal " id="addMovementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -140,7 +140,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -173,7 +173,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal " id="addClientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -217,7 +217,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="amountLoanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal " id="amountLoanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -229,9 +229,10 @@
       <div class="modal-body">
         <%= form_with(model: LoanClient.new, url: '/loan_clients', method: :post, remote: true, id: 'add_loan_client_form') do |f| %>
           <div class="form-group row">
+
             <%= f.label 'Monto:', class: 'col-sm-2 col-form-label font-weight-bold' %>
             <div class="col-sm-10">
-              <%= f.text_field(:amount,  class: 'form-control')%>
+              <%= f.text_field :amount,  class: 'form-control' %>
             </div>
           </div><br>
           <%= f.hidden_field :name, value: nil %>
@@ -288,19 +289,19 @@
     $('#addMovementModal').modal('hide');
   });
 
-  $('#addMovementModal').on('hidden.bs.modal', function () {
-    $('#addMovementModal form')[0].reset();
+  $('#addMovementModal form').submit( function () {
+    setTimeout(function(){ $('#addMovementModal form')[0].reset(); }, 2000);
   });
 
-  $('#exampleModal').on('hidden.bs.modal', function () {
-    $('#exampleModal form')[0].reset();
+  $('#exampleModal form').submit( function () {
+    setTimeout(function(){ $('#exampleModal form')[0].reset(); }, 2000);
   });
 
-  $('#addClientModal').on('hidden.bs.modal', function () {
-    $('#addClientModal form')[0].reset();
+  $('#addClientModal form').submit( function () {
+    setTimeout(function(){ $('#addClientModal form')[0].reset(); }, 2000);
   });
 
-  $('#amountLoanModal').on('hidden.bs.modal', function () {
-    $('#amountLoanModal form')[0].reset();
+  $('#amountLoanModal form').submit( function () {
+    setTimeout(function(){ $('#amountLoanModal form')[0].reset(); }, 2000);
   });
 </script>

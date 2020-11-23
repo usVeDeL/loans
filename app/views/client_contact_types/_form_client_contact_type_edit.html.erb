@@ -26,6 +26,6 @@
   });
 
   $('#editClientContactTypeModal').on('hidden.bs.modal', function () {
-    $('#editClientContactTypeModal form')[0].reset();
+    setTimeout(function(){ $('#editClientContactTypeModal form')[0].reset(); }, 2000);
   });
 </script>

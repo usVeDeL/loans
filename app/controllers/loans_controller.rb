@@ -21,7 +21,7 @@ class LoansController < ApplicationController
   def edit
     @loan = Loan.find(params[:id])
     @clients = @loan.clients
-    @weekly_payments = @loan.weekly_payments
+    @weekly_payments = @loan.weekly_payments.order('week ASC')
     @client_movements = @loan.loan_movements.where("amount > 0")
   end
 
@@ -31,7 +31,7 @@ class LoansController < ApplicationController
 
     if @loan.update(loan_params)
       LoanClientsController.create_update_amortization_table(@loan)
-      @weekly_payments = @loan.weekly_payments
+      @weekly_payments = @loan.weekly_payments.order('week ASC')
       flash[:success] = "Cambios guardados correctamente"
       redirect_to edit_loan_path @loan
     else

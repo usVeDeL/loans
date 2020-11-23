@@ -20,7 +20,7 @@
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <div class="tab-pane  show active" id="home" role="tabpanel" aria-labelledby="home-tab">
     <div class="col-md-8 offset-md-2">
       <% if @client.errors.any? %>
         <div id="error_explanation">
@@ -63,7 +63,7 @@
       <% end %>
     </div>
   </div>
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+  <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">
     <br><br>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientAddressModal">
       Agregar
@@ -72,7 +72,7 @@
       <%= render partial: 'client_address/table_client_address', locals: { client_addresses: @client_addresses } %>
     </div>
   </div>
-  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+  <div class="tab-pane " id="contact" role="tabpanel" aria-labelledby="contact-tab">
     <br><br>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientContactTypesModal">
       Agregar
@@ -81,7 +81,7 @@
       <%= render partial: 'client_contact_types/table_client_contact_types', locals: { client_contact_types: @client_contact_types, client: @client } %>
     </div>
   </div>
-  <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
+  <div class="tab-pane " id="document" role="tabpanel" aria-labelledby="document-tab">
     <br><br>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientPersonalDocumentsModal">
       Agregar
@@ -92,7 +92,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="clientAddressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal " id="clientAddressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -156,7 +156,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="clientContactTypesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal " id="clientContactTypesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -192,7 +192,7 @@
 </div>
 
 
-<div class="modal fade" id="clientPersonalDocumentsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal " id="clientPersonalDocumentsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
