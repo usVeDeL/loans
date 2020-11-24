@@ -106,27 +106,44 @@ require 'csv'
 
 
 #Direcciones
-file = Rails.root.join('db', 'loans.csv')
-loans = CSV.read(file)
-loans[1..-1].each do |c|
-    state = c[8] || 1
-    Loan.create!(
-        created_at: c[0],
-        name: c[1],
-        loan_amount: c[2],
-        interest_amount: c[3],
-        weekly_amount: c[4],
-        warranty: c[5],
-        start_date: c[6],
-        end_date: c[7],
-        state_id: state,
-        user_id: nil,
-        interest_percent: c[10],
-        cycle: c[12]
-    )
+# file = Rails.root.join('db', 'loans.csv')
+# loans = CSV.read(file)
+# loans[1..-1].each do |c|
+#     state = c[8] || 1
+#     Loan.create!(
+#         created_at: c[0],
+#         name: c[1],
+#         loan_amount: c[2],
+#         interest_amount: c[3],
+#         weekly_amount: c[4],
+#         warranty: c[5],
+#         start_date: c[6],
+#         end_date: c[7],
+#         state_id: state,
+#         user_id: nil,
+#         interest_percent: c[10],
+#         cycle: c[12]
+#     )
+# end
+
+
+#Weekly  payments
+file = Rails.root.join('db', 'weekly_payments.csv')
+payments = CSV.read(file)
+payments[1..-1].each do |c|
+    unless c[8].blank?
+        WeeklyPayment.create!(
+            week: c[0],
+            payment_date: c[1],
+            payment_capital: c[2],
+            payment_interest: c[3],
+            week_payment: c[4],
+            balance_capital: c[5],
+            wallet_amout: c[6],
+            loan_id: c[8]
+        )
+    end
 end
-
-
 
 
 
