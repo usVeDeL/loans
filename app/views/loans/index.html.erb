@@ -6,6 +6,7 @@
 <table id="dttb" class="table table-hover">
       <thead>
         <tr>
+          <th>Fecha</th>
           <th>Nombre</th>
           <th>Editar</th>
           <th>Eliminar</th>
@@ -14,6 +15,7 @@
       <tbody>
         <% @loans.each do |c| %>
           <tr>
+            <td><%= c.created_at %></td>
             <td><%= link_to c.name.capitalize, edit_loan_path(c) %></td>
             <td><%= link_to 'Editar', edit_loan_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
             <td><%= link_to 'Eliminar', loan_path(c), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
