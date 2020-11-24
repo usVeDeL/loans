@@ -88,22 +88,43 @@ require 'csv'
 
 
 
+# #Direcciones
+# file = Rails.root.join('db', 'address.csv')
+# address = CSV.read(file)
+# address[1..-1].each do |c|
+#     ClientAddress.create!(
+#         state_name: c[0],
+#         town: c[1],
+#         neighborhood: c[2],
+#         code_zip: c[3],
+#         street: c[4],
+#         number_exterior: c[5],
+#         number_interior: c[6],
+#         client_id: c[7]
+#     )
+# end
+
+
 #Direcciones
-file = Rails.root.join('db', 'address.csv')
-address = CSV.read(file)
-address[1..-1].each do |c|
-    ClientAddress.create!(
-        state_name: c[0],
-        town: c[1],
-        neighborhood: c[2],
-        code_zip: c[3],
-        street: c[4],
-        number_exterior: c[5],
-        number_interior: c[6],
-        client_id: c[7]
+file = Rails.root.join('db', 'loans.csv')
+loans = CSV.read(file)
+loans[1..-1].each do |c|
+    state = c[8] || 1
+    Loan.create!(
+        created_at: c[0],
+        name: c[1],
+        loan_amount: c[2],
+        interest_amount: c[3],
+        weekly_amount: c[4],
+        warranty: c[5],
+        start_date: c[6],
+        end_date: c[7],
+        state_id: state,
+        user_id: nil,
+        interest_percent: c[10],
+        cycle: c[12]
     )
 end
-
 
 
 
