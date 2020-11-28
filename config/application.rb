@@ -15,7 +15,7 @@ module Financierav2
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-    config.assets.initialize_on_precompile = true
+    config.assets.initialize_on_precompile = false
 
     Humanize.configure do |config|
       config.default_locale = :en  # [:en, :es, :fr, :tr, :de, :id], default: :en

@@ -153,7 +153,7 @@ class LoanMovementsController < ApplicationController
   private
 
   def movement_params
-    params.require(:loan_movement).permit(:amount, :loan_id, :movement_type_id)
+    params.require(:loan_movement).permit(:amount, :loan_id, :movement_type_id, :comments)
   end
 
   def interest_payment_table

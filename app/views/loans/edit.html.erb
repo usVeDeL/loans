@@ -124,6 +124,12 @@
               <%= f.text_field(:amount,  class: 'form-control')%>
             </div>
           </div><br>
+          <div class="form-group row">
+            <%= f.label 'Comentarios:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_field(:comments,  class: 'form-control')%>
+            </div>
+          </div><br>
           <%= f.hidden_field :loan_id, value: @loan.id %>
           <div class="row col-md-2 offset-md-10">
             <%= f.submit('Guardar', class: 'text-center btn btn-success' , id: 'btn_add_amount_submit') %>
@@ -133,8 +139,6 @@
     </div>
   </div>
 </div>
-
-
 
 
 <!-- Modal -->
