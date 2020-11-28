@@ -70,7 +70,10 @@ class ContractsController < ApplicationController
         @contract = get_pagare 
         render pdf: "pagare.pdf",
         template: "contracts/download_pagare.html.erb",
-        layout: 'download_pagare.html.erb'
+        layout: 'download_pagare.html.erb',
+        page_size: 'A4',
+        encoding:"UTF-8",
+        margin: { top: 20, left: 20, right: 20 }
       end
     end
   end
@@ -79,7 +82,7 @@ class ContractsController < ApplicationController
 
   def get_contract
     contract = Contract.find_by(name: 'contrato').content_text
-    mutuarios = @loan.clients.map{ |c| "#{c.name} #{c.last_name} #{c.mother_last_name}"}.join(', ')
+    mutuarios = @loan.clients.map{ |c| "#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}"}.join(', ')
 
     mutuarios_address = @loan.clients.map do |c| 
       street = c.client_address&.last&.street || ''
@@ -90,16 +93,16 @@ class ContractsController < ApplicationController
       state_name = c.client_address&.last&.state_name || ''
       town = c.client_address&.last&.town || ''
 
-      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}"
+      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}"
     end.join('<br/>')
 
     mutuarios_loans = @loan.loan_clients.map do |l| 
       c = l.client
-      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{number_to_currency(l.amount, precision: 2)} MXN(#{l.amount.humanize(locale: :es).upcase} PESOS 00/100 MXN.)"
+      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{number_to_currency(l.amount, precision: 2)} MXN(#{l.amount.humanize(locale: :es).upcase} PESOS 00/100 MXN.)"
     end.join('<br/>')
 
     mutuarios_signatures = @loan.clients.map do |c|
-      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b><br/><br>___________________________________________<br><br><br><br>"
+      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b><br/><br>___________________________________________<br><br><br><br>"
     end.join('<br/>')
 
 
@@ -124,12 +127,12 @@ class ContractsController < ApplicationController
       state_name = c.client_address.last&.state_name || ''
       town = c.client_address.last&.town || ''
 
-      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}"
+      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}"
     end.join('<br/>')
 
 
     mutuarios_signatures = @loan.clients.map do |c|
-      "<b>#{c.name} #{c.last_name} #{c.mother_last_name}</b><br/><br>___________________________________________<br><br><br><br>"
+      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b><br/><br>___________________________________________<br><br><br><br>"
     end.join('<br/>')
 
 

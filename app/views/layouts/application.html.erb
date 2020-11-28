@@ -5,17 +5,23 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= stylesheet_link_tag 'icons', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'app-modern', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'app', media: 'all', 'data-turbolinks-track': 'reload' %>
+    
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+   
     <%= tinymce_assets %>
     <script type="text/javascript" src="/assets/tinymce.js"></script>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     
+    <%= javascript_include_tag 'app', 'data-turbolinks-track': 'reload' %>    
 
   </head>
 
   <body>
     <%= render partial: 'shared/navigation_bar' %>
-    <div class="container">
+    <div>
       <% flash.each do |type, msg| %>
         <div class="alert alert-<%= type %>">
           <%= msg %>

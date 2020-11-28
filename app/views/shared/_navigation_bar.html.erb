@@ -1,49 +1,56 @@
 <% if current_user %>
-  <nav class="navbar navbar-expand-lg justify-content-between">
-    <a class="navbar-brand" href="#">
-    <%= image_tag 'logo.png', width: 200, height: 80 %>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-bar-collapse" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <div class="navbar-custom topnav-navbar topnav-navbar-dark">
+    <div class="container-fluid">
+      <a href="#" class="topnav-logo">
+        <span class="topnav-logo-lg">
+            <%= image_tag 'logo.png', width: 120, height: 50 %>
+        </span>
+        <span class="topnav-logo-sm">
+            <%= image_tag 'logo.png', width: 120, height: 50 %>
+        </span>
+      </a>
 
-    <ul class="navbar-nav mr-auto">
-      <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Catalagos
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <%= link_to 'Tipo de contactos', contact_types_path, class: 'nav-link' %>
-          <%= link_to 'Tipos de documentos', document_types_path, class: 'nav-link' %>
-          <%= link_to 'Tipos de movimientos', movement_types_path, class: 'nav-link' %>
-          <%= link_to 'Clientes', clients_path, class: 'nav-link' %>
-        </div>
-      </div>
-
-       <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Configuración
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <%= link_to 'Usuarios', users_path, class: 'nav-link' %>
-          <%= link_to 'Roles', roles_path, class: 'nav-link' %>
-          <%= link_to 'Contratos', contracts_path, class: 'nav-link' %>
-        </div>
-      </div>
-      <li class="nav-item">
-        <%= link_to 'Prestamos', loans_path, class: 'nav-link' %>
-      </li>
-    </ul>
-      <div class="dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= current_user.username %>
-        </a>
-
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <%= link_to 'Salir', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
-        </div>
-      </div>
-  </nav><br><br>
+      <ul class="list-unstyled mb-0">  
+        <li class="dropdown notification-list topbar-left-menu float-left topbar-dropdown d-none d-lg-block">
+          <a class="nav-link text-white-50 dropdown-toggle" data-toggle="dropdown" id="topbar-languagedrop" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="align-middle">Catálagos</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
+            <%= link_to 'Tipos de contactos', contact_types_path, class: 'dropdown-item notify-item' %>
+            <%= link_to 'Tipos de documentos', document_types_path, class: 'dropdown-item notify-item' %>
+            <%= link_to 'Tipos de movimientos', movement_types_path, class: 'dropdown-item notify-item' %>
+            <%= link_to 'Clientes', clients_path, class: 'dropdown-item notify-item' %>
+          </div>
+        </li>
+        <li class="dropdown notification-list topbar-left-menu float-left topbar-dropdown d-none d-lg-block">
+          <a class="nav-link text-white-50 dropdown-toggle" data-toggle="dropdown" id="topbar-languagedrop" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="align-middle">Configuración</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
+            <%= link_to 'Usuarios', users_path, class: 'dropdown-item notify-item' %>
+            <%= link_to 'Roles', roles_path, class: 'dropdown-item notify-item' %>
+            <%= link_to 'Contratos', contracts_path, class: 'dropdown-item notify-item' %>
+          </div>
+        </li>
+        <li class="notification-list topbar-left-menu float-left topbar-dropdown d-none d-lg-block">
+          <%= link_to 'Prestamos', loans_path, class: 'nav-link text-white-50' %>
+        </li>
+        <li class="dropdown notification-list topbar-right-menu float-right">
+          <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" data-toggle="dropdown" id="topbar-userdrop" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <span>
+                <span class="account-user-name"><%= current_user.username.capitalize %></span>
+                <span class="account-position"><%= "#{current_user.name.capitalize} #{current_user.last_name.capitalize}" %></span>
+            </span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu profile-dropdown" aria-labelledby="topbar-userdrop">
+            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                <%= link_to 'Salir', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 
  <% end %>
 
@@ -52,10 +59,10 @@
  
 
  <style>
-  nav{
-    background-color: #a5ecd7;
+  .navbar-custom, .nav-user{
+    height: 87px
   }
-
+  
   .dropdown:hover>.dropdown-menu {
     display: block;
   }

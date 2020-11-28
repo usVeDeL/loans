@@ -1,106 +1,104 @@
-<br><br>
+<div class="container">
+  <br><br>
 
-<%= link_to 'Saldar Prestamo', root_path, class: 'btn btn-danger col-md-2' %>
-<%= link_to 'Descargar Contrato', {controller: 'contracts', action: 'download_contract', id: @loan.id, :format => :pdf}, class: 'btn btn-outline-primary col-md-2' %>
-<%= link_to 'Descargar Pagaré', {controller: 'contracts', action: 'download_pagare', id: @loan.id, :format => :pdf}, class: 'btn btn-outline-primary col-md-2' %>
-<%= link_to 'Listado de préstamos', root_path, class: 'btn btn-primary float-right' %>
+  <%= link_to 'Saldar Prestamo', root_path, class: 'btn btn-danger col-md-2' %>
+  <%= link_to 'Descargar Contrato', {controller: 'contracts', action: 'download_contract', id: @loan.id, :format => :pdf}, class: 'btn btn-outline-primary col-md-2' %>
+  <%= link_to 'Descargar Pagaré', {controller: 'contracts', action: 'download_pagare', id: @loan.id, :format => :pdf}, class: 'btn btn-outline-primary col-md-2' %>
+  <%= link_to 'Listado de préstamos', loans_path, class: 'btn btn-primary float-right' %>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 
-<br><br><br>
+  <br><br><br>
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">General</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Grupo</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Movimientos</a>
-  </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane  show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-    <br>
-    <div class='row col-md-12'>
-      <div class='col-md-8'>
-        <hr>
-        <%= form_with model: @loan, local: true do |f| %>
-          <div class="form-group row">
-            <%= f.label 'Grupo:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.text_field :name, class: 'form-control'%>
-            </div>
-          </div><br>
-          <div class="form-group row">
-            <%= f.label 'Porcentaje interés:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.number_field :interest_percent, value: 5.0, class: 'form-control'%>
-            </div>
-          </div><br>
-          <%= f.hidden_field :state_id, value: 1 %>
-          <%= f.hidden_field :end_date, value: nil %>
-          <div class="form-group row">
-            <%= f.label 'Fecha inicial:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.date_field :start_date, class: 'form-control'%>
-            </div>
-          </div><br>
-          <div class="form-group row">
-            <%= f.label 'Asesor:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.text_field :adviser_id, class: 'form-control'%>
-            </div>
-          </div><br>
-          <div class="form-group row">
-            <%= f.label 'Ciclo:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.number_field :cycle, value: 1, class: 'form-control'%>
-            </div>
-          </div><br>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">General</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Grupo</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Movimientos</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane  show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <br>
+      <div class='row col-md-12'>
+        <div class='col-md-8'>
+          <hr>
+          <%= form_with model: @loan, local: true do |f| %>
+            <div class="form-group row">
+              <%= f.label 'Grupo:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.text_field :name, class: 'form-control'%>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Porcentaje interés:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.number_field :interest_percent, value: 5.0, class: 'form-control'%>
+              </div>
+            </div><br>
+            <%= f.hidden_field :state_id, value: 1 %>
+            <%= f.hidden_field :end_date, value: nil %>
+            <div class="form-group row">
+              <%= f.label 'Fecha inicial:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.date_field :start_date, class: 'form-control'%>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Asesor:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.text_field :adviser_id, class: 'form-control'%>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Ciclo:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.number_field :cycle, value: 1, class: 'form-control'%>
+              </div>
+            </div><br>
 
-          <div class="row col-md-2 offset-md-10">
-            <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
-          </div>
-        <% end %>
+            <div class="row col-md-2 offset-md-10">
+              <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
+            </div>
+          <% end %>
+        </div>
+        <div class='col-md-4' id="grid_loan_resume">
+          <%= render partial: 'loans/table_loan_resume', locals: { loan: @loan } %>
+        </div>
       </div>
-      <div class='col-md-4' id="grid_loan_resume">
-        <%= render partial: 'loans/table_loan_resume', locals: { loan: @loan } %>
+    </div>
+    <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <br><br>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Buscador de clientes
+      </button>
+      <br><br>
+      <div id="loan_clients_grid">
+        <%= render partial: 'loan_clients/table_loan_clients', locals: { clients: @clients, loan: @loan } %>
+      </div>
+    </div>
+    <div class="tab-pane " id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      <br><br>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMovementModal">
+        Agregar movimiento
+      </button>
+      <br><br>
+      <div id="loan_movements_grid">
+        <%= render partial: 'loan_movements/table_loan_movements', locals: { client_movements: @client_movements, loan: @loan } %>
       </div>
     </div>
   </div>
-  <div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">
-    <br><br>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-      Buscador de clientes
-    </button>
-    <br><br>
-    <div id="loan_clients_grid">
-      <%= render partial: 'loan_clients/table_loan_clients', locals: { clients: @clients, loan: @loan } %>
-    </div>
-  </div>
-  <div class="tab-pane " id="contact" role="tabpanel" aria-labelledby="contact-tab">
-    <br><br>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMovementModal">
-      Agregar movimiento
-    </button>
-    <br><br>
-    <div id="loan_movements_grid">
-      <%= render partial: 'loan_movements/table_loan_movements', locals: { client_movements: @client_movements, loan: @loan } %>
+
+  <div class="row col-md-12">
+    <div id="grid_table_amortization">
+      <%= render partial: 'loan_clients/table_amortization', locals: { weekly_payments: @weekly_payments } %>
     </div>
   </div>
 </div>
-
-<div class="row col-md-12">
-  <div id="grid_table_amortization">
-    <%= render partial: 'loan_clients/table_amortization', locals: { weekly_payments: @weekly_payments } %>
-  </div>
-</div>
-
-
-
-
 
 
 <div class="modal " id="addMovementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

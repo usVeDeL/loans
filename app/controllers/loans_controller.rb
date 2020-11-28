@@ -1,6 +1,6 @@
 class LoansController < ApplicationController
   def index
-    @loans = Loan.all.order('start_date DESC')
+    @loans = Loan.where.not(state_id: 3).order("created_at DESC")
   end
 
   def new
@@ -10,10 +10,12 @@ class LoansController < ApplicationController
   def create
     @loan = Loan.new(loan_params)
   
-    if @loan.save!
+    if @loan.save
       flash[:success] = "Cambios guardados correctamente"
       redirect_to edit_loan_path @loan
     else
+      flash[:danger] = @loan.errors.full_messages.join(', ')
+
       render 'new'
     end
   end

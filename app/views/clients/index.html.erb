@@ -1,41 +1,61 @@
-<br><br><br>
-<h1 class="text-center">Clientes</h1>
-<br><br><br>
-<%= link_to 'Nuevo', new_client_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
-<br><br>
-<table id="dttb" class="table table-hover">
-      <thead>
+
+  <div class="container">
+  <br><br><br>
+  <h1 class="text-center">Clientes</h1>
+  <br><br><br>
+  <%= link_to 'Nuevo', new_client_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <br><br>
+  <table id="dttb" class="table table-hover dt-responsive nowrap w-100">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido paterno</th>
+        <th>Apellido materno</th>
+        <th>Fecha de nacimiento</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @clients.each do |c| %>
         <tr>
-          <th>Nombre</th>
-          <th>Apellido paterno</th>
-          <th>Apellido materno</th>
-          <th>Fecha de nacimiento</th>
-          <th>Editar</th>
-          <th>Eliminar</th>
+          <td><%= link_to c.name&.capitalize, edit_client_path(c) %></td>
+          <td><%= link_to c.last_name&.capitalize, edit_client_path(c) %></td>
+          <td><%= link_to c.mother_last_name&.capitalize, edit_client_path(c) %></td>
+          <td><%= link_to c&.birth_date&.strftime('%F') %></td>
+          <td><%= link_to 'Editar', edit_client_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
+          <td><%= link_to 'Eliminar', client_path(c), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @clients.each do |c| %>
-          <tr>
-            <td><%= link_to c.name&.capitalize, edit_client_path(c) %></td>
-            <td><%= link_to c.last_name&.capitalize, edit_client_path(c) %></td>
-            <td><%= link_to c.mother_last_name&.capitalize, edit_client_path(c) %></td>
-            <td><%= link_to c&.birth_date&.strftime('%F') %></td>
-            <td><%= link_to 'Editar', edit_client_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
-            <td><%= link_to 'Eliminar', client_path(c), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <script>
   $(document).ready(function() {
     $("#dttb").dataTable({
-        "pageLength": 50,
         dom: 'Bfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ renglones por página",
+            "zeroRecords": "No hay nada - disculpa",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos disponibles",
+            "infoFiltered": "(filtered from _MAX_ total de renglones)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+              "sFirst":    "Primero",
+              "sPrevious": "Anterior",
+              "sNext":     "Siguiente",
+              "sLast":     "Último"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "print": "Imprimir"
+            }
+        }
     });
   });
 </script>

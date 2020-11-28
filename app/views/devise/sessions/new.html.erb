@@ -1,8 +1,24 @@
-<section class="login-block">
-	<div class="row">
-		<div class="col-md-4 card login-sec">
-		  <h2 class="text-center">INGRESAR</h2>
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'login-form') do |f| %>
+<body class="authentication-bg pb-0" data-layout-config='{"darkMode":false}'>
+
+        <div class="auth-fluid">
+            <!--Auth fluid left content -->
+            <div class="auth-fluid-form-box">
+                <div class="align-items-center d-flex h-100">
+                    <div class="card-body">
+
+                        <!-- Logo -->
+                        <div class="auth-brand text-center text-lg-left">
+                            <a href="index.html" class="logo-dark">
+                                <span><%= image_tag 'logo.png', width: 200, height: 80 %></span>
+                            </a>
+                        </div>
+
+                        <!-- title-->
+                        <h4 class="mt-0">Ingresar</h4>
+                        <p class="text-muted mb-4">Ingrese su nombre de usuario y contraseña para acceder a la cuenta.</p>
+
+                        <!-- form -->
+                        <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'login-form') do |f| %>
         <div class="form-group">
           <%= f.label 'Usuario:' %><br />
           <%= f.text_field :login, autofocus: true, class: 'form-control' %>
@@ -14,47 +30,28 @@
         </div><br>
 
         <div class="actions">
-          <%= f.submit "Ingresar", class: 'btn btn-primary btn-block' %>
+          <%= f.submit("Ingresar", class: 'btn btn-primary btn-block') do %>
+            <%= "<i class='mdi mdi-login'></i> Log In".html_safe %>
+          <% end %>
         </div>
       <% end %>
-		</div>
-		<div class="col-md-8 banner-sec">
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner" role="listbox">
-          <div class="carousel-item active">
-            <div class="carousel-caption d-none d-md-block">
-              <div class="banner-text">
-                  <h2>VEDEL</h2>
-              </div>	
+                        <!-- end form-->
+
+
+                    </div> <!-- end .card-body -->
+                </div> <!-- end .align-items-center.d-flex.h-100-->
             </div>
-          </div>
+            <!-- end auth-fluid-form-box-->
+
+            <!-- Auth fluid right content -->
+            <div class="auth-fluid-right text-center">
+                <div class="auth-user-testimonial">
+                    <h2 class="mb-3">Delve Financiera!</h2>
+                </div> <!-- end auth-user-testimonial-->
+            </div>
+            <!-- end Auth fluid right content -->
         </div>
-      </div>
-    </div>
-	</div>
-</section>
+        <!-- end auth-fluid-->
 
 
-
-
-<style>
-
-.login-block{
-float:left;
-width:100%;
-padding : 50px 0;
-}
-.banner-sec{background:url(https://cdn-co.comparabien.com/styles/blog/s3/field/image/prestamo-credito-solicitud_de_credito-banco-bancario_elfima20141026_0007_1.jpg?itok=XjUltOcV)  no-repeat left bottom; background-size:cover; min-height:500px; border-radius: 0 10px 10px 0; padding:0;}
-.carousel-inner{border-radius:0 10px 10px 0;}
-.carousel-caption{text-align:left; left:5%;}
-.login-sec{padding: 50px 30px; position:relative;}
-size.login-sec .copy-text{position:absolute; width:80%; bottom:20px; text-align:center;}
-.login-sec .copy-text i{color:#FEB58A;}
-.login-sec .copy-text a{color:#E36262;}
-.login-sec h2{margin-bottom:30px; font-weight:800; font-size:40px; color: #0278ae;}
-.login-sec h2:after{content:" "; width:100px; height:5px; background:#a5ecd7; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
-.banner-text{width:70%; position:absolute; bottom:40px; padding-left:20px;}
-.banner-text h2{color:#fff; font-weight:600;}
-.banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
-.banner-text p{color:#fff;}
-</style>
+    </body>

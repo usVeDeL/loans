@@ -1,36 +1,38 @@
-<br><br><br>
-<h1 class="text-center">Tipo de movimientos</h1>
-<br><br><br>
-<%= link_to 'Nuevo', new_movement_type_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
-<br><br>
-<table id="dttb" class="table table-hover">
-      <thead>
+ <div class="container"> 
+  <br><br><br>
+  <h1 class="text-center">Tipos de movimientos</h1>
+  <br><br><br>
+  <%= link_to 'Nuevo', new_movement_type_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <br><br>
+  <table id="dttb" class="table table-hover dt-responsive nowrap w-100">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Activo</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @movement_types.each do |movement| %>
         <tr>
-          <th>Nombre</th>
-          <th>Tipo</th>
-          <th>Activo</th>
-          <th>Editar</th>
-          <th>Eliminar</th>
+          <td><%= link_to movement.name.capitalize, edit_movement_type_path(movement) %></td>
+          <td><%= movement.mov_type %></td>
+          <td>
+            <% if movement.active %>
+              <%= fa_icon 'check-circle', class: "fa-2x text-success" %>
+            <% else %>
+              <%= '' %>
+            <% end %>
+          </td>
+          <td><%= link_to 'Editar', edit_movement_type_path(movement), class: 'btn  btn-sm btn-outline-warning' %></td>
+          <td><%= link_to 'Eliminar', movement_type_path(movement), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @movement_types.each do |movement| %>
-          <tr>
-            <td><%= link_to movement.name.capitalize, edit_movement_type_path(movement) %></td>
-            <td><%= movement.mov_type %></td>
-            <td>
-              <% if movement.active %>
-                <%= fa_icon 'check-circle', class: "fa-2x text-success" %>
-              <% else %>
-                <%= '' %>
-              <% end %>
-            </td>
-            <td><%= link_to 'Editar', edit_movement_type_path(movement), class: 'btn  btn-sm btn-outline-warning' %></td>
-            <td><%= link_to 'Eliminar', movement_type_path(movement), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <script>
   $(document).ready(function() {
@@ -38,7 +40,25 @@
         dom: 'Bfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ renglones por página",
+            "zeroRecords": "No hay nada - disculpa",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos disponibles",
+            "infoFiltered": "(filtered from _MAX_ total de renglones)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+              "sFirst":    "Primero",
+              "sPrevious": "Anterior",
+              "sNext":     "Siguiente",
+              "sLast":     "Último"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "print": "Imprimir"
+            }
+        }
     });
   });
 </script>
