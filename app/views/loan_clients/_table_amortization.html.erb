@@ -1,4 +1,5 @@
-<table class="table table-hover">
+<br><br><hr><br><br>
+<table id="dttb"  class="table table-hover dt-responsive nowrap w-100">
   <thead>
     <tr>
       <th scope="col">Semana</th>
@@ -16,12 +17,13 @@
     <% unless weekly_payments.nil? %>
       <% weekly_payments.each do |payment| %>
         <% loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last %>
+        <% week_payment = payment.payment_date > DateTime.now ? payment.week_payment : loan_movement.amount %>
         <tr>
           <th><%= payment.week %></th>
           <th><%= payment.payment_date.strftime("%F") %></th>
           <th><%= number_to_currency(payment.payment_capital, precision: 2) %></th>
           <th><%= number_to_currency(payment.payment_interest, precision: 2) %></th>
-          <th><%= number_to_currency(payment.week_payment, precision: 2) %></th>
+          <th><%= number_to_currency(week_payment, precision: 2) %></th>
           <th><%= number_to_currency(payment.balance_capital, precision: 2) %></th>
           <th><%= number_to_currency(payment.balance_interest, precision: 2) %></th>
           <th><%= number_to_currency(payment.wallet_amout, precision: 2) %></th>
@@ -33,7 +35,7 @@
                 id="add_client_button"
                 data-toggle="modal"
                 data-target="#editMovementModal"
-                data-amount="<%= payment.week_payment %>"
+                data-amount="<%= week_payment %>"
                 data-id="<%= loan_movement&.id %>"
               >
                 Editar
@@ -72,6 +74,12 @@
               <%= f.text_field :amount,  class: 'form-control' %>
             </div>
           </div><br>
+          <div class="form-group row">
+            <%= f.label 'Comentarios:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+            <div class="col-sm-10">
+              <%= f.text_area :comments,  class: 'form-control' %>
+            </div>
+          </div><br>
           <%= f.hidden_field :loan_id, value: @loan.id %>
           <div class="row col-md-2 offset-md-10">
             <%= f.submit('Guardar', class: 'text-center btn btn-success') %>
@@ -83,6 +91,36 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+    $("#dttb").dataTable({
+        dom: 'Bfrtip',
+        order: [[ 0, "asc" ]],
+        paging: false,
+        bInfo: false,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ renglones por página",
+            "zeroRecords": "No hay nada - disculpa",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos disponibles",
+            "infoFiltered": "(filtered from _MAX_ total de renglones)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+              "sFirst":    "Primero",
+              "sPrevious": "Anterior",
+              "sNext":     "Siguiente",
+              "sLast":     "Último"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "print": "Imprimir"
+            }
+        }
+    });
+  });
+
   $('#editMovementModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var amount = button.data('amount');
@@ -94,3 +132,5 @@
   })
 
 </script>
+
+

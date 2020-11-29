@@ -56,7 +56,10 @@ class ContractsController < ApplicationController
         @contract = get_contract 
         render pdf: "contrato.pdf",
         template: "contracts/download_contract.html.erb",
-        layout: 'download_contract.html.erb'
+        layout: 'download_contract.html.erb',
+        page_size: 'A4',
+        encoding:"UTF-8",
+        margin: { top: 20, left: 20, right: 20 }
       end
     end
   end
@@ -83,8 +86,8 @@ class ContractsController < ApplicationController
   def get_contract
     contract = Contract.find_by(name: 'contrato').content_text
     mutuarios = @loan.clients.map{ |c| "#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}"}.join(', ')
-
-    mutuarios_address = @loan.clients.map do |c| 
+    mutuarios_address = '<ul>'
+    mutuarios_address += @loan.clients.map do |c| 
       street = c.client_address&.last&.street || ''
       number_exterior = c.client_address&.last&.number_exterior || ''
       number_interior = c.client_address&.last&.number_interior || ''
@@ -93,21 +96,25 @@ class ContractsController < ApplicationController
       state_name = c.client_address&.last&.state_name || ''
       town = c.client_address&.last&.town || ''
 
-      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}"
+      "<li><b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}</li>"
     end.join('<br/>')
+
+    mutuarios_address += '</ul>'
 
     mutuarios_loans = @loan.loan_clients.map do |l| 
       c = l.client
       "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{number_to_currency(l.amount, precision: 2)} MXN(#{l.amount.humanize(locale: :es).upcase} PESOS 00/100 MXN.)"
-    end.join('<br/>')
+    end.join('<br/><br/>')
 
     mutuarios_signatures = @loan.clients.map do |c|
       "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b><br/><br>___________________________________________<br><br><br><br>"
     end.join('<br/>')
-
+  
+    address_contract = @loan.address_contract
+    address_contract = 'calle Av.Melchor Ocampo numero 27 interior B Planta Alta Col. Infonavit Nuevo Horizonte' if address_contract.blank?
 
     contract.gsub!('{mutuante}', '<b>C. SAUL DEL RAZO GARCIA</b>')
-    contract.gsub!('{mutuante_address}', '<b>calle Av.Melchor Ocampo numero 27 interior B Planta Alta Col. Infonavit Nuevo Horizonte</b>')
+    contract.gsub!('{mutuante_address}', "<b>#{address_contract}</b>")
     contract.gsub!('{mutuarios}', " <b>CC. #{mutuarios}</b>")
     contract.gsub!('{mutuarios_address}', mutuarios_address)
     contract.gsub!('{loan_amount}', "#{number_to_currency(@loan.loan_amount, precision: 2)} MXN(#{@loan.loan_amount.humanize(locale: :es).upcase} PESOS 00/100 MXN.)")
@@ -118,7 +125,9 @@ class ContractsController < ApplicationController
   def get_pagare
     contract = Contract.find_by(name: 'pagare').content_text
 
-    mutuarios_address = @loan.clients.map do |c| 
+    mutuarios_address = '<ul>'
+
+    mutuarios_address += @loan.clients.map do |c| 
       street = c.client_address.last&.street || ''
       number_exterior = c.client_address.last&.number_exterior || ''
       number_interior = c.client_address.last&.number_interior || ''
@@ -127,8 +136,10 @@ class ContractsController < ApplicationController
       state_name = c.client_address.last&.state_name || ''
       town = c.client_address.last&.town || ''
 
-      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}"
+      "<li><b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}</li>"
     end.join('<br/>')
+
+    mutuarios_address += '</ul><br><br>'
 
 
     mutuarios_signatures = @loan.clients.map do |c|

@@ -40,6 +40,7 @@ class LoanMovementsController < ApplicationController
   def update
     loan_movement = LoanMovement.find(params[:id])
     loan_movement.update(amount: params[:amount])
+    @loan = loan_movement.loan
     if params[:movement_type_id] == '2'
       adjust_payment
     end

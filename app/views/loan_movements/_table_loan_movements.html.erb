@@ -2,7 +2,8 @@
   <thead>
     <tr>
       <th scope="col">Tipo de movimiento</th>
-      <th scope="col">Week</th>
+      <th scope="col">Comentarios</th>
+      <th scope="col">Semana</th>
       <th scope="col">Monto</th>
       <th scope="col">Fecha</th>
       <th scope="col">Quitar</th>
@@ -13,7 +14,8 @@
       <% @client_movements.each do |c| %>
         <tr>
           <th><%= c.movement_type.name %></th>
-          <th><%= c.week %></th>
+          <th><%= c.comments %></th>
+          <th><%= c&.week %></th>
           <th><%= number_to_currency(c.amount, precision: 2) %></th>
           <th><%= c.created_at.strftime('%F') %></th>
           <th><%= link_to 'Eliminar', loan_movement_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
