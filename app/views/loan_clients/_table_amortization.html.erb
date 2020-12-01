@@ -17,7 +17,7 @@
     <% unless weekly_payments.nil? %>
       <% weekly_payments.each do |payment| %>
         <% loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last %>
-        <% week_payment = payment.payment_date > DateTime.now ? payment.week_payment : loan_movement.amount %>
+        <% week_payment = payment.payment_date > DateTime.now ? payment.week_payment : loan_movement&.amount %>
         <tr>
           <th><%= payment.week %></th>
           <th><%= payment.payment_date.strftime("%F") %></th>
