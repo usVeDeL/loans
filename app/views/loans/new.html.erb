@@ -67,6 +67,7 @@
             <div class="row col-md-2 offset-md-10">
               <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
             </div>
+            <br><br><br>
           <% end %>
         </div>
         <div class='col-md-4'>
@@ -119,41 +120,6 @@
     <div class="tab-pane " id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
   </div>
 </div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">
-
-<div class="bs-stepper">
-  <div class="bs-stepper-header" role="tablist">
-    <!-- your steps here -->
-    <div class="step" data-target="#logins-part">
-      <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
-        <span class="bs-stepper-circle">1</span>
-        <span class="bs-stepper-label">Logins</span>
-      </button>
-    </div>
-    <div class="line"></div>
-    <div class="step" data-target="#information-part">
-      <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
-        <span class="bs-stepper-circle">2</span>
-        <span class="bs-stepper-label">Various information</span>
-      </button>
-    </div>
-  </div>
-  <div class="bs-stepper-content">
-    <!-- your steps content here -->
-    <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">TIto</div>
-    <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">HOLA</div>
-  </div>
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
-<script>
-  $(document).ready(function () {
-  var stepper = new Stepper($('.bs-stepper')[0])
-  var stepper = new Stepper($('.bs-stepper')[1])
-})
-</script>
 
 
 <!-- Modal -->
@@ -234,6 +200,7 @@
     </div>
   </div>
 </div>
+
 
 <div class="modal " id="amountLoanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">

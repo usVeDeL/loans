@@ -32,8 +32,14 @@
             <%= link_to 'Contratos', contracts_path, class: 'dropdown-item notify-item' %>
           </div>
         </li>
-        <li class="notification-list topbar-left-menu float-left topbar-dropdown d-none d-lg-block">
-          <%= link_to 'Prestamos', loans_path, class: 'nav-link text-white-50' %>
+        <li class="dropdown notification-list topbar-left-menu float-left topbar-dropdown d-none d-lg-block">
+          <a class="nav-link text-white-50 dropdown-toggle" data-toggle="dropdown" id="topbar-languagedrop" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="align-middle">Préstamos</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
+            <%= link_to 'Prestamos vigentes', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
+            <%= link_to 'Préstamos finalizados', loans_path(filter: 'finished'), class: 'dropdown-item notify-item' %>
+          </div>
         </li>
         <li class="dropdown notification-list topbar-right-menu float-right">
           <a class="nav-link dropdown-toggle nav-user arrow-none mr-0" data-toggle="dropdown" id="topbar-userdrop" href="#" role="button" aria-haspopup="true" aria-expanded="false">

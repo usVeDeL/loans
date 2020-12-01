@@ -1,53 +1,55 @@
-<br><br><hr><br><br>
-<table id="dttb"  class="table table-hover dt-responsive nowrap w-100">
-  <thead>
-    <tr>
-      <th scope="col">Semana</th>
-      <th scope="col">Fecha Pago</th>
-      <th scope="col">Pago capital</th>
-      <th scope="col">Pago interes</th>
-      <th scope="col">Pago semanal</th>
-      <th scope="col">Saldo capital</th>
-      <th scope="col">Saldo interes</th>
-      <th scope="col">Cartera vigente</th>
-      <th scope="col">Ajustar</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% unless weekly_payments.nil? %>
-      <% weekly_payments.each do |payment| %>
-        <% loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last %>
-        <% week_payment = payment.payment_date > DateTime.now ? payment.week_payment : loan_movement&.amount %>
-        <tr>
-          <th><%= payment.week %></th>
-          <th><%= payment.payment_date.strftime("%F") %></th>
-          <th><%= number_to_currency(payment.payment_capital, precision: 2) %></th>
-          <th><%= number_to_currency(payment.payment_interest, precision: 2) %></th>
-          <th><%= number_to_currency(week_payment, precision: 2) %></th>
-          <th><%= number_to_currency(payment.balance_capital, precision: 2) %></th>
-          <th><%= number_to_currency(payment.balance_interest, precision: 2) %></th>
-          <th><%= number_to_currency(payment.wallet_amout, precision: 2) %></th>
-          <th>
-            <% if payment.payment_date < DateTime.now %>
-              <button 
-                type="button"
-                class="btn btn-outline-warning"
-                id="add_client_button"
-                data-toggle="modal"
-                data-target="#editMovementModal"
-                data-amount="<%= week_payment %>"
-                data-id="<%= loan_movement&.id %>"
-              >
-                Editar
-              </button>
-            <% end %>
-          </th>
-        </tr>
-      <% end %>
-    <% end %>
-  </tbody>
-</table>
+<div class="container">
+  <br><br><hr><br><br>
+  <table id="dttb"  class="table table-hover table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Semana</th>
+        <th scope="col">Fecha Pago</th>
+        <th scope="col">Pago capital</th>
+        <th scope="col">Pago interes</th>
+        <th scope="col">Pago semanal</th>
+        <th scope="col">Saldo capital</th>
+        <th scope="col">Saldo interes</th>
+        <th scope="col">Cartera vigente</th>
+        <th scope="col">Ajustar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% unless weekly_payments.nil? %>
+        <% weekly_payments.each do |payment| %>
+          <% loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last %>
+          <% week_payment = payment.payment_date > 1.week.ago ? payment.week_payment : loan_movement&.amount %>
 
+          <tr class="table-<%= if @loan.state_id == 3 then 'success' elsif payment.payment_date >= DateTime.now then 'light' elsif week_payment < @loan.weekly_amount && payment.payment_date < 1.week.ago then 'danger' elsif week_payment < @loan.weekly_amount || (payment.payment_date > 1.week.ago)   then 'warning' elsif week_payment == @loan.weekly_amount  then 'success' else 'light' end %>">
+            <th><%= payment.week %></th>
+            <th><%= payment.payment_date.strftime('%F') %></th>
+            <th><%= number_to_currency(payment.payment_capital, precision: 2) %></th>
+            <th><%= number_to_currency(payment.payment_interest, precision: 2) %></th>
+            <th><%= number_to_currency(week_payment, precision: 2) %></th>
+            <th><%= number_to_currency(payment.balance_capital, precision: 2) %></th>
+            <th><%= number_to_currency(payment.balance_interest, precision: 2) %></th>
+            <th><%= number_to_currency(payment.wallet_amout, precision: 2) %></th>
+            <th>
+              <% if payment.payment_date < DateTime.now && @loan.state_id < 3 %>
+                <button 
+                  type="button"
+                  class="btn btn-warning btn-sm"
+                  id="add_client_button"
+                  data-toggle="modal"
+                  data-target="#editMovementModal"
+                  data-amount="<%= week_payment %>"
+                  data-id="<%= loan_movement&.id %>"
+                >
+                  Ajustar
+                </button>
+              <% end %>
+            </th>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 
 
@@ -89,6 +91,7 @@
     </div>
   </div>
 </div>
+
 
 <script>
     $(document).ready(function() {
