@@ -1,8 +1,10 @@
 class LoansController < ApplicationController
   def index
-    filter = params.has_key?(:filter)
-    if filter
-      case filter
+    @filter = ''
+    @filter = params[:filter] if params.has_key?(:filter)
+
+    if @filter
+      case @filter
       when 'active'
         @loans = Loan.where('state_id < 3').order("created_at DESC")
       when 'finished'
@@ -55,9 +57,25 @@ class LoansController < ApplicationController
       @weekly_payments = @loan.weekly_payments.order('week ASC')
       flash[:success] = "Cambios guardados correctamente"
     
-      redirect_to edit_loan_path @loan
+      redirect_to edit_loan_path(@loan)
     else
-      redirect_to edit_loan_path @loan
+      redirect_to edit_loan_path(@loan)
+    end
+  end
+
+  def destroy
+    loan = Loan.find(params[:id])
+
+    if loan.delete
+      loan&.loan_movements&.delete
+      loan&.loan_clients&.delete
+      loan&.weekly_payments&.delete
+
+      flash[:success] = "Préstamo eliminado correctamente"
+      redirect_to loans_path(@loan, filter: params[:filter])
+    else
+      flash[:danger] = "Hubo un error al eliminar el préstamo"
+      redirect_to loans_path(@loan, filter: params[:filter])
     end
   end
 
