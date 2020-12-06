@@ -20,7 +20,7 @@
           <% loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last %>
           <% week_payment = payment.payment_date > 1.week.ago ? payment.week_payment : loan_movement&.amount %>
 
-          <tr class="table-<%= if @loan.state_id == 3 then 'success' elsif payment.payment_date >= DateTime.now then 'light' elsif week_payment < @loan.weekly_amount && payment.payment_date < 1.week.ago then 'danger' elsif week_payment < @loan.weekly_amount || (payment.payment_date > 1.week.ago)   then 'warning' elsif week_payment == @loan.weekly_amount  then 'success' else 'light' end %>">
+          <tr class="table-<%= if loan_movement.nil? || week_payment.nil? then 'light' elsif @loan.state_id == 3 then 'success' elsif payment.payment_date >= DateTime.now then 'light' elsif week_payment < @loan.weekly_amount && payment.payment_date < 1.week.ago then 'danger' elsif week_payment < @loan.weekly_amount || (payment.payment_date > 1.week.ago)   then 'warning' elsif week_payment == @loan.weekly_amount  then 'success' else 'light' end %>">
             <th><%= payment.week %></th>
             <th><%= payment.payment_date.strftime('%F') %></th>
             <th><%= number_to_currency(payment.payment_capital, precision: 2) %></th>
