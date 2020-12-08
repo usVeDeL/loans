@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_28_213731) do
+ActiveRecord::Schema.define(version: 2020_12_08_021731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,10 +104,11 @@ ActiveRecord::Schema.define(version: 2020_11_28_213731) do
     t.integer "state_id", default: 1
     t.integer "user_id"
     t.float "interest_percent", default: 0.0
-    t.integer "adviser_id"
     t.integer "cycle"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "address_contract"
+    t.string "adviser_name", default: ""
   end
 
   create_table "movement_types", force: :cascade do |t|

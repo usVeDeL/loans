@@ -45,7 +45,7 @@ class LoansController < ApplicationController
   def update
     @loan = Loan.find(params[:id])
     @clients = @loan.clients
-
+    
     if @loan.update(loan_params)
       BasePaymentsController.create_update_amortization_table(@loan)
       if @loan.state_id == 3
@@ -82,7 +82,7 @@ class LoansController < ApplicationController
   private
 
   def loan_params
-    params.require(:loan).permit(:name, :loan_amount, :interest_amount, :weekly_amount, :warranty, :start_date, :end_date, :state_id, :user_id, :interest_percent, :adviser_id, :cycle, :address_contract)
+    params.require(:loan).permit(:name, :loan_amount, :interest_amount, :weekly_amount, :warranty, :start_date, :end_date, :state_id, :user_id, :interest_percent, :adviser_name, :cycle, :address_contract)
   end
 
   def errors_map
