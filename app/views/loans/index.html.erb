@@ -1,6 +1,6 @@
 <div class="container">
   <br><br><br>
-  <h1 class="text-center">Préstamos</h1>
+  <h1 class="text-center">Préstamos <%= if @filter == 'active' then 'Activos' elsif @filter == 'finished' then 'Finalizados' else @filter end %></h1>
   <br><br><br>
   <%= link_to 'Nuevo', new_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
   <br><br>
@@ -19,7 +19,7 @@
           <td><%= c.created_at.in_time_zone('Mexico City').strftime("%F %r") %></td>
           <td><%= link_to c.name.capitalize, edit_loan_path(c) %></td>
           <td><%= link_to 'Editar', edit_loan_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', loan_path(c, filter: params[:filter]), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          <td><%= link_to 'Eliminar', loan_path(c, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
         </tr>
       <% end %>
     </tbody>
