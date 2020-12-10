@@ -101,8 +101,8 @@ class ContractsController < ApplicationController
     contract = Contract.find_by(name: 'contrato').content_text
     mutuarios = @loan.clients.map{ |c| "#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}"}.join(', ')
     mutuarios_address = '<ul>'
-    month = MONTHS[DateTime.now.strftime("%B")]
-    date_loan = DateTime.now.strftime("%d de #{month} %Y")
+    month = MONTHS[@loan.disbursement_date.strftime("%B")]
+    date_loan = @loan.disbursement_date.strftime("%d de #{month} %Y")
     mutuarios_address += @loan.clients.map do |c| 
       street = c.client_address&.last&.street || ''
       number_exterior = c.client_address&.last&.number_exterior || ''
