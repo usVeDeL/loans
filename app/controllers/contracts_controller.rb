@@ -1,5 +1,19 @@
 class ContractsController < ApplicationController
   include ActionView::Helpers::NumberHelper
+  MONTHS = {
+    'January' => 'Enero',
+    'February' => 'Febrero',
+    'March' => 'Marzo',
+    'April' => 'Abril',
+    'May' => 'Mayo',
+    'June' => 'Junio',
+    'July' => 'Julio',
+    'August' => 'Agosto',
+    'September' => 'Septiembre',
+    'October' => 'Octubre',
+    'November' => 'Noviembre',
+    'December' => 'Diciembre'
+    }
 
   def index
     @contracts = Contract.all
@@ -87,6 +101,8 @@ class ContractsController < ApplicationController
     contract = Contract.find_by(name: 'contrato').content_text
     mutuarios = @loan.clients.map{ |c| "#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}"}.join(', ')
     mutuarios_address = '<ul>'
+    month = MONTHS[DateTime.now.strftime("%B")]
+    date_loan = DateTime.now.strftime("%d de #{month} %Y")
     mutuarios_address += @loan.clients.map do |c| 
       street = c.client_address&.last&.street || ''
       number_exterior = c.client_address&.last&.number_exterior || ''
@@ -120,6 +136,7 @@ class ContractsController < ApplicationController
     contract.gsub!('{loan_amount}', "#{number_to_currency(@loan.loan_amount, precision: 2)} MXN(#{@loan.loan_amount.humanize(locale: :es).upcase} PESOS 00/100 MXN.)")
     contract.gsub!('{loan_clients_details}', mutuarios_loans)
     contract.gsub!('{signatures_mutuarios}', mutuarios_signatures)
+    contract.gsub!('{date_loan}', date_loan)
   end
 
   def get_pagare
