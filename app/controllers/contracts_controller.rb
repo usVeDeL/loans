@@ -169,7 +169,7 @@ class ContractsController < ApplicationController
     contract.gsub!('{loan_amount}', "#{number_to_currency(@loan.loan_amount, precision: 2)} MXN")
     contract.gsub!('{loan_amount_with_letter}', "#{number_to_currency(@loan.loan_amount, precision: 2)} MXN(#{@loan.loan_amount.humanize(locale: :es).upcase} PESOS 00/100 MXN.)")
     contract.gsub!('{signatures_mutuarios}', mutuarios_signatures)
-    contract.gsub!('{loan_due_date}', " <b>#{@loan.end_date&.strftime('%F')}</b>") 
+    contract.gsub!('{loan_due_date}', " <b>#{@loan.end_date&.strftime('%d/%m/%Y')}</b>") 
   end
 
   def contract_params

@@ -17,7 +17,7 @@
           <th><%= c.comments %></th>
           <th><%= c&.week %></th>
           <th><%= number_to_currency(c.amount, precision: 2) %></th>
-          <th><%= c.created_at.strftime('%F') %></th>
+          <th><%= c.created_at.strftime('%d/%m/%Y') %></th>
           <th><%= link_to 'Eliminar', loan_movement_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
         </tr>
       <% end %>

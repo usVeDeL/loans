@@ -16,7 +16,7 @@
     <tbody>
       <% @loans.each do |c| %>
         <tr>
-          <td><%= c.created_at.in_time_zone('Mexico City').strftime("%F %r") %></td>
+          <td><%= c.created_at.in_time_zone('Mexico City').strftime("%d/%m/%Y %r") %></td>
           <td><%= link_to c.name.capitalize, edit_loan_path(c) %></td>
           <td><%= link_to 'Editar', edit_loan_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
           <td><%= link_to 'Eliminar', loan_path(c, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
