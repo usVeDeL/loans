@@ -91,7 +91,6 @@ class BasePaymentsController < ApplicationController
 
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
       payment_capital = week_payment*(percent_capital/100.0)
-      payment_capital = 0 if n == 1
 
       percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
       payment_interest = week_payment*(percent_interest/100.0)
