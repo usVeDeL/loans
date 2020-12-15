@@ -109,11 +109,16 @@ class LoanMovementsController < ApplicationController
 
 
   def adjust_payment
-    loan_id = params[:loan_id] || LoanMovement.find(params[:id]).loan_id
-    amount = params[:amount] || LoanMovement.find(params[:id]).amount
+    loan_movement = LoanMovement.find(params[:id])
+    loan_id = params[:loan_id] || loan_movement.loan_id
+    amount = params[:amount] || loan_movement.amount
     loan = Loan.find(loan_id)
     payments = WeeklyPayment.where(loan_id: loan_id)
-    payment_week = LoanMovement.find(params[:id]).week || 0
+    payment_week = loan_movement.week || 0
+    
+    if params.has_key?(:comments)
+      loan_movement.update(comments: params[:comments])
+    end
 
     payments.each do |payment|
       if payment.week >= payment_week
