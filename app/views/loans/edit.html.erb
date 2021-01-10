@@ -160,7 +160,7 @@
   </div>
 </div>
 
-<% last_weekly_payment = WeeklyPayment.where("payment_date <= ?", DateTime.now).order('id DESC').first %>
+<% last_weekly_payment = WeeklyPayment.where(loand_id: @loan.id).where("payment_date <= ?", DateTime.now).order('id DESC').first %>
 
 
 

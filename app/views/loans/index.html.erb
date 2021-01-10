@@ -9,6 +9,11 @@
       <tr>
         <th>Fecha</th>
         <th>Nombre</th>
+        <th>Monto</th>
+        <th>Monto Semanal</th>
+        <th>Inicio</th>
+        <th>Finaliza</th>
+        <th>Ciclo</th>
         <th>Editar</th>
         <th>Eliminar</th>
       </tr>
@@ -16,8 +21,13 @@
     <tbody>
       <% @loans.each do |c| %>
         <tr>
-          <td><%= c.created_at.in_time_zone('Mexico City').strftime("%d/%m/%Y %r") %></td>
+          <td><span><%= c.created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= c.created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
           <td><%= link_to c.name.capitalize, edit_loan_path(c) %></td>
+          <td><%= number_to_currency(c.loan_amount, precision: 2) %></td>
+          <td><%= number_to_currency(c.weekly_amount, precision: 2) %></td>
+          <td><%= c.start_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></td>
+          <td><%= c.end_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></td>
+          <td><%= c.cycle %></td>
           <td><%= link_to 'Editar', edit_loan_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
           <td><%= link_to 'Eliminar', loan_path(c, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
         </tr>
@@ -25,6 +35,12 @@
     </tbody>
   </table>
 </div>
+
+<style>
+  #dttb span {
+    display:none; 
+}
+</style>
 
 <script>
   $(document).ready(function() {
