@@ -11,6 +11,7 @@ class LoanMovementsController < ApplicationController
         adjust_loan
         @client_movements = @loan.loan_movements.where("amount > 0")
         @weekly_payments = @loan.weekly_payments.order('week ASC')
+        @last_weekly_payment = @loan.weekly_payments.where("payment_date <= ?", DateTime.now).order('id DESC').first
 
         respond_to do |format|
           format.js
@@ -22,6 +23,7 @@ class LoanMovementsController < ApplicationController
       LoanMovement.create(movement_params)
       @client_movements = @loan.loan_movements.where("amount > 0")
       @weekly_payments = @loan.weekly_payments.order('week ASC')
+      @last_weekly_payment = @loan.weekly_payments.where("payment_date <= ?", DateTime.now).order('id DESC').first
 
       respond_to do |format|
         format.js
@@ -46,6 +48,7 @@ class LoanMovementsController < ApplicationController
     end
     @weekly_payments = @loan.weekly_payments.order('week ASC')
     @client_movements = @loan.loan_movements.where("amount > 0")
+    @last_weekly_payment = @loan.weekly_payments.where("payment_date <= ?", DateTime.now).order('id DESC').first
   end
 
   def destroy
@@ -57,6 +60,7 @@ class LoanMovementsController < ApplicationController
       adjust_payment
       @weekly_payments = @loan.weekly_payments.order('week ASC')
       @client_movements = @loan.loan_movements.where("amount > 0")
+      @last_weekly_payment = @loan.weekly_payments.where("payment_date <= ?", DateTime.now).order('id DESC').first
       respond_to do |format|
         format.js
       end

@@ -40,6 +40,7 @@ class LoansController < ApplicationController
     @clients = @loan.clients
     @weekly_payments = @loan.weekly_payments.order('week ASC')
     @client_movements = @loan.loan_movements.where("amount > 0")
+    @last_weekly_payment = @loan.weekly_payments.where("payment_date <= ?", DateTime.now).order('id DESC').first
   end
 
   def update
@@ -55,6 +56,7 @@ class LoansController < ApplicationController
       end
 
       @weekly_payments = @loan.weekly_payments.order('week ASC')
+      @last_weekly_payment = @loan.weekly_payments.where("payment_date <= ?", DateTime.now).order('id DESC').first
       flash[:success] = "Cambios guardados correctamente"
     
       redirect_to edit_loan_path(@loan)

@@ -12,6 +12,7 @@ class LoanClientsController < ApplicationController
       @loan = loan
       @clients = @loan.clients
       @weekly_payments = WeeklyPayment.where(loan_id: loan.id).order('week ASC')
+      @last_weekly_payment = @loan.weekly_payments.where("payment_date <= ?", DateTime.now).order('id DESC').first
       
       respond_to do |format|
         format.js
@@ -35,6 +36,7 @@ class LoanClientsController < ApplicationController
       @loan = loan
       @clients = @loan.clients
       @weekly_payments = WeeklyPayment.where(loan_id: loan.id).order('week ASC')
+      @last_weekly_payment = @loan.weekly_payments.where("payment_date <= ?", DateTime.now).order('id DESC').first
       respond_to do |format|
         format.js
       end
