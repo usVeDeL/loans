@@ -10,7 +10,7 @@
       <div class="modal-body">
         <%=  %>
         <h4 class="text-center">
-          Para saldar este préstamo el cliente debe pagar <b><%= "#{number_to_currency(last_weekly_payment.wallet_amout, precision: 2)}" %> MXN</b>
+          Para saldar este préstamo el cliente debe pagar <b><%= "#{number_to_currency(last_weekly_payment&.wallet_amout, precision: 2)}" %> MXN</b>
         </h4>
         <%= link_to 'Saldar ', { controller: 'loans', action: 'update', loan: { id: loan.id, state_id: 3 }}, method: :put, data: { confirm: 'Estás seguro?. Este cambio es irreversible' }, class: 'btn btn-outline-danger col-md-2' %>
         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
