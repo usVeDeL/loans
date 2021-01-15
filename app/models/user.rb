@@ -1,7 +1,6 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   belongs_to :role
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :trackable,
@@ -35,7 +34,7 @@ class User < ApplicationRecord
   end
 
   def gravatar_url
-    "https://panndora-topics.s3.us-east-2.amazonaws.com/logo.png"
+    'https://panndora-topics.s3.us-east-2.amazonaws.com/logo.png'
   end
 
   def is_admin?

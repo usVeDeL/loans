@@ -4,7 +4,7 @@
 <table style="border: 1px solid transparent" class="col-md-12">
   <tr>
     <td>Estado</td>
-    <th><span class="badge badge<%= if loan.state_id == 1 then '-warning' elsif loan.state_id == 2 then '-primary' elsif loan.state_id == 3 then '-success' elsif loan.state_id == 4 then '-danger' else '-info' end %>"><%= loan.state.state_name.upcase %></span></th>
+    <th><span class="badge badge<%= if loan.state_id == 1 then '-warning' elsif loan.state_id == 2 then '-primary' elsif loan.state_id == 3 then '-success' elsif loan.state_id == 4 then '-danger' else '-info' end %>"><%= loan.state.translated_name.upcase %></span></th>
   </tr>
   <tr>
     <td>Préstamo</td>

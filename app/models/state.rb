@@ -14,7 +14,7 @@ class State < ApplicationRecord
     expired: 'vencido'
   }
 
-  def state_name
+  def translated_name
     STATES_NAMES[self.name.to_sym]
   end
 end
