@@ -63,7 +63,6 @@
 <%= render partial: 'loans/search_client_modal', locals: { clients: @clients } %>
 <%= render partial: 'loans/add_client_modal' %>
 <%= render partial: 'loans/add_amount_client_loan_modal', locals: { loan: @loan } %>
-<%= render partial: 'loan_movements/modal_update_loan_movement', locals: { loan: @loan, loan_movement: @loan_movement } %>
 
 <script>
   $('#loan_start_date').change(function() {
@@ -117,14 +116,6 @@
 
   $('#amountLoanModal form').submit( function () {
     setTimeout(function(){ $('#amountLoanModal form')[0].reset(); }, 2000);
-  });
-
-  $('#editMovementModal').submit(function() {
-    $('#editMovementModal').modal('hide');
-  });
-
-  $('#editMovementModal form').submit( function () {
-    setTimeout(function(){ $('#editMovementModal form')[0].reset(); }, 2000);
   });
   
 </script>
