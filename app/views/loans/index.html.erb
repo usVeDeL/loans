@@ -46,7 +46,7 @@
   $(document).ready(function() {
     $("#dttb").dataTable({
         dom: 'Bfrtip',
-        pageLength: 30,
+        paging: false,
         order: [[ 0, "desc" ]],
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
@@ -54,7 +54,7 @@
         "language": {
             "lengthMenu": "Mostrando _MENU_ renglones por página",
             "zeroRecords": "No hay nada - disculpa",
-            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "info": "",
             "infoEmpty": "No hay datos disponibles",
             "infoFiltered": "(filtered from _MAX_ total de renglones)",
             "sSearch": "Buscar:",

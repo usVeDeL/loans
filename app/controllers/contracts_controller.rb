@@ -99,7 +99,7 @@ class ContractsController < ApplicationController
 
   def get_contract
     contract = Contract.find_by(name: 'contrato').content_text
-    mutuarios = @loan.clients.map{ |c| "#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}"}.join(', ')
+    mutuarios = @loan.clients.map{ |c| "#{capitalize_text(c.name)} #{capitalize_text(c.last_name)} #{capitalize_text(c.mother_last_name)}"}.join(', ')
     mutuarios_address = '<ul>'
     month = MONTHS[@loan.disbursement_date.strftime("%B")]
     date_loan = @loan.disbursement_date.strftime("%d de #{month} %Y")
@@ -112,18 +112,18 @@ class ContractsController < ApplicationController
       state_name = c.client_address&.last&.state_name || ''
       town = c.client_address&.last&.town || ''
 
-      "<li><b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}</li>"
+      "<li><b>#{capitalize_text(c.name)} #{capitalize_text(c.last_name)} #{capitalize_text(c.mother_last_name)}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}</li>"
     end.join('<br/>')
 
     mutuarios_address += '</ul>'
 
     mutuarios_loans = @loan.loan_clients.map do |l| 
       c = l.client
-      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{number_to_currency(l.amount, precision: 2)} MXN(#{l.amount.humanize(locale: :es).upcase} PESOS 00/100 MXN.)"
+      "<b>#{capitalize_text(c.name)} #{capitalize_text(c.last_name)} #{capitalize_text(c.mother_last_name)}</b> - #{number_to_currency(l.amount, precision: 2)} MXN(#{l.amount.humanize(locale: :es).upcase} PESOS 00/100 MXN.)"
     end.join('<br/><br/>')
 
     mutuarios_signatures = @loan.clients.map do |c|
-      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b><br/><br>___________________________________________<br><br><br><br>"
+      "<b>#{capitalize_text(c.name)} #{capitalize_text(c.last_name)} #{capitalize_text(c.mother_last_name)}</b><br/><br>___________________________________________<br><br><br><br>"
     end.join('<br/>')
   
     address_contract = @loan.address_contract
@@ -153,14 +153,14 @@ class ContractsController < ApplicationController
       state_name = c.client_address.last&.state_name || ''
       town = c.client_address.last&.town || ''
 
-      "<li><b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}</li>"
+      "<li><b>#{capitalize_text(c.name)} #{capitalize_text(c.last_name)} #{capitalize_text(c.mother_last_name)}</b> - #{street} #{number_exterior} #{number_interior} #{neighborhood} #{code_zip} #{state_name} #{town}</li>"
     end.join('<br/>')
 
     mutuarios_address += '</ul><br><br>'
 
 
     mutuarios_signatures = @loan.clients.map do |c|
-      "<b>#{c.name.capitalize} #{c.last_name.capitalize} #{c.mother_last_name.capitalize}</b><br/><br>___________________________________________<br><br><br><br>"
+      "<b>#{capitalize_text(c.name)} #{capitalize_text(c.last_name)} #{capitalize_text(c.mother_last_name)}</b><br/><br>___________________________________________<br><br><br><br>"
     end.join('<br/>')
 
 
@@ -174,5 +174,9 @@ class ContractsController < ApplicationController
 
   def contract_params
     params.require(:contract).permit(:name, :content_text)
+  end
+
+  def capitalize_text(text)
+    text.split(' ').collect { |x| x.capitalize}.join(' ')
   end
 end
