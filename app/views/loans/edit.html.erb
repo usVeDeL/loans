@@ -1,21 +1,6 @@
-<div class="container">
-  <br><br>
-
-  <% if @loan.state_id == 1 %>
-    <%= link_to 'Aceptar préstamo', { controller: 'loans', action: 'update', loan: { id: @loan.id, state_id: 2 }}, method: :put, class: 'btn btn-success col-md-2' %>
-  <% elsif @loan.state_id == 2 %>
-    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#showSaldoModal">
-      Saldar Prestamo
-    </button>
-  <% end %>
-
-  <%= link_to 'Descargar Contrato', {controller: 'contracts', action: 'download_contract', id: @loan.id, :format => :pdf}, class: 'btn btn-outline-primary col-md-3' %>
-  <%= link_to 'Descargar Pagaré', {controller: 'contracts', action: 'download_pagare', id: @loan.id, :format => :pdf}, class: 'btn btn-outline-primary col-md-2' %>
-  <%= link_to 'Listado de préstamos', loans_path, class: 'btn btn-primary float-right' %>
-  
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-
-  <br><br><br>
+<div class="container"><br><br>
+  <%= render partial: 'loans/loan_action_items', locals: { loan: @loan } %>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script><br><br><br>
 
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
@@ -34,57 +19,7 @@
       <div class='row col-md-12'>
         <div class='col-md-8'>
           <hr>
-          <%= form_with model: @loan, local: true do |f| %>
-            <div class="form-group row">
-              <%= f.label 'Grupo:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-              <div class="col-sm-10">
-                <%= f.text_field :name, class: 'form-control'%>
-              </div>
-            </div><br>
-            <div class="form-group row">
-              <%= f.label 'Porcentaje interés:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-              <div class="col-sm-10">
-                <%= f.number_field :interest_percent, value: 5.0, class: 'form-control'%>
-              </div>
-            </div><br>
-            <%= f.hidden_field :state_id, value: @loan.state_id %>
-            <%= f.hidden_field :end_date, value: @loan.end_date %>
-            <div class="form-group row">
-              <%= f.label 'Fecha inicial:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-              <div class="col-sm-10">
-                <%= f.date_field :start_date, class: 'form-control'%>
-              </div>
-            </div><br>
-            <div class="form-group row">
-              <%= f.label 'Asesor:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-              <div class="col-sm-10">
-                <%= f.text_field :adviser_name, class: 'form-control'%>
-              </div>
-            </div><br>
-            <div class="form-group row">
-              <%= f.label 'Fecha de desembolso:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-              <div class="col-sm-10">
-                <%= f.date_field :disbursement_date, class: 'form-control'%>
-              </div>
-            </div><br>
-            <div class="form-group row">
-              <%= f.label 'Ciclo:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-              <div class="col-sm-10">
-                <%= f.number_field :cycle, class: 'form-control'%>
-              </div>
-            </div><br>
-
-            <div class="form-group row">
-              <%= f.label 'Lugar de pago:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-              <div class="col-sm-10">
-                <%= f.text_field :address_contract, class: 'form-control'%>
-              </div>
-            </div><br>
-
-            <div class="row col-md-2 offset-md-10">
-              <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
-            </div>
-          <% end %>
+          <%= render partial: 'loans/loan_form', locals: { loan: @loan } %>
         </div>
         <div class='col-md-4' id="grid_loan_resume">
           <%= render partial: 'loans/table_loan_resume', locals: { loan: @loan } %>
@@ -120,167 +55,15 @@
   </div>
 </div>
 
-
-<div class="modal " id="addMovementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Monto de Préstramo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <%= form_with(model: LoanMovement.new, url: '/loan_movements', method: :post, remote: true, id: 'add_loan_movement_form') do |f| %>
-          <div class="form-group row">
-            <%= f.label 'Tipo de movimiento:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.select :movement_type_id, options_for_select(MovementType.all[1..-1].map{|c| [c.name.capitalize, c.id]}), class: 'custom-select' %>
-            </div>
-          </div><br>
-          <div class="form-group row">
-            <%= f.label 'Monto:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.text_field(:amount,  class: 'form-control')%>
-            </div>
-          </div><br>
-          <div class="form-group row">
-            <%= f.label 'Comentarios:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.text_area(:comments,  class: 'form-control')%>
-            </div>
-          </div><br>
-          <%= f.hidden_field :loan_id, value: @loan.id %>
-          <div class="row col-md-2 offset-md-10">
-            <%= f.submit('Guardar', class: 'text-center btn btn-success' , id: 'btn_add_amount_submit') %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
 <div id="saldar_modal">
   <%= render partial: 'loan_movements/modal_pay_loan', locals: { last_weekly_payment: @last_weekly_payment, loan: @loan } %>
 </div>
 
-
-
-<!-- Modal -->
-<div class="modal " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addClientModal">
-          Agregar
-        </button><br><br>
-        <%= form_with(url: '/search_clients', method: :post, id: 'search_client_form') do %>
-          <div class="form-group row">
-            <div class="col-sm-10">
-              <%= text_field_tag(:q, nil, placeholder: 'Buscar clientes', class: 'form-control')%>
-            </div>
-          </div><br>
-          <div class="row col-md-2 offset-md-10">
-            <%= submit_tag('Search', class: 'text-center btn btn-success') %>
-          </div>
-        <% end %>
-
-        <div class="list-group">
-          <div id="clients_grid">
-            <%= render partial: 'clients/table_clients', locals: { clients: @clients } %>
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal " id="addClientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <%= form_with(model: Client.new, url: '/add_client', method: :post, remote: true, id: 'add_client_form') do |f| %>
-          <div class="form-group row">
-            <%= f.label 'Nombre:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.text_field(:name,  class: 'form-control')%>
-            </div>
-          </div><br>
-          <div class="form-group row">
-            <%= f.label 'Apellido paterno:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.text_field(:last_name, class: 'form-control')%>
-            </div>
-          </div><br>
-          <div class="form-group row">
-            <%= f.label 'Apellido materno:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.text_field(:mother_last_name, class: 'form-control')%>
-            </div>
-          </div><br>
-          <div class="form-group row">
-            <%= f.label 'Fecha nacimiento:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.date_field(:birth_date, class: 'form-control')%>
-            </div>
-          </div><br>
-          <div class="row col-md-2 offset-md-10">
-            <%= f.submit('Guardar', class: 'text-center btn btn-success', 'data-toggle': "modal", 'data-target': "#amountLoanModal" ) %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal " id="amountLoanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Monto de Préstramo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="button_modal_close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <%= form_with(model: LoanClient.new, url: '/loan_clients', method: :post, remote: true, id: 'add_loan_client_form') do |f| %>
-          <div class="form-group row">
-
-            <%= f.label 'Monto:', class: 'col-sm-2 col-form-label font-weight-bold' %>
-            <div class="col-sm-10">
-              <%= f.text_field :amount,  class: 'form-control' %>
-            </div>
-          </div><br>
-          <%= f.hidden_field :name, value: nil %>
-          <%= f.hidden_field :last_name, value: nil %>
-          <%= f.hidden_field :mother_last_name, value: nil %>
-          <%= f.hidden_field :loan_id, value: @loan.id %>
-          <%= f.hidden_field :birth_date, value: nil %>
-          <div class="row col-md-2 offset-md-10">
-            <%= f.submit('Guardar', class: 'text-center btn btn-success' , id: 'btn_amount_submit') %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
+<%= render partial: 'loans/add_movement_modal', locals: { loan: @loan } %>
+<%= render partial: 'loans/search_client_modal', locals: { clients: @clients } %>
+<%= render partial: 'loans/add_client_modal' %>
+<%= render partial: 'loans/add_amount_client_loan_modal', locals: { loan: @loan } %>
+<%= render partial: 'loan_movements/modal_update_loan_movement', locals: { loan: @loan, loan_movement: @loan_movement } %>
 
 <script>
   $('#loan_start_date').change(function() {
@@ -343,4 +126,5 @@
   $('#editMovementModal form').submit( function () {
     setTimeout(function(){ $('#editMovementModal form')[0].reset(); }, 2000);
   });
+  
 </script>

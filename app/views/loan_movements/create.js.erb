@@ -1,3 +1,3 @@
-$("#loan_movements_grid").html("<%= escape_javascript(render partial: 'loan_movements/table_loan_movements', locals: { client_movements: @client_movements, loan: @loan } ) %>"); 
 $("#grid_table_amortization").html("<%= escape_javascript(render partial: 'loan_clients/table_amortization', locals: { weekly_payments: @weekly_payments } ) %>"); 
+$("#loan_movements_grid").html("<%= escape_javascript(render partial: 'loan_movements/table_loan_movements', locals: { client_movements: @client_movements, loan: @loan } ) %>"); 
 $("#saldar_modal").html("<%= escape_javascript(render partial: 'loan_movements/modal_pay_loan', locals: { last_weekly_payment: @last_weekly_payment, loan: @loan } ) %>"); 
