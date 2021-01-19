@@ -20,8 +20,6 @@
           <% loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last %>
           <% week_payment = payment.payment_date > 1.week.ago && loan_movement&.amount <= 0 ? payment.week_payment : loan_movement&.amount %>
           <% week_payment_amount = loan_movement&.amount <= 0.1 ? payment.week_payment : loan_movement&.amount %>
-          <%= p "payment: #{payment.week_payment}" %>
-          <%= p "amount: #{loan_movement&.amount}\n" %>
 
           <tr class="table-<%= if loan_movement.nil? || week_payment.nil? then 'light' elsif @loan.state_id == 3 then 'success' elsif payment.payment_date >= DateTime.now then 'light' elsif week_payment < @loan.weekly_amount && payment.payment_date < 1.week.ago then 'danger' elsif week_payment < @loan.weekly_amount || (payment.payment_date > 1.week.ago)   then 'warning' elsif week_payment == @loan.weekly_amount  then 'success' else 'light' end %>">
             <th><%= payment.week %></th>
