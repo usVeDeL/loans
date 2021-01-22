@@ -5,8 +5,10 @@ class LoansController < ApplicationController
 
     if @filter
       case @filter
+      when 'pending'
+        @loans = Loan.where(state_id: 1).order("created_at DESC")
       when 'active'
-        @loans = Loan.where('state_id < 3').order("created_at DESC")
+        @loans = Loan.where(state_id: 2).order("created_at DESC")
       when 'finished'
         @loans = Loan.where(state_id: 3).order("created_at DESC")
       else

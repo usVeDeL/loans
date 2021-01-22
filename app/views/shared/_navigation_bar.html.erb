@@ -36,7 +36,8 @@
             <span class="align-middle">Préstamos</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
-            <%= link_to 'Prestamos vigentes', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
+            <%= link_to 'Prestamos pendientes', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
+            <%= link_to 'Prestamos activos', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
             <%= link_to 'Préstamos finalizados', loans_path(filter: 'finished'), class: 'dropdown-item notify-item' %>
           </div>
         </li>
