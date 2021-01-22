@@ -1,6 +1,6 @@
 <div class="container">
   <br><br><br>
-  <h1 class="text-center">Préstamos <%= if @filter == 'active' then 'Activos' elsif @filter == 'finished' then 'Finalizados' else @filter end %></h1>
+  <h1 class="text-center">Préstamos <%= if @filter == 'active' then 'Activos' elsif @filter == 'pending' then 'Pendientes' elsif @filter == 'finished' then 'Finalizados' else @filter end %></h1>
   <br><br><br>
   <%= link_to 'Nuevo', new_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
   <br><br>
