@@ -47,7 +47,7 @@ class LoansController < ApplicationController
   def update
     @loan = Loan.find(params[:id])
     @clients = @loan.clients
-    
+
     if @loan.update(loan_params)
       BasePaymentsController.create_update_amortization_table(@loan)
       if @loan.state_id == 3

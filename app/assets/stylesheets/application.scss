@@ -4963,18 +4963,8 @@ a.close.disabled {
   border-radius: 0.2rem;
   outline: 0; }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1040;
-  width: 100vw;
-  height: 100vh;
-  background-color: #313a46; }
-  .modal-backdrop.fade {
-    opacity: 0; }
-  .modal-backdrop.show {
-    opacity: 0.7; }
+
+
 
 .modal-header {
   display: -webkit-box;
@@ -19329,18 +19319,9 @@ a.close.disabled {
   border-radius: 0.2rem;
   outline: 0; }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1040;
-  width: 100vw;
-  height: 100vh;
-  background-color: #323a46; }
-  .modal-backdrop.fade {
-    opacity: 0; }
-  .modal-backdrop.show {
-    opacity: 0.7; }
+  .modal-backdrop {
+    z-index: -1;
+  }
 
 .modal-header {
   display: -webkit-box;
