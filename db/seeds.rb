@@ -312,6 +312,38 @@ end
 
 
 
+file = Rails.root.join('db', 'group_prestamos.csv')
+loans_groups = CSV.read(file)
+
+loans_groups[1..-1].each do |c|
+    nombre_grupo = c[0]
+    prestamo_monto =  c[1]
+    ciclo = c[2]
+    nombre = c[3]
+    apellido_paterno = c[4]
+    apellido_materno = c[5]
+    fecha_nacimiento = c[6]
+    monto_client = c[7]
+
+    client = Client.where(name: nombre, last_name: apellido_paterno, mother_last_name: apellido_materno, birth_date: fecha_nacimiento).last
+    
+    if client
+        loan = Loan.where(name: nombre_grupo, loan_amount: prestamo_monto, cycle: ciclo).last
+        
+        if loan
+            lc = LoanClient.where(client_id: client.id, loan_id: loan.id).last
+            unless lc
+                LoanClient.create(
+                    client_id: client.id,
+                    amount: monto_client.to_f,
+                    group_id: 1,
+                    loan_id: loan.id
+                )
+            end
+    
+        end
+    end
+end
 
 
 
@@ -319,3 +351,32 @@ end
 
 
 
+
+
+
+
+Loan.all.each do |loan|
+    if loan.weekly_payments
+        if loan.weekly_payments&.count < 16 
+            loan.weekly_payments.destroy_all
+        end
+    end
+
+    if loan.loan_movements
+        if loan.loan_movements&.count < 16
+            loan.loan_movements.destroy_all
+        end
+    end
+
+    if loan.weekly_payments.count < 16 && loan.loan_movements.count < 16 && loan.loan_amount > 0
+        create_weekly_payments(loan)
+    end
+end
+
+
+c = Loan.find(626)
+weekly_payments = c.weekly_payments.where('payment_date < ?', DateTime.now) 
+weekly_payments_sum = weekly_payments.sum(:week_payment) 
+last_week = weekly_payments.last&.week 
+loan_movements = c.loan_movements.where('week <= ?', last_week) 
+loan_movement_amount = loan_movements.sum(:amount)
