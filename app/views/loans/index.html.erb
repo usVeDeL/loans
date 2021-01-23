@@ -20,7 +20,15 @@
     </thead>
     <tbody>
       <% @loans.each do |c| %>
-        <tr>
+        <% weekly_payments = c.weekly_payments.where('payment_date < ?', DateTime.now).order('week ASC') %>
+        <% weekly_payments_sum = weekly_payments.sum(:week_payment) %>
+        <% last_week = weekly_payments.last&.week %>
+        <% loan_movements = c.loan_movements.where('week <= ?', last_week).order('week ASC') %>
+        <% loan_movement_amount = loan_movements.sum(:amount) %>
+        <% last_payment = weekly_payments.last&.payment_date.to_i > 1.week.ago.to_i %>
+        <% pending_last_payment = c.loan_movements.where('week < ?', last_week).where('amount < ?', weekly_payments.last&.week_payment).count == 0 && loan_movements.last&.amount.to_f < weekly_payments.last&.week_payment.to_f %>
+
+        <tr class="table-<%= if loan_movement_amount >= weekly_payments_sum then 'success' elsif pending_last_payment then 'warning' elsif last_payment == true then 'danger' else 'light' end %>">
           <td><span><%= c.created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= c.created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
           <td><%= link_to c.name.capitalize, edit_loan_path(c) %></td>
           <td><%= number_to_currency(c.loan_amount, precision: 2) %></td>
