@@ -70,3 +70,6 @@ gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'humanize'
 
+# sentry
+gem "sentry-ruby"
+gem "sentry-rails"
