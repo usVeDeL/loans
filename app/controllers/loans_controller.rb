@@ -3,20 +3,8 @@ class LoansController < ApplicationController
     @filter = ''
     @filter = params[:filter] if params.has_key?(:filter)
 
-    if @filter
-      case @filter
-      when 'pending'
-        @loans = Loan.where(state_id: 1).order("created_at DESC")
-      when 'active'
-        @loans = Loan.where(state_id: 2).order("created_at DESC")
-      when 'finished'
-        @loans = Loan.where(state_id: 3).order("created_at DESC")
-      else
-        @loans = Loan.all.order("created_at DESC")
-      end      
-    else
-      @loans = Loan.all.order("created_at DESC")
-    end
+    filter = @filter.to_sym
+    @loans = Loan.index(filter)
   end
 
   def new

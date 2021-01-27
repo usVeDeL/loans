@@ -19,25 +19,17 @@
       </tr>
     </thead>
     <tbody>
-      <% @loans.each do |c| %>
-        <% weekly_payments = c.weekly_payments.where('payment_date < ?', DateTime.now).order('week ASC') %>
-        <% weekly_payments_sum = weekly_payments.sum(:week_payment) %>
-        <% last_week = weekly_payments.last&.week %>
-        <% loan_movements = c.loan_movements.where('week <= ?', last_week).order('week ASC') %>
-        <% loan_movement_amount = loan_movements.sum(:amount) %>
-        <% last_payment = weekly_payments.last&.payment_date.to_i > 1.week.ago.to_i %>
-        <% pending_last_payment = c.loan_movements.where('week < ?', last_week).where('amount < ?', weekly_payments.last&.week_payment).count == 0 && loan_movements.last&.amount.to_f < weekly_payments.last&.week_payment.to_f %>
-
-        <tr class="table-<%= if loan_movement_amount >= weekly_payments_sum then 'success' elsif pending_last_payment then 'warning' elsif last_payment == true then 'danger' else 'light' end %>">
-          <td><span><%= c.created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= c.created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
-          <td><%= link_to c.name.capitalize, edit_loan_path(c) %></td>
-          <td><%= number_to_currency(c.loan_amount, precision: 2) %></td>
-          <td><%= number_to_currency(c.weekly_amount, precision: 2) %></td>
-          <td><%= c.start_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></td>
-          <td><%= c.end_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></td>
-          <td><%= c.cycle %></td>
-          <td><%= link_to 'Editar', edit_loan_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', loan_path(c, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+      <% @loans.each do |l| %>
+        <tr class="table-<%= l[:status] %>">
+          <td><span><%= l[:loan].created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l[:loan].created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
+          <td><%= link_to l[:loan].name.capitalize, edit_loan_path(l[:loan]) %></td>
+          <td><%= number_to_currency(l[:loan].loan_amount, precision: 2) %></td>
+          <td><%= number_to_currency(l[:loan].weekly_amount, precision: 2) %></td>
+          <td><%= l[:loan].start_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></td>
+          <td><%= l[:loan].end_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></td>
+          <td><%= l[:loan].cycle %></td>
+          <td><%= link_to 'Editar', edit_loan_path(l[:loan]), class: 'btn  btn-sm btn-outline-warning' %></td>
+          <td><%= link_to 'Eliminar', loan_path(l[:loan], filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
         </tr>
       <% end %>
     </tbody>
