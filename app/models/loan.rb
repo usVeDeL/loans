@@ -1,6 +1,4 @@
 class Loan < ApplicationRecord
-  include LoansModule
-
   has_many :loan_clients
   has_many :loan_movements
   has_many :clients, through: :loan_clients
