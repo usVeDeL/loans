@@ -40,6 +40,22 @@ class LoansController < ApplicationController
 
     if @loan.update(loan_params)
       BasePaymentsController.create_update_amortization_table(@loan)
+      @weekly_payments = @loan.weekly_payments.order('week ASC')
+      @last_weekly_payment = last_weekly_payment
+      flash[:success] = "Cambios guardados correctamente"
+    
+      redirect_to edit_loan_path(@loan)
+    else
+      redirect_to edit_loan_path(@loan)
+    end
+  end
+
+  def pay_full
+    @loan = Loan.find(params[:id])
+    @clients = @loan.clients
+
+    if @loan.update(state_id: 3)
+      BasePaymentsController.create_update_amortization_table(@loan)
       if @loan.state_id == 3
         @loan.loan_movements.each do |payment|
           payment.update!(amount: @loan.weekly_amount)

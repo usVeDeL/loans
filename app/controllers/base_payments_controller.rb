@@ -62,11 +62,14 @@ class BasePaymentsController < ApplicationController
       total = @loan.loan_amount + @loan.interest_amount
       wallet_amout = total if n == 1
       wallet_amout = WeeklyPayment.where(loan_id: @loan.id).last.wallet_amout - week_payment if n > 1
+      start_date = @loan.start_date
+      start_date = 0 if start_date&.nil?
+
 
       WeeklyPayment.create!(
         week: n,
         loan_id: @loan.id,
-        payment_date: (@loan.start_date + (n-1).week),
+        payment_date: (start_date + (n-1).week),
         payment_capital: payment_capital,
         payment_interest: payment_interest,
         week_payment: week_payment,

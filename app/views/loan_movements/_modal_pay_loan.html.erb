@@ -11,7 +11,7 @@
         <h4 class="text-center">
           Para saldar este préstamo el cliente debe pagar <b><%= "#{number_to_currency(last_weekly_payment, precision: 2)}" %> MXN</b>
         </h4>
-          <%= link_to 'Saldar ',loan_path(loan: { id: loan.id, state_id: 3 }), method: :put, data: { confirm: 'Estás seguro?. Este cambio es irreversible' }, class: 'btn btn-outline-danger col-md-2' %>
+          <%= link_to 'Saldar ',pay_full_loan_path({ id: loan.id }), method: :put, data: { confirm: 'Estás seguro?. Este cambio es irreversible' }, class: 'btn btn-outline-danger col-md-2' %>
         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
