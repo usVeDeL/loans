@@ -80,10 +80,9 @@ class BasePaymentsController < ApplicationController
         percent_interest: percent_interest,
       )
 
+      
       payment.save!
-
       LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: @loan.id, week: n)
-
       payment.update_status
     end    
 
