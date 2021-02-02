@@ -56,7 +56,7 @@ class BasePaymentsController < ApplicationController
       payment_capital = 0 if n == 1
 
       percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
-      payment_interest = week_payment*(percent_interest/100.0)
+      payment_interest = week_payment*(percent_interest.to_f/100.0)
       balance_capital = @loan.loan_amount - payment_capital
       balance_interest = @loan.interest_amount - payment_interest
       total = @loan.loan_amount + @loan.interest_amount
@@ -100,7 +100,7 @@ class BasePaymentsController < ApplicationController
       payment_capital = week_payment*(percent_capital.to_f/100.0)
 
       percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
-      payment_interest = week_payment*(percent_interest/100.0)
+      payment_interest = week_payment*(percent_interest.to_f/100.0)
       balance_capital = @loan.loan_amount - payment_capital
       balance_interest = @loan.interest_amount - payment_interest
 
