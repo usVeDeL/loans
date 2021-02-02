@@ -14,9 +14,9 @@
       <% clients.each do |c| %>
         <% loan_client = c.loan_clients.find_by(loan_id: loan.id) %>
         <tr>
-          <th><%= c.name.capitalize %></th>
-          <th><%= c.last_name.capitalize %></th>
-          <th><%= c.mother_last_name.capitalize %></th>
+          <th><%= c.name&.capitalize %></th>
+          <th><%= c.last_name&.capitalize %></th>
+          <th><%= c.mother_last_name&.capitalize %></th>
           <th><%= number_to_currency(loan_client.amount, precision: 2) %></th>
           <td><%= link_to 'Expediente', edit_client_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
           <th><%= link_to 'Quitar', loan_client_path(loan_client), remote: true, class: 'btn btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' } %></th>
