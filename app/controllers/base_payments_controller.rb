@@ -81,7 +81,11 @@ class BasePaymentsController < ApplicationController
       )
 
       LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: @loan.id, week: n)
+
+      payment.update_status
     end    
+
+    @loan.update_loan_sums
   end
 
   def self.update_weekly_payments
@@ -90,7 +94,7 @@ class BasePaymentsController < ApplicationController
       payment_date = (@loan.start_date + (n-1).week)
 
       week_payment = @loan.weekly_amount
-      week_payment = @loan.loan_movements.where(week: n).last.amount if payment_date < 1.week.ago
+      week_payment = payment.loan_movement.amount if payment_date < 1.week.ago
 
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
       payment_capital = week_payment*(percent_capital/100.0)
@@ -117,6 +121,10 @@ class BasePaymentsController < ApplicationController
         percent_capital: percent_capital,
         percent_interest: percent_interest,
       )
-    end   
+
+      payment.update_status
+    end
+    
+    @loan.update_loan_sums
   end
 end

@@ -41,10 +41,11 @@ class LoanMovementsController < ApplicationController
 
   def update
     loan_movement = LoanMovement.find(params[:id])
-    loan_movement.update(amount: params[:amount])
+    loan_movement.fill_other_movements(params[:amount])
     @loan = loan_movement.loan
     if params[:movement_type_id] == '2'
-      adjust_payment
+      BasePaymentsController.create_update_amortization_table(@loan)
+      # adjust_payment
     end
     @weekly_payments = @loan.weekly_payments.order('week ASC')
     @client_movements = @loan.loan_movements.where("amount > 0")
@@ -107,8 +108,11 @@ class LoanMovementsController < ApplicationController
           percent_capital: percent_capital,
           percent_interest: percent_interest,
         )
-      end
+        payment.update_status
+      end    
     end
+
+    loan.update_loan_sums
   end
 
 
@@ -156,8 +160,10 @@ class LoanMovementsController < ApplicationController
           percent_capital: percent_capital,
           percent_interest: percent_interest,
         )
-      end
+        payment.update_status
+      end    
     end
+    loan.update_loan_sums
   end
 
   private

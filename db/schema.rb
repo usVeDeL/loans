@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_08_021731) do
+ActiveRecord::Schema.define(version: 2021_01_31_203150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,11 @@ ActiveRecord::Schema.define(version: 2020_12_08_021731) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "address_contract"
     t.string "adviser_name", default: ""
+    t.datetime "disbursement_date", default: "2020-12-10 05:45:48"
+    t.string "status"
+    t.decimal "sum_payment_capital", default: "0.0"
+    t.decimal "sum_payment_interest", default: "0.0"
+    t.decimal "sum_week_payment", default: "0.0"
   end
 
   create_table "movement_types", force: :cascade do |t|
@@ -192,6 +197,7 @@ ActiveRecord::Schema.define(version: 2020_12_08_021731) do
     t.float "percent_interest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
   end
 
 end

@@ -12,16 +12,22 @@ class Loan < ApplicationRecord
   scope :active, -> { where(state_id: 2).order_desc }
   scope :finished, -> { where(state_id: 3).order_desc }
 
+  enum status: {
+    paid: 'paid',
+    not_paid: 'not_paid',
+    current: 'current'
+  }
+
   def self.index(filter=nil)
     case filter
     when :pending
-      Loan.list(pending)
+      Loan.pending
     when :active
-      Loan.list(active)
+      Loan.active
     when :finished
-      Loan.list(finished)
+      Loan.finished
     else
-      Loan.list(order_desc)
+      Loan.all
     end
   end
 
@@ -73,15 +79,36 @@ class Loan < ApplicationRecord
     payments_order_asc.last&.week
   end
   
-  def status
-    if self.movements_sum >= self.payments_sum 
-      'success' 
+  def update_status
+    status = if self.movements_sum >= self.payments_sum 
+      :paid 
     elsif self.pending_last_payment_bool
-      'warning'
+      :current
     elsif self.last_payment_bool == true
-      'danger' 
+      :not_paid 
     else 
-      'light'
+      :not_paid
     end
+    
+    self.update(status: status)
+  end
+
+  def update_loan_sums
+    movs = self.movements_order_asc.where('amount > 0')
+    sum_payment_capital = 0
+    sum_payment_interest = 0
+    sum_week_payment = 0
+    
+    movs.each do |m|
+      sum_payment_capital += m.weekly_payment.payment_capital
+      sum_payment_interest += m.weekly_payment.payment_interest
+      sum_week_payment += m.weekly_payment.week_payment
+    end
+    
+    self.update(
+      sum_payment_capital: sum_payment_capital,
+      sum_payment_interest: sum_payment_interest,
+      sum_week_payment: sum_week_payment
+    )
   end
 end

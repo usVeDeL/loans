@@ -19,17 +19,18 @@
       </tr>
     </thead>
     <tbody>
+      <% statuses = { paid: 'success', current: 'warning', not_paid: 'danger' } %>
       <% @loans.each do |l| %>
-        <tr class="table-<%= l[:status] %>">
-          <td><span><%= l[:loan].created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l[:loan].created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
-          <td><%= link_to l[:loan].name.capitalize, edit_loan_path(l[:loan]) %></td>
-          <td><%= number_to_currency(l[:loan].loan_amount, precision: 2) %></td>
-          <td><%= number_to_currency(l[:loan].weekly_amount, precision: 2) %></td>
-          <td><%= l[:loan].start_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></td>
-          <td><%= l[:loan].end_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></td>
-          <td><%= l[:loan].cycle %></td>
-          <td><%= link_to 'Editar', edit_loan_path(l[:loan]), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', loan_path(l[:loan], filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+        <tr class="table-<%= statuses[l.status.to_sym] %>">
+          <td><span><%= l.created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l.created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
+          <td><%= link_to l.name.capitalize, edit_loan_path(l) %></td>
+          <td><%= number_to_currency(l.loan_amount, precision: 2) %></td>
+          <td><%= number_to_currency(l.weekly_amount, precision: 2) %></td>
+          <td><%= l.start_date&.strftime("%d/%m/%Y") %></td>
+          <td><%= l.end_date&.strftime("%d/%m/%Y") %></td>
+          <td><%= l.cycle %></td>
+          <td><%= link_to 'Editar', edit_loan_path(l), class: 'btn  btn-sm btn-outline-warning' %></td>
+          <td><%= link_to 'Eliminar', loan_path(l, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
         </tr>
       <% end %>
     </tbody>

@@ -10,6 +10,7 @@ class LoanClientsController < ApplicationController
       loan.update!(loan_amount: amount, interest_amount: interest, weekly_amount: weekly_amount, warranty: warranty)
       BasePaymentsController.create_update_amortization_table(loan)
       @loan = loan
+      @loan.update_status
       @clients = @loan.clients
       @weekly_payments = WeeklyPayment.where(loan_id: loan.id).order('week ASC')
       @last_weekly_payment = last_weekly_payment
@@ -34,6 +35,7 @@ class LoanClientsController < ApplicationController
       BasePaymentsController.create_update_amortization_table(loan)
       
       @loan = loan
+      @loan.update_status
       @clients = @loan.clients
       @weekly_payments = WeeklyPayment.where(loan_id: loan.id).order('week ASC')
       @last_weekly_payment = last_weekly_payment

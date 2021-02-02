@@ -16,6 +16,7 @@ class LoansController < ApplicationController
   
     if @loan.save
       BasePaymentsController.create_update_amortization_table(@loan)
+      @loan.update_status
       flash[:success] = "Cambios guardados correctamente"
       redirect_to edit_loan_path @loan
     else
@@ -32,6 +33,7 @@ class LoansController < ApplicationController
     @client_movements = @loan.loan_movements.where("amount > 0")
     @last_weekly_payment = last_weekly_payment
     BasePaymentsController.create_update_amortization_table(@loan)
+    @loan.update_status
   end
 
   def update
@@ -40,6 +42,7 @@ class LoansController < ApplicationController
 
     if @loan.update(loan_params)
       BasePaymentsController.create_update_amortization_table(@loan)
+      @loan.update_status
       @weekly_payments = @loan.weekly_payments.order('week ASC')
       @last_weekly_payment = last_weekly_payment
       flash[:success] = "Cambios guardados correctamente"
@@ -56,6 +59,7 @@ class LoansController < ApplicationController
 
     if @loan.update(state_id: 3)
       BasePaymentsController.create_update_amortization_table(@loan)
+      @loan.update_status
       if @loan.state_id == 3
         @loan.loan_movements.each do |payment|
           payment.update!(amount: @loan.weekly_amount)

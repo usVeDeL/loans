@@ -17,16 +17,12 @@
     <tbody>
       <% unless weekly_payments.nil? %>
         <% weekly_payments.each do |payment| %>
-          <% loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last %>
-          <% week_payment = payment.payment_date > 1.week.ago && loan_movement&.amount <= 0 ? payment.week_payment : loan_movement&.amount %>
-          <% week_payment_amount = loan_movement&.amount <= 0.1 ? payment.week_payment : loan_movement&.amount %>
-
-          <tr class="table-<%= if loan_movement.nil? || week_payment.nil? then 'light' elsif @loan.state_id == 3 then 'success' elsif payment.payment_date >= DateTime.now then 'light' elsif week_payment < @loan.weekly_amount && payment.payment_date < 1.week.ago then 'danger' elsif week_payment < @loan.weekly_amount || (payment.payment_date > 1.week.ago)   then 'warning' elsif week_payment == @loan.weekly_amount  then 'success' else 'light' end %>">
+          <tr class="table-<%= payment.status %>">
             <th><%= payment.week %></th>
             <th><%= payment.payment_date.strftime('%d/%m/%Y') %></th>
             <th><%= number_to_currency(payment.payment_capital, precision: 2) %></th>
             <th><%= number_to_currency(payment.payment_interest, precision: 2) %></th>
-            <th><%= number_to_currency(week_payment_amount, precision: 2) %></th>
+            <th><%= number_to_currency(payment.week_payment_amount, precision: 2) %></th>
             <th><%= number_to_currency(payment.balance_capital, precision: 2) %></th>
             <th><%= number_to_currency(payment.balance_interest, precision: 2) %></th>
             <th><%= number_to_currency(payment.wallet_amout, precision: 2) %></th>
@@ -38,8 +34,8 @@
                   id="add_client_button"
                   data-toggle="modal"
                   data-target="#editMovementModal"
-                  data-amount="<%= loan_movement&.amount %>"
-                  data-id="<%= loan_movement&.id %>"
+                  data-amount="<%= payment.loan_movement&.amount %>"
+                  data-id="<%= payment.loan_movement&.id %>"
                 >
                   Ajustar
                 </button>
@@ -47,6 +43,16 @@
             </th>
           </tr>
         <% end %>
+        <tr class='table-secondary'>
+          <th>TOTALES:</th>
+          <th></th>
+          <th><%= number_to_currency(@loan.sum_payment_capital, precision:2) %></th>
+          <th><%= number_to_currency(@loan.sum_payment_interest, precision:2) %></th>
+          <th><%= number_to_currency(@loan.sum_week_payment, precision:2) %></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
       <% end %>
     </tbody>
   </table>
