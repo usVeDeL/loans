@@ -9,7 +9,7 @@ class WeeklyPayment < ApplicationRecord
   }
 
   def loan_movement
-    self.loan.loan_movements.where(week: self.week).last
+    self.loan&.loan_movements&.where(week: self.week)&.last
   end
 
   def update_status
