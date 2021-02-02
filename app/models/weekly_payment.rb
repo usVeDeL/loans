@@ -37,6 +37,6 @@ class WeeklyPayment < ApplicationRecord
   end
 
   def week_payment_amount
-    self.loan_movement&.amount <= 0.1 ? self.week_payment : self.loan_movement&.amount
+    self.loan_movement&.amount.to_f <= 0.1 ? self.week_payment.to_f : self.loan_movement&.amount.to_f
   end
 end
