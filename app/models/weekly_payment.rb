@@ -13,7 +13,7 @@ class WeeklyPayment < ApplicationRecord
   end
 
   def update_status
-    payment = self.payment_date > 1.week.ago && self.loan_movement&.amount <= 0 ? self.week_payment : self.loan_movement&.amount
+    payment = self.payment_date > 1.week.ago && self.loan_movement&.amount.to_f <= 0 ? self.week_payment : self.loan_movement&.amount
 
     status = if self.loan_movement.nil? || payment.nil?
       'light'
