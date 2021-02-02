@@ -52,7 +52,7 @@ class BasePaymentsController < ApplicationController
     (1..16).each do |n|
       week_payment = @loan.weekly_amount
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
-      payment_capital = week_payment*(percent_capital/100.0)
+      payment_capital = week_payment*(percent_capital.to_f/100.0)
       payment_capital = 0 if n == 1
 
       percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
@@ -97,7 +97,7 @@ class BasePaymentsController < ApplicationController
       week_payment = payment.loan_movement.amount if payment_date < 1.week.ago
 
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
-      payment_capital = week_payment*(percent_capital/100.0)
+      payment_capital = week_payment*(percent_capital.to_f/100.0)
 
       percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
       payment_interest = week_payment*(percent_interest/100.0)

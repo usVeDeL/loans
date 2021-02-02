@@ -82,7 +82,7 @@ class LoanMovementsController < ApplicationController
         week_payment = movement_params[:amount].to_f if payment.week == payment_week
         percent_capital = capital_payment_table[payment.week.to_s.to_sym]
         
-        payment_capital = week_payment*(percent_capital/100.0)
+        payment_capital = week_payment*(percent_capital.to_f/100.0)
         payment_capital = 0 if payment.week == 1
 
         percent_interest = interest_payment_table[payment.week.to_s.to_sym]
@@ -134,7 +134,7 @@ class LoanMovementsController < ApplicationController
         week_payment = amount.to_f if payment.week == payment_week
         percent_capital = capital_payment_table[payment.week.to_s.to_sym]
         
-        payment_capital = week_payment*(percent_capital/100.0)
+        payment_capital = week_payment*(percent_capital.to_f/100.0)
         payment_capital = 0 if payment.week == 1
 
         percent_interest = interest_payment_table[payment.week.to_s.to_sym]
