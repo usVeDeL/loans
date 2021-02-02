@@ -66,7 +66,7 @@ class BasePaymentsController < ApplicationController
       start_date = 0 if start_date&.nil?
 
 
-      WeeklyPayment.create!(
+      payment = WeeklyPayment.create!(
         week: n,
         loan_id: @loan.id,
         payment_date: (start_date + (n-1).week),
@@ -79,6 +79,8 @@ class BasePaymentsController < ApplicationController
         percent_capital: percent_capital,
         percent_interest: percent_interest,
       )
+
+      payment.save!
 
       LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: @loan.id, week: n)
 
@@ -95,7 +97,7 @@ class BasePaymentsController < ApplicationController
 
       week_payment = @loan.weekly_amount
       week_payment = payment&.loan_movement&.amount.to_f if payment_date < 1.week.ago
-      
+
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
       payment_capital = week_payment*(percent_capital.to_f/100.0)
 
