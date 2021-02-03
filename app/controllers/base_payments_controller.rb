@@ -50,6 +50,8 @@ class BasePaymentsController < ApplicationController
 
   def self.create_weekly_payments
     (1..16).each do |n|
+      next if @loan.weekly_payments.where(week: n).count > 0
+
       week_payment = @loan.weekly_amount
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
       payment_capital = week_payment*(percent_capital.to_f/100.0)
@@ -80,7 +82,7 @@ class BasePaymentsController < ApplicationController
         percent_interest: percent_interest,
       )
 
-      
+
       payment.save!
       LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: @loan.id, week: n)
       payment.update_status

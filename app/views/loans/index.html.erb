@@ -21,7 +21,7 @@
     <tbody>
       <% statuses = { paid: 'success', current: 'warning', not_paid: 'danger' } %>
       <% @loans.each do |l| %>
-        <tr class="table-<%= statuses[l.status.to_sym] %>">
+        <tr class="table-<%= statuses[l.status&.to_sym] %>">
           <td><span><%= l.created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l.created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
           <td><%= link_to l.name.capitalize, edit_loan_path(l) %></td>
           <td><%= number_to_currency(l.loan_amount, precision: 2) %></td>
