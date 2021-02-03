@@ -39,38 +39,37 @@ class BasePaymentsController < ApplicationController
 
 
   def self.create_update_amortization_table(loan)
-    @loan = loan
-    @payments = loan&.weekly_payments&.order('week ASC')
+    payments = loan&.weekly_payments&.order('week ASC')
 
-    return self.create_weekly_payments if @payments.blank?
+    return self.create_weekly_payments(loan) if payments.blank?
 
-    self.update_weekly_payments
+    self.update_weekly_payments(loan: loan, payments: payments)
   end
 
 
-  def self.create_weekly_payments
+  def self.create_weekly_payments(loan)
     (1..16).each do |n|
-      next if @loan.weekly_payments.where(week: n).count > 0
+      next if loan.weekly_payments.where(week: n).count > 0
 
-      week_payment = @loan.weekly_amount
+      week_payment = loan.weekly_amount
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
       payment_capital = week_payment*(percent_capital.to_f/100.0)
       payment_capital = 0 if n == 1
 
       percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
       payment_interest = week_payment*(percent_interest.to_f/100.0)
-      balance_capital = @loan.loan_amount - payment_capital
-      balance_interest = @loan.interest_amount - payment_interest
-      total = @loan.loan_amount + @loan.interest_amount
+      balance_capital = loan.loan_amount - payment_capital
+      balance_interest = loan.interest_amount - payment_interest
+      total = loan.loan_amount + loan.interest_amount
       wallet_amout = total if n == 1
-      wallet_amout = WeeklyPayment.where(loan_id: @loan.id).last.wallet_amout - week_payment if n > 1
-      start_date = @loan.start_date
+      wallet_amout = WeeklyPayment.where(loan_id: loan.id).last.wallet_amout - week_payment if n > 1
+      start_date = loan.start_date
       start_date = 0 if start_date&.nil?
 
 
       payment = WeeklyPayment.create!(
         week: n,
-        loan_id: @loan.id,
+        loan_id: loan.id,
         payment_date: (start_date + (n-1).week),
         payment_capital: payment_capital,
         payment_interest: payment_interest,
@@ -84,19 +83,19 @@ class BasePaymentsController < ApplicationController
 
 
       payment.save!
-      LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: @loan.id, week: n)
+      LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: loan.id, week: n)
       payment.update_status
     end    
 
-    @loan.update_loan_sums
+    loan.update_loan_sums
   end
 
-  def self.update_weekly_payments
-    @payments.each_with_index do |payment, index|
+  def self.update_weekly_payments(loan:, payments:)
+    payments.each_with_index do |payment, index|
       n = index + 1
-      payment_date = (@loan.start_date + (n-1).week)
+      payment_date = (loan.start_date + (n-1).week)
 
-      week_payment = @loan.weekly_amount
+      week_payment = loan.weekly_amount
       week_payment = payment&.loan_movement&.amount.to_f if payment_date < 1.week.ago
 
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
@@ -104,16 +103,16 @@ class BasePaymentsController < ApplicationController
 
       percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
       payment_interest = week_payment*(percent_interest.to_f/100.0)
-      balance_capital = @loan.loan_amount - payment_capital
-      balance_interest = @loan.interest_amount - payment_interest
+      balance_capital = loan.loan_amount - payment_capital
+      balance_interest = loan.interest_amount - payment_interest
 
-      total = @loan.loan_amount + @loan.interest_amount
+      total = loan.loan_amount + loan.interest_amount
       wallet_amout = total if n == 1
-      wallet_amout = WeeklyPayment.where(loan_id: @loan.id, week: index).last.wallet_amout - week_payment if n > 1
+      wallet_amout = WeeklyPayment.where(loan_id: loan.id, week: index).last.wallet_amout - week_payment if n > 1
 
       payment.update!(
         week: n,
-        loan_id: @loan.id,
+        loan_id: loan.id,
         payment_date: payment_date,
         payment_capital: payment_capital,
         payment_interest: payment_interest,
@@ -128,6 +127,6 @@ class BasePaymentsController < ApplicationController
       payment.update_status
     end
     
-    @loan.update_loan_sums
+    loan.update_loan_sums
   end
 end
