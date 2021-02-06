@@ -17,6 +17,7 @@ class LoansController < ApplicationController
     if @loan.save
       BasePaymentsController.create_update_amortization_table(@loan)
       @loan.update_status
+      LoanMailer.new_loan(@loan).deliver
       flash[:success] = "Cambios guardados correctamente"
       redirect_to edit_loan_path @loan
     else
