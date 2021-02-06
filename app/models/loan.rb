@@ -111,4 +111,14 @@ class Loan < ApplicationRecord
       sum_week_payment: sum_week_payment
     )
   end
+
+  def last_weekly_payment
+    payments = self.weekly_payments
+    last_payment = nil
+    payments.order('week ASC').each_with_index do |weekly_payment, index|
+      last_payment = weekly_payment if weekly_payment&.loan_movement&.amount.to_f > 0 || index == 0
+    end
+    
+    last_payment&.wallet_amout - (self.loan_amount.to_f/10)
+  end
 end

@@ -13,7 +13,7 @@ class LoanClientsController < ApplicationController
       @loan.update_status
       @clients = @loan.clients
       @weekly_payments = WeeklyPayment.where(loan_id: loan.id).order('week ASC')
-      @last_weekly_payment = last_weekly_payment
+      @last_weekly_payment = @loan.last_weekly_payment
       
       respond_to do |format|
         format.js
@@ -38,7 +38,7 @@ class LoanClientsController < ApplicationController
       @loan.update_status
       @clients = @loan.clients
       @weekly_payments = WeeklyPayment.where(loan_id: loan.id).order('week ASC')
-      @last_weekly_payment = last_weekly_payment
+      @last_weekly_payment = @loan.last_weekly_payment
       respond_to do |format|
         format.js
       end
@@ -64,15 +64,5 @@ class LoanClientsController < ApplicationController
     .where(last_name: loan_client_params[:last_name])
     .where(mother_last_name: loan_client_params[:mother_last_name])
     .where(birth_date: loan_client_params[:birth_date]).last || Client.last
-  end
-
-  def last_weekly_payment
-    payments = @loan.weekly_payments
-    last_payment = nil
-    payments.order('id ASC').each_with_index do |weekly_payment, index|
-      last_payment = weekly_payment if weekly_payment&.loan_movement&.amount.to_f > 0 || index == 0
-    end
-    
-    last_payment&.wallet_amout - (@loan.loan_amount.to_f/10)
   end
 end

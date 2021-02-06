@@ -31,7 +31,7 @@ class LoansController < ApplicationController
     @clients = @loan.clients
     @weekly_payments = @loan.weekly_payments.order('week ASC')
     @client_movements = @loan.loan_movements.where("amount > 0")
-    @last_weekly_payment = last_weekly_payment
+    @last_weekly_payment = @loan.last_weekly_payment
     BasePaymentsController.create_update_amortization_table(@loan)
     @loan.update_status
   end
@@ -44,7 +44,7 @@ class LoansController < ApplicationController
       BasePaymentsController.create_update_amortization_table(@loan)
       @loan.update_status
       @weekly_payments = @loan.weekly_payments.order('week ASC')
-      @last_weekly_payment = last_weekly_payment
+      @last_weekly_payment = @loan.last_weekly_payment
       flash[:success] = "Cambios guardados correctamente"
     
       redirect_to edit_loan_path(@loan)
@@ -67,7 +67,7 @@ class LoansController < ApplicationController
       end
 
       @weekly_payments = @loan.weekly_payments.order('week ASC')
-      @last_weekly_payment = last_weekly_payment
+      @last_weekly_payment = @loan.last_weekly_payment
       flash[:success] = "Cambios guardados correctamente"
     
       redirect_to edit_loan_path(@loan)
@@ -102,15 +102,5 @@ class LoansController < ApplicationController
     {
       'Name has already been taken' => 'El nombre del grupo ya existe, ingresa otro'
     }
-  end
-
-  def last_weekly_payment
-    payments = @loan.weekly_payments
-    last_payment = nil
-    payments.order('id ASC').each_with_index do |weekly_payment, index|
-      last_payment = weekly_payment if weekly_payment&.loan_movement&.amount.to_f > 0 || index == 0
-    end
-    
-    last_payment&.wallet_amout - (@loan.loan_amount.to_f/10)
   end
 end

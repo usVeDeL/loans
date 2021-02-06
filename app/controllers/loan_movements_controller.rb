@@ -11,7 +11,7 @@ class LoanMovementsController < ApplicationController
         adjust_loan
         @client_movements = @loan.loan_movements.where("amount > 0")
         @weekly_payments = @loan.weekly_payments.order('week ASC')
-        @last_weekly_payment = last_weekly_payment
+        @last_weekly_payment = @loan.last_weekly_payment
 
         respond_to do |format|
           format.js
@@ -23,7 +23,7 @@ class LoanMovementsController < ApplicationController
       LoanMovement.create(movement_params)
       @client_movements = @loan.loan_movements.where("amount > 0")
       @weekly_payments = @loan.weekly_payments.order('week ASC')
-      @last_weekly_payment = last_weekly_payment
+      @last_weekly_payment = @loan.last_weekly_payment
 
       respond_to do |format|
         format.js
@@ -49,7 +49,7 @@ class LoanMovementsController < ApplicationController
     end
     @weekly_payments = @loan.weekly_payments.order('week ASC')
     @client_movements = @loan.loan_movements.where("amount > 0")
-    @last_weekly_payment = last_weekly_payment
+    @last_weekly_payment = @loan.last_weekly_payment
   end
 
   def destroy
@@ -61,7 +61,7 @@ class LoanMovementsController < ApplicationController
       adjust_payment
       @weekly_payments = @loan.weekly_payments.order('week ASC')
       @client_movements = @loan.loan_movements.where("amount > 0")
-      @last_weekly_payment = last_weekly_payment
+      @last_weekly_payment = @loan.last_weekly_payment
       respond_to do |format|
         format.js
       end
@@ -212,15 +212,5 @@ class LoanMovementsController < ApplicationController
       '15': 95.66,
       '16': 97.79
     }
-  end
-
-  def last_weekly_payment
-    payments = @loan.weekly_payments
-    last_payment = nil
-    payments.order('id ASC').each_with_index do |weekly_payment, index|
-      last_payment = weekly_payment if weekly_payment&.loan_movement&.amount.to_f > 0 || index == 0
-    end
-    
-    last_payment&.wallet_amout - (@loan.loan_amount.to_f/10)
   end
 end
