@@ -73,3 +73,6 @@ gem 'humanize'
 # sentry
 gem "sentry-ruby"
 gem "sentry-rails"
+
+
+gem 'whenever', require: false
