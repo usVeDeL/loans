@@ -108,7 +108,7 @@ class BasePaymentsController < ApplicationController
 
       total = loan.loan_amount + loan.interest_amount
       # wallet_amout = total if n == 1
-      wallet_amout = WeeklyPayment.where(loan_id: loan.id, week: index).last.wallet_amout - week_payment if n > 1
+      wallet_amout = WeeklyPayment.where(loan_id: loan.id, week: index).last.wallet_amout - week_payment 
 
       payment.update!(
         week: n,
