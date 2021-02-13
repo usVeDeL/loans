@@ -96,7 +96,7 @@ class BasePaymentsController < ApplicationController
       payment_date = (loan.start_date + (n-1).week)
 
       week_payment = loan.weekly_amount
-      week_payment = payment&.loan_movement&.amount.to_f if payment_date < 1.week.ago
+      week_payment = payment&.loan_movement&.amount.to_f if n > 1
 
       percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
       payment_capital = week_payment*(percent_capital.to_f/100.0)
