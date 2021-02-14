@@ -43,11 +43,13 @@
 $('#editMovementModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var amount = button.data('amount');
+    var comments = button.data('comments');
     var id = button.data('id');
     var url = '/loan_movements/'+ id 
 
     $('#update_loan_movement_form').attr('action', url);
     $('#amount').val(amount);
+    $('#comments').val(comments);
   })
 
   $('#editMovementModal').submit(function() {
@@ -55,6 +57,6 @@ $('#editMovementModal').on('show.bs.modal', function (event) {
   });
 
   $('#editMovementModal form').submit( function () {
-    setTimeout(function(){ $('#editMovementModal form')[0].reset(); }, 2000);
+    setTimeout(function(){ $('#editMovementModal form')[0].reset(); }, 500);
   });
 </script>

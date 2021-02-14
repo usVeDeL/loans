@@ -14,7 +14,7 @@ class LoanMovement < ApplicationRecord
     
     movements.each do |m|
       next if weekly_amount == m.amount && m.week < movements_last_week
-    
+
       if movements_last_week == m.week
         m.update(amount: amount)
         amount = 0
@@ -31,7 +31,7 @@ class LoanMovement < ApplicationRecord
           m.update(amount: weekly_amount )
           amount = new_amount - weekly_amount
         else
-          m.update(amount: amount)
+          m.update(amount: new_amount)
           amount = 0
         end
       else
