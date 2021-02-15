@@ -17,7 +17,7 @@
 #   runner "AnotherModel.prune_old_records"
 # end
 
-every :mondar, at: '5am' do # Use any day of the week or :weekend, :weekday
+every :monday, at: '5am' do # Use any day of the week or :weekend, :weekday
   runner "InterestsWeeklyJob.perform_now"
 end
 
