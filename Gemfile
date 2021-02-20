@@ -76,3 +76,7 @@ gem "sentry-rails"
 
 
 gem 'whenever', require: false
+
+
+# aws
+gem 'fog-aws'
