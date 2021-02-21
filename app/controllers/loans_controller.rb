@@ -61,11 +61,11 @@ class LoansController < ApplicationController
     if @loan.update(state_id: 3)
       BasePaymentsController.create_update_amortization_table(@loan)
       @loan.update_status
-      if @loan.state_id == 3
-        @loan.loan_movements.each do |payment|
-          payment.update!(amount: @loan.weekly_amount)
-        end
-      end
+      # if @loan.state_id == 3
+      #   @loan.loan_movements.each do |payment|
+      #     payment.update!(amount: @loan.weekly_amount)
+      #   end
+      # end
 
       @weekly_payments = @loan.weekly_payments.order('week ASC')
       @last_weekly_payment = @loan.last_weekly_payment

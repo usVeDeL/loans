@@ -123,7 +123,7 @@ class BasePaymentsController < ApplicationController
         percent_capital: percent_capital,
         percent_interest: percent_interest,
       )
-
+      
       payment.update_status
     end
     
