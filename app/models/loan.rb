@@ -20,10 +20,8 @@ class Loan < ApplicationRecord
 
   def self.index(filter=nil)
     case filter
-    when :pending
-      Loan.pending
     when :active
-      Loan.active
+      Loan.pending + Loan.active
     when :finished
       Loan.finished
     else
