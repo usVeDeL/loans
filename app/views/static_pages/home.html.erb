@@ -1,22 +1,6 @@
-<!--
-<%# <br><br>
-<div class="container">
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <h1 class="display-4 text-center">Bienvenido a Financiera VeDel</h1>
-      <%= image_tag 'logo.png', width: 200, height: 80, class: 'img-fluid mx-auto d-block' %>
-    </div>
-  </div>
-</div>
-
-
-
--->
-
-
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
 <style>
 #map {
@@ -62,7 +46,7 @@
       }
     </script>
 <body >
-    <a href="https://api.whatsapp.com/send?phone=7535370469&text=Hola%20en%20un%20momento,%20un%20asesor%20se%20pondr%C3%A1%20en%20contacto%20contigo.%20Financiera%20VEDE" class="whatsapp" target="_blank"> <i class="fa fa-whatsapp whatsapp-icon"></i></a>
+    <a href="https://api.whatsapp.com/send?phone=+527531678267&text=Hola%20en%20un%20momento,%20un%20asesor%20se%20pondr%C3%A1%20en%20contacto%20contigo.%20Financiera%20VEDE" class="whatsapp" target="_blank"> <i class="fa fa-whatsapp whatsapp-icon"></i></a>
 
     <!-- 
     <nav class="navbar navbar-expand-lg py-lg-3 navbar-dark">
@@ -111,7 +95,7 @@
 
                         <p class="mb-4 font-16 text-white-50">Somos una empresa dedicada el otorgamiento de créditos para negocios.</p>
 
-                        <a href="https://api.whatsapp.com/send?phone=7535370469&text=Hola%20en%20un%20momento,%20un%20asesor%20se%20pondr%C3%A1%20en%20contacto%20contigo.%20Financiera%20VEDEL" target="_blank" class="btn btn-success">Envianos Whats App <i
+                        <a href="https://api.whatsapp.com/send?phone=+527531678267&text=Hola%20en%20un%20momento,%20un%20asesor%20se%20pondr%C3%A1%20en%20contacto%20contigo.%20Financiera%20VEDEL" target="_blank" class="btn btn-success">Envianos Whats App <i
                                 class="fa fa-whatsapp"></i><br></a>
                     </div>
                 </div>
@@ -300,18 +284,18 @@
                 </div>
 
                 <div class="col-md-8">
-                    <%= form_with url: "/send_contact_email", method: :post do |form| %>
+                    <%= form_tag '/send_contact_email', authenticity_token: false, method: :post do %>
                         <div class="row mt-4">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <%= form.label :name, "Nombre" %>
-                                    <%= form.text_field :name, placeholder: "Nombre...", class: 'form-control form-control-light' %>
+                                    <%= label_tag :name, "Nombre" %>
+                                    <%= text_field_tag :name, '', placeholder: "Nombre...", class: 'form-control form-control-light' %>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <%= form.label :email, "Correo Electrónico" %>
-                                    <%= form.text_field :email, placeholder: "Ingresa tu correo electronico...", class: 'form-control form-control-light' %>
+                                    <%= label_tag :email, "Correo Electrónico" %>
+                                    <%= text_field_tag :email, '', placeholder: "Ingresa tu correo electronico...", class: 'form-control form-control-light' %>
                                 </div>
                             </div>
                         </div>
@@ -319,15 +303,15 @@
                         <div class="row mt-1">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <%= form.label :message, "Mensaje" %>
-                                    <%= form.text_area :message, placeholder: "Escripe tu mensaje aquí...", class: 'form-control form-control-light' %>
+                                    <%= label_tag :message, "Mensaje" %>
+                                    <%= text_area_tag :message, '', placeholder: "Escripe tu mensaje aquí...", class: 'form-control form-control-light' %>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row mt-2">
                             <div class="col-12 text-right">
-                                <%= form.submit "Enviar mensaje", class: 'btn btn-primary' %>
+                                <%= submit_tag "Enviar mensaje", class: 'btn btn-primary' %>
                             </div>
                         </div>
                     <% end %>

@@ -1,4 +1,4 @@
-class IndexMailer < ApplicationMailer
+class StaticPagesMailer < ApplicationMailer
   default from: 'ferb@losinfiltrados.com'
 
   def send_contact_email(name: nil, email: nil, message: nil)

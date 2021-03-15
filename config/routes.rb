@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  post '/send_contact_email', to: 'index#send_contact_email'
+  post '/send_contact_email', to: 'static_pages#send_contact_email'
   get '/download_contract/:id', to: 'contracts#download_contract'
   get '/download_pagare/:id', to: 'contracts#download_pagare'
   resources :contracts
