@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post '/send_contact_email', to: 'index#send_contact_email'
   get '/download_contract/:id', to: 'contracts#download_contract'
   get '/download_pagare/:id', to: 'contracts#download_pagare'
   resources :contracts
@@ -24,6 +25,7 @@ Rails.application.routes.draw do
   end
 
   root "static_pages#home"
+  get '/index', to: 'static_pages#index'
   resources :users, only: [:index, :edit, :update, :destroy]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
