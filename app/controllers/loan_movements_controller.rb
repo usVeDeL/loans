@@ -44,6 +44,7 @@ class LoanMovementsController < ApplicationController
     loan_movement.fill_other_movements(params[:amount])
     @loan = loan_movement.loan
     if params[:movement_type_id] == '2'
+      TransactionsController.new.create(amount: params[:amount], loan_id: params[:loan_id], loan_movement_id: params[:id])
       adjust_payment
       BasePaymentsController.create_update_amortization_table(@loan)
     end
