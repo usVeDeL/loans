@@ -6,7 +6,7 @@ class InterestsWeeklyJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    if Date.today.strftime("%A") == 'Sunday'
+    # if Date.today.strftime("%A") == 'Sunday'
       #create csv attachment file
       csv_report = CSV.generate(headers: true) do |csv|
         csv << ['grupo', 'ciclo', 'Pago capital', 'Pago interes', 'Pago semanal']
@@ -15,7 +15,7 @@ class InterestsWeeklyJob < ApplicationJob
         end
       end
       InterestsWeeklyMailer.send_report(csv_report).deliver
-    end
+    # end
   end
 
   def generate_row(l)
