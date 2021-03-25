@@ -19,7 +19,7 @@
         <% weekly_payments.each do |payment| %>
           <tr class="table-<%= payment.status %>">
             <th><%= payment.week %></th>
-            <th><%= payment.payment_date.strftime('%d/%m/%Y') %></th>
+            <th><%= payment.payment_date&.in_time_zone('Mexico City')&.strftime('%d/%m/%Y') %></th>
             <th><%= number_to_currency(payment.payment_capital, precision: 2) %></th>
             <th><%= number_to_currency(payment.payment_interest, precision: 2) %></th>
             <th><%= number_to_currency(payment.week_payment_amount, precision: 2) %></th>
