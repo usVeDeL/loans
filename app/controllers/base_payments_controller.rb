@@ -93,7 +93,7 @@ class BasePaymentsController < ApplicationController
   def self.update_weekly_payments(loan:, payments:)
     payments.each_with_index do |payment, index|
       n = index + 1
-      payment_date = (loan.start_date + (n-1).week)
+      # payment_date = (loan.start_date + (n-1).week)
 
       week_payment = loan.weekly_amount
       week_payment = payment&.loan_movement&.amount.to_f if n > 1
@@ -113,7 +113,7 @@ class BasePaymentsController < ApplicationController
       payment.update!(
         week: n,
         loan_id: loan.id,
-        payment_date: payment_date,
+        # payment_date: payment_date,
         payment_capital: payment_capital,
         payment_interest: payment_interest,
         week_payment: week_payment,

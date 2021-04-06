@@ -33,8 +33,8 @@ class LoansController < ApplicationController
     @weekly_payments = @loan.weekly_payments.order('week ASC')
     @client_movements = @loan.loan_movements.where("amount > 0")
     @last_weekly_payment = @loan.last_weekly_payment
-    BasePaymentsController.create_update_amortization_table(@loan)
-    @loan.update_status
+    # BasePaymentsController.create_update_amortization_table(@loan)
+    # @loan.update_status
   end
 
   def update
