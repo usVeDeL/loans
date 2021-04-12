@@ -1,7 +1,8 @@
-//= require bootstrap-sprockets
-//= require jquery
+//= require jquery3
 //= require jquery_ujs
 //= require popper
+//= require bootstrap
+//= require bootstrap-sprockets
 //= require datatables
 //= require_tree .
 //= require tinymce

@@ -9,9 +9,10 @@ class DocumentTypesController < ApplicationController
 
   def create
     @document_type = DocumentType.new(document_type_params)
-  
+
     if @document_type.save
-      flash[:success] = "Cambios guardados correctamente"
+      flash[:success] = success_text
+
       redirect_to document_types_path
     else
       render 'new'
@@ -19,14 +20,15 @@ class DocumentTypesController < ApplicationController
   end
 
   def edit
-    @document_type = DocumentType.find(params[:id])
+    @document_type = document_type
   end
 
   def update
-    @document_type = DocumentType.find(params[:id])
+    @document_type = document_type
 
     if @document_type.update(document_type_params)
-      flash[:success] = "Cambios guardados correctamente"
+      flash[:success] = success_text
+
       redirect_to document_types_path
     else
       render 'edit'
@@ -34,20 +36,26 @@ class DocumentTypesController < ApplicationController
   end
 
   def destroy
-    document_type = DocumentType.find(params[:id])
-
     if document_type.delete
-      flash[:success] = 'Cambios guardados correctamente'
-      redirect_to document_types_path
+      flash[:success] = success_text
     else
-      flash[:danger] = 'Error... algo salio mal'
-      redirect_to document_types_path
+      flash[:danger] = error_text
     end
+
+    redirect_to document_types_path
   end
 
   private
 
   def document_type_params
-    params.require(:document_type).permit(:name, :active, :required)
+    params.require(:document_type).permit(
+      :name,
+      :active,
+      :required
+    )
+  end
+
+  def document_type
+    DocumentType.find(params[:id])
   end
 end

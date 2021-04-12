@@ -11,7 +11,8 @@ class StatesController < ApplicationController
     @state = State.new(state_params)
   
     if @state.save
-      flash[:success] = "Cambios guardados correctamente"
+      flash[:success] = success_text
+
       redirect_to states_path
     else
       render 'new'
@@ -26,7 +27,8 @@ class StatesController < ApplicationController
     @state = State.find(params[:id])
 
     if @state.update(state_params)
-      flash[:success] = "Cambios guardados correctamente"
+      flash[:success] = success_text
+
       redirect_to states_path
     else
       render 'edit'
@@ -37,10 +39,12 @@ class StatesController < ApplicationController
     state = State.find(params[:id])
 
     if state.delete
-      flash[:success] = 'Cambios guardados correctamente'
+      flash[:success] = success_text
+
       redirect_to states_path
     else
-      flash[:danger] = 'Error... algo salio mal'
+      flash[:danger] = error_text
+
       redirect_to states_path
     end
   end
@@ -48,6 +52,9 @@ class StatesController < ApplicationController
   private
 
   def state_params
-    params.require(:state).permit(:name, :active)
+    params.require(:state).permit(
+      :name,
+      :active
+    )
   end
 end

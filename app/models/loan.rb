@@ -37,7 +37,7 @@ class Loan < ApplicationRecord
         status: loan.status
       }
     end
-    
+
     loans
   end
 

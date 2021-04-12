@@ -11,7 +11,7 @@ class LoanMovement < ApplicationRecord
     movements = self.loan.loan_movements.where('week <= ?', self.week).order(week: :asc)
     weekly_amount = self.loan.weekly_amount
     movements_last_week = movements.last.week
-    
+
     movements.each do |m|
       next if weekly_amount == m.amount && m.week < movements_last_week
 
@@ -21,11 +21,16 @@ class LoanMovement < ApplicationRecord
       elsif m.amount > weekly_amount
         difference_amount = m.amount - weekly_amount
         m.update(amount: weekly_amount)
-        amount = amount + difference_amount
+        amount += difference_amount
       elsif amount >= weekly_amount
-        m.update(amount: weekly_amount)
-        amount = amount - weekly_amount
-      elsif amount < weekly_amount && amount > 0
+        if m.amount.positive?
+          amount -= weekly_amount - m.amount
+          m.update(amount: weekly_amount)
+        else
+          m.update(amount: weekly_amount)
+          amount -= weekly_amount
+        end
+      elsif amount < weekly_amount && amount.positive?
         new_amount = m.amount + amount
         if new_amount > weekly_amount
           m.update(amount: weekly_amount )

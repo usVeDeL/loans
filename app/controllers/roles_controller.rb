@@ -9,9 +9,10 @@ class RolesController < ApplicationController
 
   def create
     @role = Role.new(role_params)
-    
+
     if @role.save
-      flash[:success] = "Cambios guardados correctamente"
+      flash[:success] = success_text
+
       redirect_to roles_path
     else
       render 'new'
@@ -26,7 +27,8 @@ class RolesController < ApplicationController
     @role = Role.find(params[:id])
 
     if @role.update(role_params)
-      flash[:success] = "Cambios guardados correctamente"
+      flash[:success] = success_text
+
       redirect_to roles_path
     else
       render 'edit'
@@ -37,10 +39,12 @@ class RolesController < ApplicationController
     role = Role.find(params[:id])
 
     if role.delete
-      flash[:success] = 'Cambios guardados correctamente'
+      flash[:success] = success_text
+
       redirect_to roles_path
     else
-      flash[:danger] = 'Error... algo salio mal'
+      flash[:danger] = error_text
+
       redirect_to roles_path
     end
   end

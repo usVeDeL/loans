@@ -11,7 +11,8 @@ class ContactTypesController < ApplicationController
     @contact_type = ContactType.new(contact_type_params)
 
     if @contact_type.save
-      flash[:success] = "Cambios guardados correctamente"
+      flash[:success] = success_text
+
       redirect_to contact_types_path
     else
       render 'new'
@@ -19,14 +20,15 @@ class ContactTypesController < ApplicationController
   end
 
   def edit
-    @contact_type = ContactType.find(params[:id])
+    @contact_type = contact_type
   end
 
   def update
-    @contact_type = ContactType.find(params[:id])
+    @contact_type = contact_type
 
     if @contact_type.update(contact_type_params)
-      flash[:success] = "Cambios guardados correctamente"
+      flash[:success] = success_text
+
       redirect_to contact_types_path
     else
       render 'edit'
@@ -34,20 +36,25 @@ class ContactTypesController < ApplicationController
   end
 
   def destroy
-    contact_type = ContactType.find(params[:id])
-
     if contact_type.delete
-      flash[:success] = 'Cambios guardados correctamente'
-      redirect_to contact_types_path
+      flash[:success] = success_text
     else
-      flash[:danger] = 'Error... algo salio mal'
-      redirect_to contact_types_path
+      flash[:danger] = error_text
     end
+
+    redirect_to contact_types_path
   end
 
   private
 
   def contact_type_params
-    params.require(:contact_type).permit(:name, :active)
+    params.require(:contact_type).permit(
+      :name,
+      :active
+    )
+  end
+
+  def contact_type
+    ContactType.find(params[:id])
   end
 end

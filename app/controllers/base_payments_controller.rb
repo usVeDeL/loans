@@ -85,7 +85,7 @@ class BasePaymentsController < ApplicationController
       payment.save!
       LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: loan.id, week: n)
       payment.update_status
-    end    
+    end
 
     loan.update_loan_sums
   end
@@ -93,7 +93,6 @@ class BasePaymentsController < ApplicationController
   def self.update_weekly_payments(loan:, payments:)
     payments.each_with_index do |payment, index|
       n = index + 1
-      # payment_date = (loan.start_date + (n-1).week)
 
       week_payment = loan.weekly_amount
       week_payment = payment&.loan_movement&.amount.to_f if n > 1
@@ -110,10 +109,13 @@ class BasePaymentsController < ApplicationController
       wallet_amout = total if n == 1
       wallet_amout = WeeklyPayment.where(loan_id: loan.id, week: index).last.wallet_amout - week_payment if n > 1
 
+      start_date = loan.start_date
+      start_date = 0 if start_date&.nil?
+
       payment.update!(
         week: n,
         loan_id: loan.id,
-        # payment_date: payment_date,
+        payment_date: (start_date + index.week),
         payment_capital: payment_capital,
         payment_interest: payment_interest,
         week_payment: week_payment,
@@ -123,7 +125,7 @@ class BasePaymentsController < ApplicationController
         percent_capital: percent_capital,
         percent_interest: percent_interest,
       )
-      
+
       payment.update_status
     end
     

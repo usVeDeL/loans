@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   belongs_to :role
+  has_many :logs
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -8,7 +9,7 @@ class User < ApplicationRecord
 
   validates :username, uniqueness: { case_sensitive: false }, presence: true
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
-  
+
   attr_writer :login
 
   def email_required?
