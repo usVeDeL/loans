@@ -1,4 +1,6 @@
 class LoanMovementsController < ApplicationController
+  before_action :is_view_permitted?, only:[:create, :edit, :update, :destroy]
+
   def create
     movements = LoanMovement.where(loan_id: movement_params[:loan_id]).where(movement_type_id: movement_params[:movement_type_id])
     payments = WeeklyPayment.where(loan_id: movement_params[:loan_id])

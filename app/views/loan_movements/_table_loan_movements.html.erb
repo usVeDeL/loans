@@ -18,7 +18,11 @@
           <th><%= c&.week %></th>
           <th><%= number_to_currency(c.amount, precision: 2) %></th>
           <th><%= c.updated_at.strftime('%d/%m/%Y') %></th>
-          <th><%= link_to 'Eliminar', loan_movement_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
+          <th>
+            <% if current_user.role_can_delete_loan_movements %>  
+              <%= link_to 'Eliminar', loan_movement_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>  
+          </th>
         </tr>
       <% end %>
     <% end %>

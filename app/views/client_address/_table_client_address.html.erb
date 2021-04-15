@@ -23,8 +23,16 @@
           <th><%= c.street %></th>
           <th><%= c.number_exterior %></th>
           <th><%= c.number_interior %></th>
-          <th><%= link_to 'Editar', edit_client_address_path(c), remote: true, class:'btn btn-outline-warning', 'data-toggle': "modal", 'data-target': '#editClientAddressModal'%></th>
-          <th><%= link_to 'Eliminar', client_address_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
+          <th>
+            <% if current_user.role_can_edit_client_address %>  
+              <%= link_to 'Editar', edit_client_address_path(c), remote: true, class:'btn btn-outline-warning', 'data-toggle': "modal", 'data-target': '#editClientAddressModal'%>
+            <% end %>
+          </th>
+          <th>
+            <% if current_user.role_can_delete_client_address %>  
+              <%= link_to 'Eliminar', client_address_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>
+          </th>
         </tr>
       <% end %>
     <% end %>

@@ -14,8 +14,16 @@
           <th><%= c.document_type.name %></th>
           <th>
             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#showPersonalDocumentImageModal" data-url="<%= c.document.url %>">Ver</button></th>
-          <th><%= link_to 'Editar', edit_personal_document_path(c), remote: true, class:'btn btn-outline-warning', 'data-toggle': "modal", 'data-target': '#editPersonalDocumentModal'%></th>
-          <th><%= link_to 'Eliminar', personal_document_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
+          <th>
+            <% if current_user.role_can_edit_personal_documents %>    
+              <%= link_to 'Editar', edit_personal_document_path(c), remote: true, class:'btn btn-outline-warning', 'data-toggle': "modal", 'data-target': '#editPersonalDocumentModal'%>
+            <% end %>    
+          </th>
+          <th>
+            <% if current_user.role_can_delete_personal_documents %>    
+              <%= link_to 'Eliminar', personal_document_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>    
+          </th>
         </tr>
       <% end %>
     <% end %>

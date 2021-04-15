@@ -1,0 +1,25 @@
+<div class='container'><br><br><br>
+  <h1 class="text-center">Logs</h1><br><br><br>
+  <div class="table-responsive-lg table-hover">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Descripcion</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @logs.each_with_index do |l, i| %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= "#{l.user_name} #{l.user_last_name}" %></td>
+            <td><%= l.description %></td>
+            <td><%= l.created_at.in_time_zone('Mexico City').strftime('%F %r') %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

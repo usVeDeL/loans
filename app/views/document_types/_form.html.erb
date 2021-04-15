@@ -1,5 +1,7 @@
 <br><br>
-<%= link_to 'Ir al listado', document_types_path, class: 'btn btn-outline-primary' %>
+<% if current_user.role_can_view_document_types %>  
+  <%= link_to 'Ir al listado', document_types_path, class: 'btn btn-outline-primary' %>
+<% end %>
 <div class=" col-md-8 offset-md-2 card">
   <div class="card-body">
     <% if @document_type.errors.any? %>

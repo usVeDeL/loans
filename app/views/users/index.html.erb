@@ -19,10 +19,10 @@
     <tbody>
       <% @users.each do |u| %>
         <tr>
-          <td><%= link_to u.username.capitalize, edit_user_path(u) %></td>
-          <td><%= link_to u.name.capitalize, edit_user_path(u) %></td>
-          <td><%= link_to u.last_name.capitalize, edit_user_path(u) %></td>
-          <td><%= link_to u.mail, edit_user_path(u) %></td>
+          <td><%= u.username.capitalize %></td>
+          <td><%= u.name.capitalize %></td>
+          <td><%= u.last_name.capitalize %></td>
+          <td><%= u.mail %></td>
           <td>
             <% if u.active %>
               <%= fa_icon 'check-circle', class: "fa-2x text-success" %>
@@ -30,8 +30,16 @@
               <%= '' %>
             <% end %>
           </td>
-          <td><%= link_to 'Editar', edit_user_path(u), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', user_path(u), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          <td>
+            <% if current_user.role_can_edit_users %>  
+              <%= link_to 'Editar', edit_user_path(u), class: 'btn  btn-sm btn-outline-warning' %>
+            <% end %>
+          </td>
+          <td>
+            <% if current_user.role_can_delete_users %>  
+              <%= link_to 'Eliminar', user_path(u), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

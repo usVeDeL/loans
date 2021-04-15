@@ -2,7 +2,9 @@
   <br><br><br>
   <h1 class="text-center">Roles</h1>
   <br><br><br>
-  <%= link_to 'Nuevo', new_role_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% if current_user.role_can_create_roles %>  
+    <%= link_to 'Nuevo', new_role_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% end %>
   <br><br>
   <table id="dttb" class="table table-hover dt-responsive nowrap w-100">
     <thead>
@@ -15,9 +17,17 @@
     <tbody>
       <% @roles.each do |r| %>
         <tr>
-          <td><%= link_to r.name.capitalize, edit_role_path(r) %></td>
-          <td><%= link_to 'Editar', edit_role_path(r), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', role_path(r), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          <td><%= r.name.capitalize %></td>
+          <td>
+            <% if current_user.role_can_edit_roles %>  
+              <%= link_to 'Editar', edit_role_path(r), class: 'btn  btn-sm btn-outline-warning' %>
+            <% end %>    
+          </td>
+          <td>
+            <% if current_user.role_can_delete_roles %>  
+              <%= link_to 'Eliminar', role_path(r), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>    
+          </td>
         </tr>
       <% end %>
     </tbody>

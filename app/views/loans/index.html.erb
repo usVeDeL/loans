@@ -2,7 +2,9 @@
   <br><br><br>
   <h1 class="text-center">Préstamos <%= if @filter == 'active' then 'Activos' elsif @filter == 'pending' then 'Pendientes' elsif @filter == 'finished' then 'Finalizados' else @filter end %></h1>
   <br><br><br>
-  <%= link_to 'Nuevo', new_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% if current_user.role_can_create_loans %>  
+    <%= link_to 'Nuevo', new_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% end %>
   <br><br>
   <table id="dttb" class="table table-hover table-responsive dt-responsive nowrap w-100">
     <thead>
@@ -23,14 +25,22 @@
       <% @loans.each do |l| %>
         <tr class="table-<%= statuses[l.status&.to_sym] %>">
           <td><span><%= l.created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l.created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
-          <td><%= link_to l.name.capitalize, edit_loan_path(l) %></td>
+          <td><%= l.name.capitalize %></td>
           <td><%= number_to_currency(l.loan_amount, precision: 2) %></td>
           <td><%= number_to_currency(l.weekly_amount, precision: 2) %></td>
           <td><%= l.start_date&.strftime("%d/%m/%Y") %></td>
           <td><%= l.end_date&.strftime("%d/%m/%Y") %></td>
           <td><%= l.cycle %></td>
-          <td><%= link_to 'Editar', edit_loan_path(l), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', loan_path(l, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          <td>
+            <% if current_user.role_can_edit_loans %>  
+              <%= link_to 'Editar', edit_loan_path(l), class: 'btn  btn-sm btn-outline-warning' %>
+            <% end %>
+          </td>
+          <td>
+            <% if current_user.role_can_delete_loans %>  
+              <%= link_to 'Eliminar', loan_path(l, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

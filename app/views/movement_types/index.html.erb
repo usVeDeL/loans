@@ -2,7 +2,9 @@
   <br><br><br>
   <h1 class="text-center">Tipos de movimientos</h1>
   <br><br><br>
-  <%= link_to 'Nuevo', new_movement_type_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% if current_user.role_can_create_movement_types %>  
+    <%= link_to 'Nuevo', new_movement_type_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% end %>
   <br><br>
   <table id="dttb" class="table table-hover dt-responsive nowrap w-100">
     <thead>
@@ -17,7 +19,7 @@
     <tbody>
       <% @movement_types.each do |movement| %>
         <tr>
-          <td><%= link_to movement.name.capitalize, edit_movement_type_path(movement) %></td>
+          <td><%= movement.name.capitalize %></td>
           <td><%= movement.type %></td>
           <td>
             <% if movement.active %>
@@ -26,8 +28,16 @@
               <%= '' %>
             <% end %>
           </td>
-          <td><%= link_to 'Editar', edit_movement_type_path(movement), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', movement_type_path(movement), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          <td>
+            <% if current_user.role_can_edit_movement_types %>    
+              <%= link_to 'Editar', edit_movement_type_path(movement), class: 'btn  btn-sm btn-outline-warning' %>
+            <% end %>    
+          </td>
+          <td>
+            <% if current_user.role_can_delete_movewment_types %>    
+              <%= link_to 'Eliminar', movement_type_path(movement), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>    
+          </td>
         </tr>
       <% end %>
     </tbody>

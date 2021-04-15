@@ -15,10 +15,18 @@
             <span class="align-middle">Catálagos</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
-            <%= link_to 'Tipos de contactos', contact_types_path, class: 'dropdown-item notify-item' %>
-            <%= link_to 'Tipos de documentos', document_types_path, class: 'dropdown-item notify-item' %>
-            <%= link_to 'Tipos de movimientos', movement_types_path, class: 'dropdown-item notify-item' %>
-            <%= link_to 'Clientes', clients_path, class: 'dropdown-item notify-item' %>
+            <% if current_user.role_can_contact_types %>  
+              <%= link_to 'Tipos de contactos', contact_types_path, class: 'dropdown-item notify-item' %>
+            <% end %>
+            <% if current_user.role_can_document_types %>  
+              <%= link_to 'Tipos de documentos', document_types_path, class: 'dropdown-item notify-item' %>
+            <% end %>
+            <% if current_user.role_can_movement_types %>  
+              <%= link_to 'Tipos de movimientos', movement_types_path, class: 'dropdown-item notify-item' %>
+            <% end %>
+            <% if current_user.role_can_clients %>  
+              <%= link_to 'Clientes', clients_path, class: 'dropdown-item notify-item' %>
+            <% end %>
           </div>
         </li>
         <li class="nav-item  dropdown">
@@ -26,9 +34,15 @@
             <span class="align-middle">Configuración</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
-            <%= link_to 'Usuarios', users_path, class: 'dropdown-item notify-item' %>
-            <%= link_to 'Roles', roles_path, class: 'dropdown-item notify-item' %>
-            <%= link_to 'Contratos', contracts_path, class: 'dropdown-item notify-item' %>
+            <% if current_user.role_can_users %>  
+              <%= link_to 'Usuarios', users_path, class: 'dropdown-item notify-item' %>
+            <% end %>
+            <% if current_user.role_can_roles %>  
+              <%= link_to 'Roles', roles_path, class: 'dropdown-item notify-item' %>
+            <% end %>
+            <% if current_user.role_can_contracts %>  
+              <%= link_to 'Contratos', contracts_path, class: 'dropdown-item notify-item' %>
+            <% end %>
           </div>
         </li>
         <li class="nav-item  dropdown">
@@ -36,10 +50,17 @@
             <span class="align-middle">Préstamos</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
-            <%= link_to 'Prestamos activos', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
-            <%= link_to 'Préstamos finalizados', loans_path(filter: 'finished'), class: 'dropdown-item notify-item' %>
+            <% if current_user.role_can_view_loans %>  
+              <%= link_to 'Prestamos activos', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
+              <%= link_to 'Préstamos finalizados', loans_path(filter: 'finished'), class: 'dropdown-item notify-item' %>
+            <% end %>
           </div>
         </li>
+        <% if current_user.role_name == 'gerencia' %>
+          <li class="nav-item">
+            <%= link_to 'Logs', logs_path, class: 'nav-link' %>
+          </li>
+        <% end %>
         <li class="nav-item  dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span>

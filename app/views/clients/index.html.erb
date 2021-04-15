@@ -3,7 +3,9 @@
   <br><br><br>
   <h1 class="text-center">Clientes</h1>
   <br><br><br>
-  <%= link_to 'Nuevo', new_client_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% if current_user.role_can_create_clients %>  
+    <%= link_to 'Nuevo', new_client_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% end %>
   <br><br>
   <table id="dttb" class="table table-hover dt-responsive nowrap w-100">
     <thead>
@@ -19,12 +21,18 @@
     <tbody>
       <% @clients.each do |c| %>
         <tr>
-          <td><%= link_to c.name&.capitalize, edit_client_path(c) %></td>
-          <td><%= link_to c.last_name&.capitalize, edit_client_path(c) %></td>
-          <td><%= link_to c.mother_last_name&.capitalize, edit_client_path(c) %></td>
-          <td><%= link_to c&.birth_date&.strftime('%d/%m/%Y') %></td>
-          <td><%= link_to 'Editar', edit_client_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', client_path(c), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          <td><%= c.name&.capitalize %></td>
+          <td><%= c.last_name&.capitalize %></td>
+          <td><%= c.mother_last_name&.capitalize %></td>
+          <td><%= c&.birth_date&.strftime('%d/%m/%Y') %></td>
+          <td>
+            <% if current_user.role_can_edit_clients %>
+              <%= link_to 'Editar', edit_client_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
+            <% end %>
+          <td>
+            <% if current_user.role_can_delete_clients %>
+              <%= link_to 'Eliminar', client_path(c), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+            <% end %>
         </tr>
       <% end %>
     </tbody>

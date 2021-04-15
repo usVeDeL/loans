@@ -1,4 +1,6 @@
 class ContactTypesController < ApplicationController
+  before_action :is_view_permitted?, only:[:new, :edit, :index, :destroy]
+  
   def index
     @contact_types = ContactType.all
   end

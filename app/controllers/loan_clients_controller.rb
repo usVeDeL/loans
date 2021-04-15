@@ -1,4 +1,6 @@
 class LoanClientsController < ApplicationController
+  before_action :is_view_permitted?, only:[:create, :destroy]
+
   def create
     loan_client = LoanClient.new(amount: loan_client_params[:amount], client_id: client.id, group_id: 1, loan_id: loan_client_params[:loan_id])
     loan = Loan.find(loan_client_params[:loan_id])

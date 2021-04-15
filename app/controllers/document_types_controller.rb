@@ -1,4 +1,6 @@
 class DocumentTypesController < ApplicationController
+  before_action :is_view_permitted?, only:[:new, :edit, :index, :destroy]
+
   def index
     @document_types = DocumentType.all
   end

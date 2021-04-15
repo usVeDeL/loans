@@ -1,4 +1,14 @@
 class ApplicationController < ActionController::Base
+  ACTIONS_CATALOG = {
+    'new' => 'create',
+    'show' => 'view',
+    'index' => 'view',
+    'edit' => 'edit',
+    'destroy' => 'delete',
+    'create' => 'create',
+    'update' => 'edit'
+  }
+
   before_action :authenticate_user!
   add_flash_types :success, :danger, :warning
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -24,5 +34,14 @@ class ApplicationController < ActionController::Base
       user_id: current_user.id,
       description: text
     )
+  end
+
+  def is_view_permitted?
+    controller = controller_name == 'registrations' ? 'users' : controller_name 
+    
+    return true if current_user.send("role_can_#{ACTIONS_CATALOG[action_name]}_#{controller}")
+
+    flash[:danger] = 'No tienes permisos para realizar esta acción'
+    redirect_to root_path 
   end
 end

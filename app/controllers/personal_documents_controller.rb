@@ -1,4 +1,6 @@
 class PersonalDocumentsController < ApplicationController
+  before_action :is_view_permitted?, only:[:edit, :create, :destroy, :update]
+
   def create
     @personal_document = PersonalDocument.new(personal_documents_params)
     @client = client

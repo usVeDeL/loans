@@ -1,4 +1,6 @@
 class LoansController < ApplicationController
+  before_action :is_view_permitted?, only:[:new, :edit, :index, :destroy]
+  
   def index
     @filter = ''
     @filter = params[:filter] if params.key?(:filter)

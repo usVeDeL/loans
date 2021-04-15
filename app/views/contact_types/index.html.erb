@@ -2,7 +2,9 @@
   <br><br><br>
   <h1 class="text-center">Tipos de contactos</h1>
   <br><br><br>
-  <%= link_to 'Nuevo', new_contact_type_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% if current_user.role_can_create_contact_types %>  
+    <%= link_to 'Nuevo', new_contact_type_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+  <% end %>
   <br><br>
   <table id="dttb" class="table table-hover dt-responsive nowrap w-100">
     <thead>
@@ -16,7 +18,7 @@
     <tbody>
       <% @contact_types.each do |contact| %>
         <tr>
-          <td><%= link_to contact.name.capitalize, edit_contact_type_path(contact) %></td>
+          <td><%= contact.name.capitalize %></td>
           <td>
             <% if contact.active %>
               <%= fa_icon 'check-circle', class: "fa-2x text-success" %>
@@ -24,8 +26,16 @@
               <%= '' %>
             <% end %>
           </td>
-          <td><%= link_to 'Editar', edit_contact_type_path(contact), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <td><%= link_to 'Eliminar', contact_type_path(contact), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %></td>
+          <td>
+            <% if current_user.role_can_edit_contact_types %>  
+              <%= link_to 'Editar', edit_contact_type_path(contact), class: 'btn  btn-sm btn-outline-warning' %>
+            <% end %>
+          </td>
+          <td>
+            <% if current_user.role_can_delete_contact_types %>  
+              <%= link_to 'Eliminar', contact_type_path(contact), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

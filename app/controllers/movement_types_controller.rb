@@ -1,4 +1,6 @@
 class MovementTypesController < ApplicationController
+  before_action :is_view_permitted?, only:[:new, :edit, :index, :destroy]
+  
   def index
     @movement_types = MovementType.all
   end

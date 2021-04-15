@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_10_154805) do
+ActiveRecord::Schema.define(version: 2021_04_13_230727) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "client_addresses", force: :cascade do |t|
@@ -109,7 +110,7 @@ ActiveRecord::Schema.define(version: 2021_04_10_154805) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "address_contract"
     t.string "adviser_name", default: ""
-    t.datetime "disbursement_date", default: "2020-12-10 05:45:48"
+    t.datetime "disbursement_date", default: "2020-12-10 05:53:35"
     t.string "status"
     t.decimal "sum_payment_capital", default: "0.0"
     t.decimal "sum_payment_interest", default: "0.0"
@@ -159,6 +160,66 @@ ActiveRecord::Schema.define(version: 2021_04_10_154805) do
     t.text "profile"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "can_view_client_address", default: true
+    t.boolean "can_delete_client_address", default: false
+    t.boolean "can_edit_client_address", default: false
+    t.boolean "can_create_client_address", default: false
+    t.boolean "can_view_client_contact_types", default: true
+    t.boolean "can_delete_client_contact_types", default: false
+    t.boolean "can_edit_client_contact_types", default: false
+    t.boolean "can_create_client_contact_types", default: false
+    t.boolean "can_view_clients", default: true
+    t.boolean "can_delete_clients", default: false
+    t.boolean "can_edit_clients", default: false
+    t.boolean "can_create_clients", default: false
+    t.boolean "can_view_contact_types", default: true
+    t.boolean "can_delete_contact_types", default: false
+    t.boolean "can_edit_contact_types", default: false
+    t.boolean "can_create_contact_types", default: false
+    t.boolean "can_view_contracts", default: true
+    t.boolean "can_delete_contracts", default: false
+    t.boolean "can_edit_contracts", default: false
+    t.boolean "can_create_contracts", default: false
+    t.boolean "can_view_document_types", default: true
+    t.boolean "can_delete_document_types", default: false
+    t.boolean "can_edit_document_types", default: false
+    t.boolean "can_create_document_types", default: false
+    t.boolean "can_view_loan_clients", default: true
+    t.boolean "can_delete_loan_clients", default: false
+    t.boolean "can_edit_loan_clients", default: false
+    t.boolean "can_create_loan_clients", default: false
+    t.boolean "can_view_loan_movements", default: true
+    t.boolean "can_delete_loan_movements", default: false
+    t.boolean "can_edit_loan_movements", default: false
+    t.boolean "can_create_loan_movements", default: false
+    t.boolean "can_view_loans", default: true
+    t.boolean "can_delete_loans", default: false
+    t.boolean "can_edit_loans", default: false
+    t.boolean "can_create_loans", default: false
+    t.boolean "can_view_movement_types", default: true
+    t.boolean "can_delete_movement_types", default: false
+    t.boolean "can_edit_movement_types", default: false
+    t.boolean "can_create_movement_types", default: false
+    t.boolean "can_view_personal_documents", default: true
+    t.boolean "can_delete_personal_documents", default: false
+    t.boolean "can_edit_personal_documents", default: false
+    t.boolean "can_create_personal_documents", default: false
+    t.boolean "can_view_roles", default: true
+    t.boolean "can_delete_roles", default: false
+    t.boolean "can_edit_roles", default: false
+    t.boolean "can_create_roles", default: false
+    t.boolean "can_view_states", default: true
+    t.boolean "can_delete_states", default: false
+    t.boolean "can_edit_states", default: false
+    t.boolean "can_create_states", default: false
+    t.boolean "can_view_users", default: true
+    t.boolean "can_delete_users", default: false
+    t.boolean "can_edit_users", default: false
+    t.boolean "can_create_users", default: false
+    t.boolean "can_view_weekly_payments", default: true
+    t.boolean "can_delete_weekly_payments", default: false
+    t.boolean "can_edit_weekly_payments", default: false
+    t.boolean "can_create_weekly_payments", default: false
   end
 
   create_table "states", force: :cascade do |t|

@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
+  get 'logs/index'
   post '/send_contact_email', to: 'static_pages#send_contact_email'
   get '/download_contract/:id', to: 'contracts#download_contract'
   get '/download_pagare/:id', to: 'contracts#download_pagare'
   resources :contracts
+  resources :logs, only: [:index]
   resources :loans
   resources :clients
   resources :roles

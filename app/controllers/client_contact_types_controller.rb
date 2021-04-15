@@ -1,4 +1,6 @@
 class ClientContactTypesController < ApplicationController
+  before_action :is_view_permitted?, only:[:edit, :destroy]
+
   def create
     @client_contact_type = ClientContactType.new(client_contact_types_params)
     @client = client

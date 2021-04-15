@@ -18,8 +18,16 @@
           <th><%= c.last_name&.capitalize %></th>
           <th><%= c.mother_last_name&.capitalize %></th>
           <th><%= number_to_currency(loan_client.amount, precision: 2) %></th>
-          <td><%= link_to 'Expediente', edit_client_path(c), class: 'btn  btn-sm btn-outline-warning' %></td>
-          <th><%= link_to 'Quitar', loan_client_path(loan_client), remote: true, class: 'btn btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' } %></th>
+          <td>
+            <% if current_user.role_can_edit_clients %>  
+              <%= link_to 'Expediente', edit_client_path(c), class: 'btn  btn-sm btn-outline-warning' %>
+            <% end %>
+          </td>
+          <th>
+            <% if current_user.role_can_delete_clients %>  
+              <%= link_to 'Quitar', loan_client_path(loan_client), remote: true, class: 'btn btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' } %>
+            <% end %>
+          </th>
         </tr>
       <% end %>
     <% end %>

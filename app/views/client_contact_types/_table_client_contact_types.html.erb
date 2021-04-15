@@ -13,8 +13,16 @@
         <tr>
           <th><%= c.contact_type.name %></th>
           <th><%= c.details %></th>
-          <th><%= link_to 'Editar', edit_client_contact_type_path(c), remote: true, class:'btn btn-outline-warning', 'data-toggle': "modal", 'data-target': '#editClientContactTypeModal'%></th>
-          <th><%= link_to 'Eliminar', client_contact_type_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %></th>
+          <th>    
+            <% if current_user.role_can_edit_client_contact_types %>  
+              <%= link_to 'Editar', edit_client_contact_type_path(c), remote: true, class:'btn btn-outline-warning', 'data-toggle': "modal", 'data-target': '#editClientContactTypeModal'%>
+            <% end %>    
+          </th>
+          <th>
+            <% if current_user.role_can_delete_client_contact_types %>  
+              <%= link_to 'Eliminar', client_contact_type_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>
+          </th>
         </tr>
       <% end %>
     <% end %>

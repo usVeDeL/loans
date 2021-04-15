@@ -63,6 +63,13 @@
         </div>
       </div><br>
 
+      <div class="form-group row">
+        <%= f.label 'Role:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+        <div class="col-sm-10">
+          <%= f.select :role_id, options_for_select(Role.all.map{|c| [c.name.capitalize, c.id]}), class: 'custom-select' %>
+        </div>
+      </div><br>
+
       <div class="row col-md-2 offset-md-10">
         <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
       </div>
