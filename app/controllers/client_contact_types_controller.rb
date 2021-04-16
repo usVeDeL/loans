@@ -67,7 +67,7 @@ class ClientContactTypesController < ApplicationController
   end
 
   def client_contact_types
-    client.client_contact_types
+    client_contact_types
   end
   
   def client

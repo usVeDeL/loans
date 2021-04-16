@@ -37,11 +37,16 @@ class ApplicationController < ActionController::Base
   end
 
   def is_view_permitted?
-    controller = controller_name == 'registrations' ? 'users' : controller_name 
+    begin
+      controller = controller_name == 'registrations' ? 'users' : controller_name 
     
-    return true if current_user.send("role_can_#{ACTIONS_CATALOG[action_name]}_#{controller}")
-
-    flash[:danger] = 'No tienes permisos para realizar esta acción'
-    redirect_to root_path 
+      return true if current_user.send("role_can_#{ACTIONS_CATALOG[action_name]}_#{controller}")
+      
+      flash[:danger] = 'No tienes permisos para realizar esta acción'
+      redirect_to root_path 
+    rescue
+      flash[:danger] = 'No tienes permisos para realizar esta acción'
+      redirect_to root_path 
+    end
   end
 end
