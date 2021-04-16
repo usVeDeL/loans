@@ -1,5 +1,5 @@
 class ClientAddressController < ApplicationController
-  before_action :is_view_permitted?, only:[:create, :edit]
+  # before_action :is_view_permitted?, only:[:create, :edit]
 
   def create
     @client_address = ClientAddress.new(client_addresss_params)

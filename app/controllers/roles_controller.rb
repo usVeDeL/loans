@@ -1,5 +1,5 @@
 class RolesController < ApplicationController
-  before_action :is_view_permitted?, only:[:new, :edit, :index, :destroy]
+  # before_action :is_view_permitted?, only:[:new, :edit, :index, :destroy]
   
   def index
     @roles = Role.all

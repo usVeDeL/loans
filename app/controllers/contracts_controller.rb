@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
   include ActionView::Helpers::NumberHelper
   
-  before_action :is_view_permitted?, only:[:new, :edit, :index, :destroy]
+  # before_action :is_view_permitted?, only:[:new, :edit, :index, :destroy]
 
   MONTHS = {
     'January' => 'Enero',
