@@ -105,7 +105,7 @@ class LoansController < ApplicationController
   end
 
   def loan_table_amortization_update(loan)
-    BasePaymentsController.create_update_amortization_table(loan)
+    BasePaymentsController.new(loan)
     loan.update_status
   end
 

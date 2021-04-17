@@ -1,40 +1,6 @@
 class LoanMovementsController < ApplicationController
   before_action :is_view_permitted?, only:[:create, :edit, :update, :destroy]
 
-  def create
-    movements = LoanMovement.where(loan_id: movement_params[:loan_id]).where(movement_type_id: movement_params[:movement_type_id])
-    payments = WeeklyPayment.where(loan_id: movement_params[:loan_id])
-    payment_week = payments.where('payment_date <= ?', DateTime.now).order('id DESC').first&.week
-    movement = movements.find_by(week: payment_week)
-    @loan = Loan.find(movement_params[:loan_id])
-
-    create_log("Ha sido creado el movimiento con el monto: #{movement_params[:amount]}, semana: #{payment_week} del grupo #{@loan.name}, ciclo #{@loan.cycle}.")
-
-    if movement_params[:movement_type_id] == '2'
-      if movement.update(movement_params)
-        adjust_loan
-        @client_movements = @loan.loan_movements.where('amount > 0')
-        @weekly_payments = @loan.weekly_payments.order('week ASC')
-        @last_weekly_payment = @loan.last_weekly_payment
-
-        respond_to do |format|
-          format.js
-        end
-      else
-        redirect_to edit_client_path(@client)
-      end
-    else
-      LoanMovement.create(movement_params)
-      @client_movements = @loan.loan_movements.where('amount > 0')
-      @weekly_payments = @loan.weekly_payments.order('week ASC')
-      @last_weekly_payment = @loan.last_weekly_payment
-
-      respond_to do |format|
-        format.js
-      end
-    end
-  end
-
   def edit
     payment = WeeklyPayment.find(params[:id])
     @loan_movement = LoanMovement.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last
@@ -53,7 +19,7 @@ class LoanMovementsController < ApplicationController
     if params[:movement_type_id] == '2'
       TransactionsController.new.create(amount: params[:amount], loan_id: params[:loan_id], loan_movement: loan_movement)
       adjust_payment
-      BasePaymentsController.create_update_amortization_table(@loan)
+      BasePaymentsController.new(@loan)
     end
     @weekly_payments = @loan.weekly_payments.order('week ASC')
     @client_movements = @loan.loan_movements.where('amount > 0')
@@ -79,57 +45,71 @@ class LoanMovementsController < ApplicationController
     end
   end
 
-  def adjust_loan
-    loan = Loan.find(movement_params[:loan_id])
-    payments = WeeklyPayment.where(loan_id: movement_params[:loan_id])
-
-    payment_week = payments.where("payment_date <= ?", DateTime.now).order('id DESC').first&.week || 0
-
-    payments.each do |payment|
-      if payment.week >= payment_week
-        week_payment = payment.week_payment 
-        week_payment = movement_params[:amount].to_f if payment.week == payment_week
-        percent_capital = capital_payment_table[payment.week.to_s.to_sym]
-
-        payment_capital = week_payment*(percent_capital.to_f/100.0)
-        payment_capital = 0 if payment.week == 1
-
-        percent_interest = interest_payment_table[payment.week.to_s.to_sym]
-        payment_interest = week_payment*(percent_interest.to_f/100.0)
-
-        balance_capital = payments.find_by(week: (payment.week-1)).balance_capital - payment_capital if payment.week > 1
-        balance_capital = loan.loan_amount - payment_capital if payment.week == 1
-
-        balance_interest = payments.find_by(week: (payment.week-1)).balance_interest - payment_interest if payment.week > 1
-        balance_interest = loan.interest_amount - payment_interest if payment.week == 1
-
-        total = loan.loan_amount + loan.interest_amount
-        wallet_amout = total - week_payment if payment.week == 1
-        wallet_amout = payments.find_by(week: (payment.week-1)).wallet_amout - week_payment if payment.week > 1
-
-        payment.update!(
-          payment_capital: payment_capital,
-          payment_interest: payment_interest,
-          week_payment: week_payment,
-          balance_capital: balance_capital,
-          balance_interest: balance_interest,
-          wallet_amout: wallet_amout,
-          percent_capital: percent_capital,
-          percent_interest: percent_interest,
-        )
-        payment.update_status
-      end
-    end
-
-    loan.update_loan_sums
-  end
-
   def adjust_payment
     loan_movement = LoanMovement.find(params[:id])
 
     if params.key?(:comments)
       loan_movement.update!(comments: params[:comments])
     end
+  end
+
+  def create
+    if movement_params[:movement_type_id] == '2'
+      @loan = loan
+      create_log("Ha sido creado el movimiento con el monto: #{movement_params[:amount]}, semana: #{payment_week} del grupo #{@loan.name}, ciclo #{@loan.cycle}.")
+      if movement_params[:week].to_i > 16
+        create_movement
+        AdjustLoansController.new(loan, movement_params)
+        set_variables
+      else
+        movement = movements.find_by(week: payment_week)
+
+        if movement.update(movement_params)
+          AdjustLoansController.new(loan, movement_params)
+          set_variables
+
+          respond_to do |format|
+            format.js
+          end
+        else
+          redirect_to edit_client_path(@client)
+        end
+      end 
+    else
+      create_movement
+      set_variables
+
+      respond_to do |format|
+        format.js
+      end
+    end
+  end
+
+  def movements
+    LoanMovement.where(loan_id: movement_params[:loan_id]).where(movement_type_id: movement_params[:movement_type_id])
+  end
+  
+  def payments
+    WeeklyPayment.where(loan_id: movement_params[:loan_id])
+  end
+
+  def payment_week
+    payments.where('payment_date <= ?', DateTime.now).order('id DESC').first&.week
+  end
+
+  def loan
+    Loan.find(movement_params[:loan_id])
+  end
+
+  def create_movement
+    LoanMovement.create(movement_params)
+    CreateWeeklyPaymentsController.new(loan).create_weekly_payment(movement_params[:week])
+  end
+
+  def set_variables
+    @client_movements = @loan.loan_movements.where('amount > 0')
+    @weekly_payments = @loan.weekly_payments.order('week ASC')
+    @last_weekly_payment = @loan.last_weekly_payment
   end
 
   private
@@ -139,7 +119,8 @@ class LoanMovementsController < ApplicationController
       :amount, 
       :loan_id, 
       :movement_type_id, 
-      :comments
+      :comments,
+      :week
     )
   end
 
@@ -160,7 +141,8 @@ class LoanMovementsController < ApplicationController
       '13': 8.46,
       '14': 6.42,
       '15': 4.34,
-      '16': 2.21
+      '16': 2.21,
+      '17': 1.10
     }
   end
 
@@ -181,7 +163,8 @@ class LoanMovementsController < ApplicationController
       '13': 91.54,
       '14': 93.58,
       '15': 95.66,
-      '16': 97.79
+      '16': 97.79,
+      '17': 98.90
     }
   end
 end

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # before_action :is_view_permitted?, only:[:edit, :index, :destroy]
+  before_action :is_view_permitted?, only:[:edit, :index, :destroy]
 
   def index
     @users = User.all

@@ -15,7 +15,8 @@ class BasePaymentsController < ApplicationController
     '13': 8.46,
     '14': 6.42,
     '15': 4.34,
-    '16': 2.21
+    '16': 2.21,
+    '17': 1.10
   }
 
   CAPITAL_PAYMENT_TABLE = {
@@ -34,101 +35,67 @@ class BasePaymentsController < ApplicationController
     '13': 91.54,
     '14': 93.58,
     '15': 95.66,
-    '16': 97.79
+    '16': 97.79,
+    '17': 98.90
   }
 
+  def initialize(loan)
+    @loan = loan
 
-  def self.create_update_amortization_table(loan)
-    payments = loan&.weekly_payments&.order('week ASC')
-
-    return self.create_weekly_payments(loan) if payments.blank?
-
-    self.update_weekly_payments(loan: loan, payments: payments)
+    create_update_amortization_table
   end
 
 
-  def self.create_weekly_payments(loan)
-    (1..16).each do |n|
-      next if loan.weekly_payments.where(week: n).count > 0
-
-      week_payment = loan.weekly_amount
-      percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
-      payment_capital = week_payment*(percent_capital.to_f/100.0)
-      payment_capital = 0 if n == 1
-
-      percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
-      payment_interest = week_payment*(percent_interest.to_f/100.0)
-      balance_capital = loan.loan_amount - payment_capital
-      balance_interest = loan.interest_amount - payment_interest
-      total = loan.loan_amount + loan.interest_amount
-      wallet_amout = total if n == 1
-      wallet_amout = WeeklyPayment.where(loan_id: loan.id).last.wallet_amout - week_payment if n > 1
-      start_date = loan.start_date
-      start_date = 0 if start_date&.nil?
+  def create_update_amortization_table
+    return CreateWeeklyPaymentsController.new(@loan).execute if loan_weekly_payments.blank?
 
 
-      payment = WeeklyPayment.create!(
-        week: n,
-        loan_id: loan.id,
-        payment_date: (start_date + (n-1).week),
-        payment_capital: payment_capital,
-        payment_interest: payment_interest,
-        week_payment: week_payment,
-        balance_capital: balance_capital,
-        balance_interest: balance_interest,
-        wallet_amout: wallet_amout,
-        percent_capital: percent_capital,
-        percent_interest: percent_interest,
-      )
-
-
-      payment.save!
-      LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: loan.id, week: n)
-      payment.update_status
-    end
-
-    loan.update_loan_sums
+    UpdateWeeklyPaymentsController.new(@loan).execute 
   end
 
-  def self.update_weekly_payments(loan:, payments:)
-    payments.each_with_index do |payment, index|
-      n = index + 1
+  private
 
-      week_payment = loan.weekly_amount
-      week_payment = payment&.loan_movement&.amount.to_f if n > 1
+  attr_reader :loan
 
-      percent_capital = CAPITAL_PAYMENT_TABLE[n.to_s.to_sym]
-      payment_capital = week_payment*(percent_capital.to_f/100.0)
+  def loan_weekly_payments
+    @loan_weekly_payments ||= loan&.weekly_payments&.order('week ASC')
+  end
 
-      percent_interest = INTEREST_PAYMENT_TABLE[n.to_s.to_sym]
-      payment_interest = week_payment*(percent_interest.to_f/100.0)
-      balance_capital = loan.loan_amount - payment_capital
-      balance_interest = loan.interest_amount - payment_interest
+  def weekly_payment_exist?
+    loan.weekly_payments.where(week: @week).count > 0
+  end
 
-      total = (loan.loan_amount + loan.interest_amount) - week_payment
-      wallet_amout = total if n == 1
-      wallet_amout = WeeklyPayment.where(loan_id: loan.id, week: index).last.wallet_amout - week_payment if n > 1
+  def percent_capital
+    table_week = @week > 16 ? 17 : @week 
 
-      start_date = loan.start_date
-      start_date = 0 if start_date&.nil?
+    CAPITAL_PAYMENT_TABLE[table_week.to_s.to_sym]
+  end
 
-      payment.update!(
-        week: n,
-        loan_id: loan.id,
-        payment_date: (start_date + index.week),
-        payment_capital: payment_capital,
-        payment_interest: payment_interest,
-        week_payment: week_payment,
-        balance_capital: balance_capital,
-        balance_interest: balance_interest,
-        wallet_amout: wallet_amout,
-        percent_capital: percent_capital,
-        percent_interest: percent_interest,
-      )
+  def percent_interest
+    table_week = @week > 16 ? 17 : @week
 
-      payment.update_status
-    end
+    INTEREST_PAYMENT_TABLE[table_week.to_s.to_sym]
+  end
+
+  def payment_interest
+    loan_weekly_amount * ( percent_interest.to_f / 100.0 )
+  end
+
+  def balance_capital
+    loan.loan_amount - payment_capital
+  end
+
+  def balance_interest
+    loan.interest_amount - payment_interest
+  end
+
+  def start_date
+    return 0 if loan.start_date&.nil?
     
-    loan.update_loan_sums
+    loan.start_date
+  end
+
+  def create_loan_movement
+    LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: loan.id, week: @week)
   end
 end

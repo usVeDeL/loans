@@ -13,7 +13,7 @@ class LoanClientsController < ApplicationController
       interest = (weekly_amount * 16) - amount
       warranty = amount * 0.1
       loan.update!(loan_amount: amount, interest_amount: interest, weekly_amount: weekly_amount, warranty: warranty)
-      BasePaymentsController.create_update_amortization_table(loan)
+      BasePaymentsController.new(loan)
       @loan = loan
       @loan.update_status
       @clients = @loan.clients
@@ -40,7 +40,7 @@ class LoanClientsController < ApplicationController
       interest = (weekly_amount * 16) - amount
       warranty = amount * 0.1
       loan.update!(loan_amount: amount, interest_amount: interest, weekly_amount: weekly_amount, warranty: warranty)
-      BasePaymentsController.create_update_amortization_table(loan)
+      BasePaymentsController.new(loan)
 
       @loan = loan
       @loan.update_status

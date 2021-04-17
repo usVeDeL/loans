@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-  # before_action :is_view_permitted?, only:[:new, :edit, :index]
+  before_action :is_view_permitted?, only:[:new, :edit, :index]
 
   def index
     @clients = Client.all
