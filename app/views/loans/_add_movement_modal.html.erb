@@ -18,8 +18,7 @@
           <div class="form-group row" id="form-group-week">
             <%= f.label 'Semana:', class: 'col-sm-2 col-form-label font-weight-bold' %>
             <div class="col-sm-10">
-              <%= f.select :week, options_for_select((1..25).to_a - Loan.find(563).loan_movements.filter_map{|w| w.week if w.amount.to_f >
-0.0  }.sort), class: 'custom-select' %>
+              <%= f.select :week, options_for_select(avaiable_movements), class: 'custom-select' %>
             </div>
           </div><br>
           <div class="form-group row">

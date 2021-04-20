@@ -59,7 +59,7 @@
   <%= render partial: 'loan_movements/modal_pay_loan', locals: { last_weekly_payment: @last_weekly_payment, loan: @loan } %>
 </div>
 
-<%= render partial: 'loans/add_movement_modal', locals: { loan: @loan } %>
+<%= render partial: 'loans/add_movement_modal', locals: { loan: @loan, avaiable_movements: @avaiable_movements } %>
 <%= render partial: 'loans/search_client_modal', locals: { clients: @clients } %>
 <%= render partial: 'loans/add_client_modal' %>
 <%= render partial: 'loans/add_amount_client_loan_modal', locals: { loan: @loan } %>
