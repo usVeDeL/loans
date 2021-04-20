@@ -64,7 +64,12 @@ class LoanMovementsController < ApplicationController
       else
         movement = movements.find_by(week: payment_week)
 
-        if movement.update(movement_params)
+        if movement.update(
+          amount: movement_params[:amount], 
+          loan_id: movement_params[:loan_id], 
+          movement_type_id: movement_params[:movement_type_id], 
+          comments: movement_params[:comments]
+        )
           AdjustLoansController.new(loan, movement_params)
           set_variables
 
