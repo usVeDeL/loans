@@ -8,8 +8,6 @@ class CreateWeeklyPaymentsController < BasePaymentsController
   end
 
   def create_weekly_payment(week)
-    @week = week.to_i
-
     WeeklyPayment.create!(
       week: @week,
       loan_id: loan.id,
@@ -31,9 +29,11 @@ class CreateWeeklyPaymentsController < BasePaymentsController
 
   def create_weekly_payments
     (1..16).each do |index|
+      @week = index
+
       next if weekly_payment_exist?
 
-      payment = create_weekly_payment(index)
+      payment = create_weekly_payment(@week)
 
       create_loan_movement
       
