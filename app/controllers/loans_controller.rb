@@ -36,7 +36,7 @@ class LoansController < ApplicationController
     @weekly_payments = weekly_payments
     @client_movements = @loan.loan_movements.where('amount > 0')
     @last_weekly_payment = last_weekly_payment
-    @avaiable_movements = (1..25).to_a - @loan.loan_movements.filter_map{|w| w.week if w.amount.to_f >
+    @avaiable_movements = (1..(@weekly_payments.last.week+1)).to_a - @loan.loan_movements.filter_map{|w| w.week if w.amount.to_f >
       0.0  }.sort
   end
 

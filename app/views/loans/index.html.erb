@@ -6,7 +6,7 @@
     <%= link_to 'Nuevo', new_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
   <% end %>
   <br><br>
-  <table id="dttb" class="table table-hover table-responsive dt-responsive nowrap w-100">
+  <table id="dttb" class="table table-hover table-sm w-100">
     <thead>
       <tr>
         <th>Fecha</th>
@@ -24,13 +24,41 @@
       <% statuses = { paid: 'success', current: 'warning', not_paid: 'danger' } %>
       <% @loans.each do |l| %>
         <tr class="table-<%= statuses[l.status&.to_sym] %>">
-          <td><span><%= l.created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l.created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></td>
-          <td><%= l.name.capitalize %></td>
-          <td><%= number_to_currency(l.loan_amount, precision: 2) %></td>
-          <td><%= number_to_currency(l.weekly_amount, precision: 2) %></td>
-          <td><%= l.start_date&.strftime("%d/%m/%Y") %></td>
-          <td><%= l.end_date&.strftime("%d/%m/%Y") %></td>
-          <td><%= l.cycle %></td>
+            <td>
+              <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+                <small><span><%= l.created_at&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l.created_at&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y %r") %></small>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+                <%= l.name.capitalize %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+                <%= number_to_currency(l.loan_amount, precision: 2) %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+                <%= number_to_currency(l.weekly_amount, precision: 2) %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+                <%= l.start_date&.strftime("%d/%m/%Y") %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+                <%= l.end_date&.strftime("%d/%m/%Y") %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+                <%= l.cycle %>
+              <% end %>
+            </td>
           <td>
             <% if current_user.role_can_edit_loans %>  
               <%= link_to 'Editar', edit_loan_path(l), class: 'btn  btn-sm btn-outline-warning' %>
@@ -51,6 +79,7 @@
   #dttb span {
     display:none; 
 }
+
 </style>
 
 <script>
