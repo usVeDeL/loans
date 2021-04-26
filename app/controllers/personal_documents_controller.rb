@@ -8,8 +8,10 @@ class PersonalDocumentsController < ApplicationController
 
     if @personal_document.save
       create_log(
-        "Se ha creado documentos #{@personal_document.name} para el client: #{@client.name} #{@client.last_name} #{@client.mother_last_name}."
+        "Se ha creado documentos para el client: #{@client.name} #{@client.last_name} #{@client.mother_last_name}."
       )
+
+      flash[:success] = success_text
     end
 
     redirect_to edit_client_path(@client)
@@ -19,10 +21,6 @@ class PersonalDocumentsController < ApplicationController
     @personal_document = personal_document
     @client = @personal_document.client
 
-    respond_to do |format|
-      format.js
-      format.html
-    end
   end
 
   def update
@@ -32,10 +30,8 @@ class PersonalDocumentsController < ApplicationController
 
     if @personal_document.update(personal_documents_params)
       create_log(
-        "Se ha actualizado documentos #{@personal_document.name} para el client: #{@client.name} #{@client.last_name} #{@client.mother_last_name}."
+        "Se ha actualizado documentos  para el client: #{@client.name} #{@client.last_name} #{@client.mother_last_name}."
       )
-
-      flash[:success] = success_text
 
       respond_to do |format|
         format.js
@@ -47,18 +43,17 @@ class PersonalDocumentsController < ApplicationController
   end
 
   def destroy
-    @client = client
-    @personal_documents = personal_documents
+    @personal_document = personal_document
+    @client =  Client.find(personal_document.client_id)
 
     create_log(
       "Se ha eliminado documentos para el client: #{@client.name} #{@client.last_name} #{@client.mother_last_name}."
     )
 
     if personal_document.delete
-      respond_to do |format|
-        format.js
-        format.html
-      end
+      flash[:success] = success_text
+
+      redirect_to controller: 'clients', action: 'edit', id: @client.id 
     else
       redirect_to edit_client_path(client)
     end
@@ -79,8 +74,7 @@ class PersonalDocumentsController < ApplicationController
   end
 
   def client
-    Client.find(personal_documents_params[:client_id]) ||
-      Client.find(personal_document.client_id)
+    Client.find(personal_documents_params[:client_id])
   end
 
   def personal_documents
