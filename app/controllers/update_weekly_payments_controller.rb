@@ -15,7 +15,7 @@ class UpdateWeeklyPaymentsController < BasePaymentsController
     loan_weekly_payments.each_with_index do |payment, index|
       @week = index + 1
       @payment = payment
-
+      # binding.pry
       @payment.update!(
         week: @week,
         loan_id: loan.id,
@@ -52,7 +52,7 @@ class UpdateWeeklyPaymentsController < BasePaymentsController
 
   def wallet_amount
     return total if @week == 1
-    
-    WeeklyPayment.where(loan_id: loan.id, week: @week).last.wallet_amout - loan_weekly_amount 
+
+    last_weekly_payment.wallet_amout - loan_weekly_amount
   end
 end

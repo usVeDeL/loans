@@ -82,11 +82,15 @@ class BasePaymentsController < ApplicationController
   end
 
   def balance_capital
-    loan.loan_amount - payment_capital
+    return loan.loan_amount - payment_capital if @week == 1
+
+    last_weekly_payment.balance_capital - payment_capital
   end
 
   def balance_interest
-    loan.interest_amount - payment_interest
+    return loan.interest_amount - payment_interest if @week == 1
+
+    last_weekly_payment.balance_interest - payment_interest
   end
 
   def start_date
@@ -97,5 +101,9 @@ class BasePaymentsController < ApplicationController
 
   def create_loan_movement
     LoanMovement.create!(movement_type_id: 2, amount: 0.0,loan_id: loan.id, week: @week)
+  end
+
+  def last_weekly_payment
+    WeeklyPayment.where(loan_id: loan.id, week: @week-1).last
   end
 end
