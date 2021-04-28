@@ -18,6 +18,8 @@ class Loan < ApplicationRecord
     current: 'current'
   }
 
+  validates :name, uniqueness: {message: 'Ya existe un grupo con este nombre', case_sensitive: false }
+
   def self.index(filter=nil)
     case filter
     when :active

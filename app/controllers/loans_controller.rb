@@ -24,7 +24,7 @@ class LoansController < ApplicationController
 
       redirect_to edit_loan_path @loan
     else
-      flash[:danger] = @loan.errors.full_messages.map{ |e| errors_map[e] }.join(', ')
+      flash[:danger] = @loan.errors.full_messages.map{ |e| errors_map[e] || errors_map.values }.join(', ')
 
       render 'new'
     end
