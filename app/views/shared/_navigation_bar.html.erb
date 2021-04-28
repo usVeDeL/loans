@@ -53,7 +53,7 @@
             <% if current_user.role_can_view_loans %>  
               <%= link_to 'Prestamos activos', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
               <%= link_to 'Préstamos finalizados', loans_path(filter: 'finished'), class: 'dropdown-item notify-item' %>
-              <%= link_to 'Prestamos nuevos', loan_reports_recents_path, class: 'dropdown-item notify-item' %>
+              <%= link_to 'Prestamos por mes', loan_reports_recents_path, class: 'dropdown-item notify-item' %>
               <%= link_to 'Renovaciones', loan_reports_extensions_path, class: 'dropdown-item notify-item' %>
             <% end %>
           </div>
