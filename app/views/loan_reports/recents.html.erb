@@ -1,0 +1,18 @@
+<div class="container">
+<br><br><br>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Selecciona un mes
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% @last_six_months.each do |m| %>
+        <%= link_to m[0], { controller: 'loan_reports', action: 'recents', month: m[1]}, class: 'dropdown-item' %>
+      <% end %>
+    </div>
+  </div>
+  <br><br><br>
+  <h1 class="text-center">Préstamos de <%= @month_name %></h1>
+  
+  <br><br>
+  <%= render partial: 'loan_reports/table_loans', locals: { loans: @loans } %>
+</div>

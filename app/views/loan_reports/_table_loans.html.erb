@@ -1,12 +1,4 @@
-<div class="container">
-  <br><br><br>
-  <h1 class="text-center">Préstamos <%= if @filter == 'active' then 'Activos' elsif @filter == 'pending' then 'Pendientes' elsif @filter == 'finished' then 'Finalizados' else @filter end %></h1>
-  <br><br><br>
-  <% if current_user.role_can_create_loans %>  
-    <%= link_to 'Nuevo', new_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
-  <% end %>
-  <br><br>
-  <table id="dttb" class="table table-hover table-sm w-100">
+<table id="dttb" class="table table-hover table-sm w-100">
     <thead>
       <tr>
         <th>Fecha desembolso</th>
@@ -16,13 +8,11 @@
         <th>Inicio</th>
         <th>Finaliza</th>
         <th>Ciclo</th>
-        <th>Editar</th>
-        <th>Eliminar</th>
       </tr>
     </thead>
     <tbody>
       <% statuses = { paid: 'success', pending_pay: 'secondary', pending_accept: 'warning', not_paid: 'danger' } %>
-      <% @loans.each do |l| %>
+      <% loans.each do |l| %>
         <tr class="table-<%= statuses[l.status&.to_sym] %>">
           <td>
             <%= link_to edit_loan_path(l), class: 'nav-link' do %>
@@ -59,21 +49,21 @@
               <%= l.cycle %>
             <% end %>
           </td>
-          <td>
-            <% if current_user.role_can_edit_loans %>  
-              <%= link_to 'Editar', edit_loan_path(l), class: 'btn  btn-sm btn-outline-warning' %>
-            <% end %>
-          </td>
-          <td>
-            <% if current_user.role_can_delete_loans %>  
-              <%= link_to 'Eliminar', loan_path(l, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
-            <% end %>
-          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-</div>
+
+
+
+
+
+
+
+
+
+
+
 
 <style>
   #dttb span {

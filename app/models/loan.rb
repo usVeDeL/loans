@@ -13,12 +13,13 @@ class Loan < ApplicationRecord
   scope :finished, -> { where(state_id: 3).order_desc }
 
   enum status: {
+    pending_accept: 'pending_accept',
+    pending_pay: 'pending_pay',
     paid: 'paid',
-    not_paid: 'not_paid',
-    current: 'current'
+    not_paid: 'not_paid'
   }
 
-  validates :name, uniqueness: {message: 'Ya existe un grupo con este nombre', case_sensitive: false }
+  validates :name, uniqueness: { scope: :cycle, message: 'Ya existe un grupo con este nombre', case_sensitive: false }
 
   def self.index(filter=nil)
     case filter
@@ -43,8 +44,8 @@ class Loan < ApplicationRecord
     loans
   end
 
-  def pending_last_payment_bool
-    movements_before_today.where('week < ?', payments_last_week).where('amount < ?', payments_before_today.last&.week_payment).count == 0 && movements_before_today.last&.amount.to_f < payments_before_today.last&.week_payment.to_f
+  def pending_payment
+    payments_before_today.where(status: 'danger').count > 0 && DateTime.now.between?(self.start_date, self.end_date)
   end
 
   def last_payment_bool
@@ -80,17 +81,19 @@ class Loan < ApplicationRecord
   end
   
   def update_status
-    status = if self.movements_sum >= self.payments_sum 
+    status = if self.state.name == 'pending'
+      :pending_accept
+    elsif self.pending_payment == true
+      :pending_pay
+    elsif self.movements_sum >= self.payments_sum 
       :paid 
-    elsif self.pending_last_payment_bool
-      :current
-    elsif self.last_payment_bool == true
-      :not_paid 
-    else 
+    elsif self.not_paid_past_due_date == true
       :not_paid
     end
     
     self.update(status: status)
+
+    status
   end
 
   def update_loan_sums
@@ -123,5 +126,9 @@ class Loan < ApplicationRecord
     end
     
     last_payment&.wallet_amout - (self.loan_amount.to_f/10)
+  end
+
+  def not_paid_past_due_date
+    DateTime.now > self.end_date && self.movements_sum < self.payments_sum 
   end
 end

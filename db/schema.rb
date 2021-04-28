@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_13_230727) do
+ActiveRecord::Schema.define(version: 2021_04_28_202703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2021_04_13_230727) do
     t.decimal "sum_payment_capital", default: "0.0"
     t.decimal "sum_payment_interest", default: "0.0"
     t.decimal "sum_week_payment", default: "0.0"
+    t.index ["name", "cycle"], name: "index_loans_on_name_and_cycle", unique: true
   end
 
   create_table "logs", force: :cascade do |t|

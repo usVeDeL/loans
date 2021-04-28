@@ -15,7 +15,7 @@ class UpdateWeeklyPaymentsController < BasePaymentsController
     loan_weekly_payments.each_with_index do |payment, index|
       @week = index + 1
       @payment = payment
-      # binding.pry
+
       @payment.update!(
         week: @week,
         loan_id: loan.id,

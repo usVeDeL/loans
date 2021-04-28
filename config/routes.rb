@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'loan_reports/recents', to: 'loan_reports#recents'
+  get 'loan_reports/extensions', to: 'loan_reports#extensions'
   get 'logs/index'
   post '/send_contact_email', to: 'static_pages#send_contact_email'
   get '/download_contract/:id', to: 'contracts#download_contract'
