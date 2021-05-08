@@ -10,6 +10,25 @@ class StaticPagesController < ApplicationController
   end
 
   def send_contact_email
+    unless params[:name].present?
+      flash[:danger] = 'El nombre no puede ir vacio'
+
+      return render 'static_pages/home'
+    end
+    
+    unless params[:email].present?
+
+      flash[:danger] = 'El correo electrónico es inválido'
+
+      return render 'static_pages/home'
+    end
+    
+    unless params[:email].match?(URI::MailTo::EMAIL_REGEXP)
+      flash[:danger] = 'El correo electrónico es inválido'
+
+      return render 'static_pages/home'
+    end
+
     if StaticPagesMailer.send_contact_email(
       name: params[:name],
       email: params[:email],
