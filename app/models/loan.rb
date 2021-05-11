@@ -89,6 +89,8 @@ class Loan < ApplicationRecord
       :paid 
     elsif self.not_paid_past_due_date == true
       :not_paid
+    else
+      :paid
     end
     
     self.update(status: status)
