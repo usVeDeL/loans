@@ -33,6 +33,19 @@ class LoanReportsController < ApplicationController
     }
   end
 
+  def client_loans
+    clients = Client.includes(:loans).order('id ASC')
+    @clients = []
+    clients.each do |c|
+      @clients << {
+        id: c.id,
+        full_name: "#{c.name} #{c.last_name} #{c.mother_last_name}",
+        birth_date: c.birth_date,
+        groups: c.loans.map(&:name).uniq.join(', ')
+      }
+    end
+  end
+
   private
 
   def last_six_months
