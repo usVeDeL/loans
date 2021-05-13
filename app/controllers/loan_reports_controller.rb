@@ -57,7 +57,7 @@ class LoanReportsController < ApplicationController
     month = params[:month].to_date if params.key?(:month) 
     @month_name = "#{MONTHS[month.to_date.strftime('%m')]}-#{month.to_date.strftime('%Y')}"
 
-    Loan.where(cycle: 1).where(disbursement_date: month..month.end_of_month).order('disbursement_date DESC')
+    Loan.where(cycle: 1).where(disbursement_date: month..month.end_of_month.end_of_day).order('disbursement_date DESC')
   end
 
   def loans_extensions
@@ -65,6 +65,6 @@ class LoanReportsController < ApplicationController
     month = params[:month].to_date if params.key?(:month) 
     @month_name = "#{MONTHS[month.to_date.strftime('%m')]}-#{month.to_date.strftime('%Y')}"
 
-    Loan.where('cycle > 1').where(disbursement_date: month..month.end_of_month).order('disbursement_date DESC')
+    Loan.where('cycle > 1').where(disbursement_date: month..month.end_of_month.end_of_day).order('disbursement_date DESC')
   end
 end

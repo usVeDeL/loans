@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <% if @client_movements %>
-      <% @client_movements.order("created_at DESC").each do |c| %>
+      <% @client_movements.order("week DESC").each do |c| %>
         <tr>
           <th><%= c.movement_type.name %></th>
           <th><%= c.comments %></th>
@@ -28,3 +28,5 @@
     <% end %>
   </tbody>
 </table>
+
+
