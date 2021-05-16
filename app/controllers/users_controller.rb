@@ -12,9 +12,9 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     @user.reset_password_token = 'temp'
-    create_log("Se ha actualizado el usuario: #{@user.name}.")
 
     if @user.update(user_params)
+      create_log("Se ha actualizado el usuario: #{@user.name}., con los soguiente parametros #{user_params}")
       flash[:success] = success_text
 
       redirect_to users_path

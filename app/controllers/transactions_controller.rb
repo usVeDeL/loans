@@ -15,6 +15,8 @@ class TransactionsController < ApplicationController
       
       transaction.save!
     end
+
+    create_log("Se ha creado la siguiente transaccion: #{transaction.inspect}.")
   end
 
   private

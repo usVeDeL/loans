@@ -78,6 +78,6 @@ class LoanClientsController < ApplicationController
     .where(name: loan_client_params[:name])
     .where(last_name: loan_client_params[:last_name])
     .where(mother_last_name: loan_client_params[:mother_last_name])
-    .where(birth_date: loan_client_params[:birth_date]).last || Client.last
+    .where(birth_date: loan_client_params[:birth_date]).last
   end
 end
