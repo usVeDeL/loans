@@ -15,16 +15,16 @@
             <span class="align-middle">Catálagos</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
-            <% if current_user&.role_can_view_contact_types %>  
+            <% if current_user&.can_view_contact_types %>  
               <%= link_to 'Tipos de contactos', contact_types_path, class: 'dropdown-item notify-item' %>
             <% end %>
-            <% if current_user&.role_can_view_document_types %>  
+            <% if current_user&.can_view_document_types %>  
               <%= link_to 'Tipos de documentos', document_types_path, class: 'dropdown-item notify-item' %>
             <% end %>
-            <% if current_user&.role_can_view_movement_types %>  
+            <% if current_user&.can_view_movement_types %>  
               <%= link_to 'Tipos de movimientos', movement_types_path, class: 'dropdown-item notify-item' %>
             <% end %>
-            <% if current_user&.role_can_view_clients %>  
+            <% if current_user&.can_view_clients %>  
               <%= link_to 'Clientes', clients_path, class: 'dropdown-item notify-item' %>
             <% end %>
           </div>
@@ -34,13 +34,13 @@
             <span class="align-middle">Configuración</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
-            <% if current_user&.role_can_view_users %>  
+            <% if current_user&.can_view_users %>  
               <%= link_to 'Usuarios', users_path, class: 'dropdown-item notify-item' %>
             <% end %>
-            <% if current_user&.role_can_view_roles %>  
+            <% if current_user&.can_view_roles %>  
               <%= link_to 'Roles', roles_path, class: 'dropdown-item notify-item' %>
             <% end %>
-            <% if current_user&.role_can_view_contracts %>  
+            <% if current_user&.can_view_contracts %>  
               <%= link_to 'Contratos', contracts_path, class: 'dropdown-item notify-item' %>
             <% end %>
           </div>

@@ -1,5 +1,5 @@
 <br><br>
-<% if current_user.role_can_view_contact_types %>  
+<% if current_user.can_view_contact_types %>  
   <%= link_to 'Ir al listado', contact_types_path, class: 'btn btn-outline-primary' %>
 <% end %>
 <div class=" col-md-8 offset-md-2 card">
