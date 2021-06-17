@@ -114,8 +114,8 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'conexiones.app',
-    user_name:            'ferb@losinfiltrados.com',
-    password:             '16cb9807',
+    user_name:            'sistemas@vedel.com.mx',
+    password:             'tito0610',
     authentication:       'plain',
     enable_starttls_auto: true }
 end
