@@ -51,13 +51,15 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated topbar-dropdown-menu" aria-labelledby="topbar-languagedrop">
             <% if current_user.role_can_view_loans %>  
-              <%= link_to 'Prestamos activos', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
-              <%= link_to 'Préstamos finalizados', loans_path(filter: 'finished'), class: 'dropdown-item notify-item' %>
-              <%= link_to 'Prestamos nuevos', loan_reports_recents_path, class: 'dropdown-item notify-item' %>
+              <%= link_to 'Activos', loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
+              <%= link_to 'Finalizados', loans_path(filter: 'finished'), class: 'dropdown-item notify-item' %>
+              <%= link_to 'Nuevos', loan_reports_recents_path, class: 'dropdown-item notify-item' %>
               <%= link_to 'Renovaciones', loan_reports_extensions_path, class: 'dropdown-item notify-item' %>
-              <%= link_to 'Clientes y sus grupos', loan_reports_clients_path, class: 'dropdown-item notify-item' %>
             <% end %>
           </div>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Clientes y sus grupos', loan_reports_clients_path, class: 'nav-link' %>
         </li>
         <% if current_user.role_name == 'gerencia' %>
           <li class="nav-item">

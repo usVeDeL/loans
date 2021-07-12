@@ -16,7 +16,7 @@
       <% loans.each_with_index do |l, i| %>
         <tr class="table-<%= statuses[l.status&.to_sym] %>">
           <td>
-            <%= i + 1 %>
+            <%= i.to_i + 1 %>
           </td>
           <td>
             <%= link_to edit_loan_path(l), class: 'nav-link' do %>
@@ -95,7 +95,6 @@
     $("#dttb").dataTable({
         dom: 'Bfrtip',
         paging: false,
-        order: [[ 0, "asc" ]],
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ],
