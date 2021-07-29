@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :personal_group_loans
+  resources :loan_movement_personal_groups
   get 'loan_reports/recents', to: 'loan_reports#recents'
   get 'loan_reports/interests_montly', to: 'loan_reports#interests_montly'
   get 'loan_reports/extensions', to: 'loan_reports#extensions'
@@ -7,6 +9,10 @@ Rails.application.routes.draw do
   post '/send_contact_email', to: 'static_pages#send_contact_email'
   get '/download_contract/:id', to: 'contracts#download_contract'
   get '/download_pagare/:id', to: 'contracts#download_pagare'
+
+  get '/download_personal_group_contract/:id', to: 'contracts#download_personal_group_contract'
+  get '/download_personal_group_pagare/:id', to: 'contracts#download_personal_group_pagare'
+
   resources :contracts
   resources :logs, only: [:index]
   resources :loans

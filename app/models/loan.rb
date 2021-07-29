@@ -19,6 +19,12 @@ class Loan < ApplicationRecord
     not_paid: 'not_paid'
   }
 
+  enum type: {
+    team: 'team',
+    personal: 'personal',
+    personal_group: 'personal_group'
+  }
+
   validates :name, uniqueness: { scope: :cycle, message: 'Ya existe un grupo con este nombre', case_sensitive: false }
 
   def self.index(filter=nil)

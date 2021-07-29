@@ -1,0 +1,32 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Tipo de movimiento</th>
+      <th scope="col">Comentarios</th>
+      <th scope="col">Periodo</th>
+      <th scope="col">Monto</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Quitar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if movements %>
+      <% movements.order("period DESC").each do |c| %>
+        <tr>
+          <th><%= c.movement_type.name %></th>
+          <th><%= c.comments %></th>
+          <th><%= c&.period %></th>
+          <th><%= number_to_currency(c.amount, precision: 2) %></th>
+          <th><%= c.updated_at.strftime('%d/%m/%Y') %></th>
+          <th>
+            <% if current_user.role_can_delete_loan_movements %>  
+              <%= link_to 'Eliminar', loan_movement_personal_group_path(c), class: 'btn btn-sm btn-outline-danger', remote:true, method: :delete, data: { confirm: 'Estás seguro?' }  %>
+            <% end %>  
+          </th>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+

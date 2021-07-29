@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_28_202703) do
+ActiveRecord::Schema.define(version: 2021_07_24_062557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -84,6 +84,16 @@ ActiveRecord::Schema.define(version: 2021_04_28_202703) do
     t.integer "loan_id"
   end
 
+  create_table "loan_movement_personal_groups", force: :cascade do |t|
+    t.string "movement_type_id", null: false
+    t.decimal "amount", precision: 14, scale: 2, null: false
+    t.integer "personal_group_loan_id"
+    t.integer "period"
+    t.string "comments"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "loan_movements", force: :cascade do |t|
     t.integer "movement_type_id"
     t.float "amount"
@@ -115,6 +125,9 @@ ActiveRecord::Schema.define(version: 2021_04_28_202703) do
     t.decimal "sum_payment_capital", default: "0.0"
     t.decimal "sum_payment_interest", default: "0.0"
     t.decimal "sum_week_payment", default: "0.0"
+    t.string "type", default: "", null: false
+    t.integer "payments_number", default: 16, null: false
+    t.string "frecuency", default: "weekly", null: false
     t.index ["name", "cycle"], name: "index_loans_on_name_and_cycle", unique: true
   end
 
@@ -133,12 +146,52 @@ ActiveRecord::Schema.define(version: 2021_04_28_202703) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "payment_personal_groups", force: :cascade do |t|
+    t.integer "period"
+    t.integer "personal_group_loan_id"
+    t.datetime "payment_date"
+    t.decimal "capital_amount", precision: 14, scale: 2
+    t.decimal "interest_amount", precision: 14, scale: 2
+    t.decimal "period_amount", precision: 14, scale: 2
+    t.decimal "balance_capital", precision: 14, scale: 2
+    t.decimal "balance_interest", precision: 14, scale: 2
+    t.decimal "wallet_amount", precision: 14, scale: 2
+    t.decimal "percent_capital", precision: 14, scale: 2
+    t.decimal "percent_interest", precision: 14, scale: 2
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "personal_documents", force: :cascade do |t|
     t.integer "client_id"
     t.integer "document_type_id"
     t.string "document"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "personal_group_loans", force: :cascade do |t|
+    t.integer "client_id", null: false
+    t.decimal "amount", precision: 14, scale: 2, null: false
+    t.decimal "interest_percent", precision: 14, scale: 2, null: false
+    t.decimal "interest_monthly", precision: 14, scale: 2, null: false
+    t.decimal "capital_amount", precision: 14, scale: 2, null: false
+    t.decimal "payment_amount", precision: 14, scale: 2, null: false
+    t.decimal "sum_interest", precision: 14, scale: 2
+    t.decimal "sum_capital", precision: 14, scale: 2
+    t.decimal "sum_payment_amount", precision: 14, scale: 2
+    t.integer "payments_number", null: false
+    t.string "frecuency", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.string "adviser_name"
+    t.datetime "disbursement_date"
+    t.string "address_contract"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "state_id", default: 1, null: false
   end
 
   create_table "roles", force: :cascade do |t|

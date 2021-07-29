@@ -47,8 +47,6 @@ class ContractsController < ApplicationController
   def update
     @contract = contract
 
-    create_log("Se ha actualizado el contrato de nombre: #{@contract.name}.")
-
     if @contract.update(contract_params)
       flash[:success] = success_text
 
@@ -69,11 +67,21 @@ class ContractsController < ApplicationController
   end
 
   def download_contract
-    download_document('contract', contract('contrato'))
+    download_document('contract', Contract.find(1).content_text)
   end
 
   def download_pagare
-    download_document('pagare', contract('pagare'))
+    download_document('pagare', Contract.find(2).content_text)
+  end
+
+  def download_personal_group_contract
+    document = Service::Contract::PersonalGroup.new(personal_group_loan, contract_by_name).execute
+    download_document_2('contract', document)
+  end
+
+  def download_personal_group_pagare
+    document = Service::Pagare::PersonalGroup.new(personal_group_loan, contract_by_name).execute
+    download_document_2('pagare', document)
   end
 
   private
@@ -151,8 +159,12 @@ class ContractsController < ApplicationController
     @contract_text.gsub!(key, value)
   end
 
-  def contract(type)
-    Contract.find_by(name: type).content_text
+  def contract
+    Contract.find(params[:id])
+  end
+
+  def contract_by_name
+    Contract.find_by(name: params[:name]).content_text
   end
 
   def contract_params
@@ -187,8 +199,32 @@ class ContractsController < ApplicationController
     end
   end
 
+  def download_document_2(type, document)
+    @loan = loan
+    respond_to do |format|
+      format.html
+      format.pdf do
+        @contract = document
+        render pdf: "#{type}.pdf",
+        template: "contracts/download_#{type}.html.erb",
+        layout: "download_#{type}.html.erb",
+        page_size: 'A4',
+        encoding: 'UTF-8',
+        margin: {
+          top: 20,
+          left: 20,
+          right: 20
+        }
+      end
+    end
+  end
+
   def loan
     Loan.find params[:id]
+  end
+
+  def personal_group_loan
+    PersonalGroupLoan.find params[:id]
   end
 
   def print_document(type, contract)

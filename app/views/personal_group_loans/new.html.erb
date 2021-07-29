@@ -1,0 +1,167 @@
+<div class="container">
+  <br><br>
+
+  <%= link_to 'Listado de préstamos personales grupales', personal_group_loans_path, class: 'btn btn-primary float-right' %>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+
+  <br><br><br>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane  show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <br>
+      <div class='row col-md-12'>
+        <div class='col-md-8'>
+          <hr>
+          <%= form_with model: @loan, id: 'form_personal_group', local: true do |f| %>
+            <div class="form-group row">
+              <%= f.label 'Cliente:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.collection_select :client_id, Client.order(:name),:id,:fullname, include_blank: true, class: 'form-control' %>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Monto:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.number_field :amount, step: :any, class: 'form-control'%>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Porcentaje interés:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.number_field :interest_percent, value: 8.0, class: 'form-control'%>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Numero de Pagos:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.number_field :payments_number, value: 12, step: 1, class: 'form-control'%>
+              </div>
+            </div><br>
+            <%= f.hidden_field :frecuency, value: 'mensual' %>
+            <%= f.hidden_field :status, value: 'pending' %>
+            <div class="form-group row">
+              <%= f.label 'Fecha inicial:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.date_field :start_date, class: 'form-control'%>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Asesor:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.text_field :adviser_name, class: 'form-control'%>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Fecha de desembolso:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.date_field :disbursement_date, value: Time.now.strftime('%Y-%m-%d'), class: 'form-control'%>
+              </div>
+            </div><br>
+            <div class="form-group row">
+              <%= f.label 'Lugar de pago:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+              <div class="col-sm-10">
+                <%= f.text_field :address_contract, class: 'form-control'%>
+              </div>
+            </div><br>
+
+            <div class="row col-md-2 offset-md-10">
+              <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
+            </div>
+            <br><br><br>
+          <% end %>
+        </div>
+        <div class='col-md-4'>
+          <hr>
+          <h5 class='text-center'>Resúmen</h5>
+          <table style="border: 1px solid transparent" class="col-md-12">
+            <tr>
+              <td>Préstamo</td>
+              <td id="loan_amount_label"></td>
+            </tr>
+            <tr>
+              <td>Interéses</td>
+              <td id="interest_amount_label"></td>
+            </tr>
+            <tr>
+              <td>Pago Capital</td>
+              <td id="capital_amount_label"></td>
+            </tr>
+            <tr>
+              <td>Pago Mensual</td>
+              <td id="monthly_amount_label"></td>
+            </tr>
+            <tr>
+              <td>Total a Pagar</td>
+              <td id="total_amount_label"></td>
+            </tr>
+            <tr>
+              <td>Fecha Inicial</td>
+              <td id="start_date_label"></td>
+            </tr>
+            <tr>
+              <td>Fecha Final</td>
+              <td id="end_date_label"></td>
+            </tr>  
+          </table>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+</div>
+
+<script>
+ $(document).ready(function () {
+      $('select').selectize({
+          sortField: 'text'
+      });
+  });
+
+$('#form_personal_group').change(function() {
+  var loan_amount = parseFloat($('#personal_group_loan_amount').val()); 
+  var interest_percent = (parseFloat($('#personal_group_loan_interest_percent').val())/100.0); 
+  var interest_amount = loan_amount * interest_percent;
+  var payments_number = parseFloat($('#personal_group_loan_payments_number').val());
+  var capital_amount = parseFloat(loan_amount/payments_number);
+  var monthly_amount = parseFloat(capital_amount + interest_amount);
+  var total_amount = parseFloat(loan_amount + (interest_amount * payments_number));
+
+  var start_date = $('#personal_group_loan_start_date').val();
+  var start_date_converted = new Date(start_date.slice(0,4) + "/" + start_date.slice(5,7) + "/" + start_date.slice(8,10));
+  var end_date_converted = new Date(start_date_converted.setMonth(start_date_converted.getMonth()+payments_number));
+  var end_date = end_date_converted.toISOString().slice(0,10);
+  
+  $('#loan_amount_label').text((loan_amount).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }));
+
+  $('#interest_amount_label').text((interest_amount).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }));
+
+  $('#capital_amount_label').text((capital_amount).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }));
+
+  $('#monthly_amount_label').text((monthly_amount).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }));
+
+  $('#total_amount_label').text((total_amount).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }));
+
+  $('#start_date_label').text(start_date);
+  $('#end_date_label').text(end_date);
+});
+
+</script>
