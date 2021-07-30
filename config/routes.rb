@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'loan_reports/recents', to: 'loan_reports#recents'
+  get 'loan_reports/interests_montly', to: 'loan_reports#interests_montly'
   get 'loan_reports/extensions', to: 'loan_reports#extensions'
   get 'loan_reports/clients', to: 'loan_reports#client_loans'
   get 'logs/index'
