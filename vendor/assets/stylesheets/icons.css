@@ -4953,12 +4953,6 @@ File: Icons Css File
   content: "\e069"; }
 
 /* MaterialDesignIcons.com */
-@font-face {
-  font-family: "Material Design Icons";
-  src: asset-url("fonts/materialdesignicons-webfont.eot?v=5.5.55");
-  src: asset-url("fonts/materialdesignicons-webfont.eot?#iefix&v=5.5.55") format("embedded-opentype"), asset-url("fonts/materialdesignicons-webfont.woff2?v=5.5.55") format("woff2"), asset-url("fonts/materialdesignicons-webfont.woff?v=5.5.55") format("woff"), asset-url("fonts/materialdesignicons-webfont.ttf?v=5.5.55") format("truetype");
-  font-weight: normal;
-  font-style: normal; }
 
 .mdi:before,
 .mdi-set {
