@@ -46,6 +46,11 @@ class LoanReportsController < ApplicationController
     end
   end
 
+  def interests_montly
+    @last_six_months = last_six_months
+    loans_interests
+  end
+
   private
 
   def last_six_months
@@ -66,5 +71,25 @@ class LoanReportsController < ApplicationController
     @month_name = "#{MONTHS[month.to_date.strftime('%m')]}-#{month.to_date.strftime('%Y')}"
 
     Loan.where('cycle > 1').where(disbursement_date: month..month.end_of_month.end_of_day).order('disbursement_date DESC')
+  end
+
+  def loans_interests
+    month = Date.today.at_beginning_of_month
+    month = params[:month].to_date if params.key?(:month) 
+    @month_name = "#{MONTHS[month.to_date.strftime('%m')]}-#{month.to_date.strftime('%Y')}"
+    loans = WeeklyPayment
+              .joins(:loan)
+              .where(payment_date: month..month.end_of_month.end_of_day)
+              .group(['loans.name', 'loans.cycle', 'loans.id'])
+              .order('loans.created_at asc')
+              .sum('payment_interest')
+    @sum_interests = WeeklyPayment
+                      .where(payment_date: month..month.end_of_month.end_of_day)
+                      .sum('payment_interest')
+    
+                      @loans = []
+    loans.each_with_index do |loan, i|
+      @loans <<  { index: i+1, id: loan[0][2], cycle: loan[0][1], group: loan[0][0], interest: number_to_currency(loan[1].round(2), precision: 2) }
+    end
   end
 end

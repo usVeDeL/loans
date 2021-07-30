@@ -1,0 +1,104 @@
+<div class="container">
+<br><br><br>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Selecciona un mes
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% @last_six_months.each do |m| %>
+        <%= link_to m[0], { controller: 'loan_reports', action: 'interests_montly', month: m[1]}, class: 'dropdown-item' %>
+      <% end %>
+    </div>
+  </div>
+  <br><br><br>
+  <h1 class="text-center">Intereses de Préstamos de <%= @month_name %></h1>
+  
+  <br><br>
+
+  <table id="dttb" class="table table-hover table-sm w-100">
+    <thead>
+      <tr>
+        <th></th>
+        <th>#</th>
+        <th>Grupo</th>
+        <th>Ciclo</th>
+        <th>Intereses</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @loans.each do |l| %>
+        <tr>
+          <td>
+            
+          </td>
+          <td>
+            <%= l[:index] %>
+          </td>
+          <td>
+            <%= link_to edit_loan_path(l[:id]), class: 'nav-link' do %>
+              <%= l[:group] %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_loan_path(l[:id]), class: 'nav-link' do %>
+              <%= l[:cycle] %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_loan_path(l[:id]), class: 'nav-link' do %>
+              <%= l[:interest] %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td>Totales:</td>
+        <td></td>
+        <td></td>
+        <td>
+          <%= number_to_currency(@sum_interests, precision: 2) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  #dttb span {
+    display:none; 
+}
+
+</style>
+
+<script>
+    $(document).ready(function() {
+    $("#dttb").dataTable({
+        dom: 'Bfrtip',
+        paging: false,
+        bInfo: false,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ renglones por página",
+            "zeroRecords": "No hay nada - disculpa",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos disponibles",
+            "infoFiltered": "(filtered from _MAX_ total de renglones)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+              "sFirst":    "Primero",
+              "sPrevious": "Anterior",
+              "sNext":     "Siguiente",
+              "sLast":     "Último"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "print": "Imprimir"
+            }
+        }
+    });
+  });
+
+</script>
