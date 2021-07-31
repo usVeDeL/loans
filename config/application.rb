@@ -24,7 +24,7 @@ module Financierav2
     end
 
     Sentry.init do |config|
-      config.dsn = 'https://ebeb7b34ca374f289c0e4619940c2ec5@o495646.ingest.sentry.io/5568700'
+      config.dsn = ENV['SENTRY_DSN']
       config.breadcrumbs_logger = [:active_support_logger]
     
       # To activate performance monitoring, set one of these options.

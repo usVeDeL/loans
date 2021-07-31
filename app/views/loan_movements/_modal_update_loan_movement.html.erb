@@ -52,11 +52,13 @@ $('#editMovementModal').on('show.bs.modal', function (event) {
     $('#comments').val(comments);
   })
 
-  $('#editMovementModal').submit(function() {
-    $('#editMovementModal').modal('hide');
-  });
-
   $('#editMovementModal form').submit( function () {
-    setTimeout(function(){ $('#editMovementModal form')[0].reset(); }, 500);
+    $('#editMovementModal').modal().hide();
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+
+    setTimeout(function(){ 
+      $('#editMovementModal form')[0].reset(); 
+    }, 500);
   });
 </script>

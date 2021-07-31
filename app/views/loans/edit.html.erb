@@ -88,6 +88,46 @@
     $('#loan_client_birth_date').val(birth_date);
   });
 
+  $('#addMovementModal form').submit( function () {
+    $('#addMovementModal').modal().hide();
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+
+    setTimeout(function(){ 
+      $('#addMovementModal form')[0].reset(); 
+    }, 2000);
+  });
+
+  $('#exampleModal form').submit( function () {
+    $('#exampleModal').modal().hide();
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+
+    setTimeout(function(){ 
+      $('#exampleModal form')[0].reset(); 
+    }, 2000);
+  });
+
+  $('#addClientModal form').submit( function () {
+    $('#addClientModal').modal().hide();
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+
+    setTimeout(function(){ 
+      $('#addClientModal form')[0].reset(); 
+    }, 2000);
+  });
+
+  $('#amountLoanModal form').submit( function () {
+    $('#amountLoanModal').modal().hide();
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+
+    setTimeout(function(){ 
+      $('#amountLoanModal form')[0].reset(); 
+    }, 2000);
+  });
+
   $('#add_loan_client_form').submit(function() {
     $('#amountLoanModal').modal('hide');
     $('#addClientModal').modal('hide');
@@ -100,22 +140,6 @@
     $('#addClientModal').modal('hide');
     $('#exampleModal').modal('hide');
     $('#addMovementModal').modal('hide');
-  });
-
-  $('#addMovementModal form').submit( function () {
-    setTimeout(function(){ $('#addMovementModal form')[0].reset(); }, 2000);
-  });
-
-  $('#exampleModal form').submit( function () {
-    setTimeout(function(){ $('#exampleModal form')[0].reset(); }, 2000);
-  });
-
-  $('#addClientModal form').submit( function () {
-    setTimeout(function(){ $('#addClientModal form')[0].reset(); }, 2000);
-  });
-
-  $('#amountLoanModal form').submit( function () {
-    setTimeout(function(){ $('#amountLoanModal form')[0].reset(); }, 2000);
   });
   
 </script>
