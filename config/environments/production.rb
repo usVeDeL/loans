@@ -113,9 +113,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
-    domain:               'conexiones.app',
-    user_name:            'sistemas@vedel.com.mx',
-    password:             'tito0610',
+    domain:               ENV['EMAIL_DOMAIN'],
+    user_name:            ENV['EMAIL'],
+    password:             ENV['EMAIL_PASSWORD'],
     authentication:       'plain',
     enable_starttls_auto: true }
 end
