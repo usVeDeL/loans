@@ -18,7 +18,7 @@ class LoansController < ApplicationController
 
     if @loan.save
       loan_table_amortization_update(@loan)
-      LoanMailer.new_loan(@loan).deliver
+      # LoanMailer.new_loan(@loan).deliver
       create_log("Se ha creado el grupo #{@loan.name}, ciclo: #{@loan.cycle}.")
       flash[:success] = success_text
 
