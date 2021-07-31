@@ -6,11 +6,13 @@ class PersonalDocumentsController < ApplicationController
     @client = client
     @personal_documents = personal_documents
 
-    if @personal_document.save
-      create_log(
-        "Se ha creado documentos para el client: #{@client.name} #{@client.last_name} #{@client.mother_last_name}."
-      )
-
+    begin
+      if @personal_document.save
+        create_log(
+          "Se ha creado documentos para el client: #{@client.name} #{@client.last_name} #{@client.mother_last_name}."
+        )
+      end
+    rescue => exception
       flash[:success] = success_text
     end
 
