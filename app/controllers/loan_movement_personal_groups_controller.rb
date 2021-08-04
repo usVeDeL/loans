@@ -35,8 +35,7 @@ class LoanMovementPersonalGroupsController < ApplicationController
     @movements = @loan.loan_movement_personal_groups.where('amount > 0')
     @payments = @loan.payment_personal_groups.order('period ASC')
     @payments.where(period: loan_movement.period).last.update_status
-    # TODO We have to update this
-    #@last_weekly_payment = @loan.last_weekly_payment
+    @last_weekly_payment = @loan.last_weekly_payment
   end
 
   def destroy
@@ -48,7 +47,7 @@ class LoanMovementPersonalGroupsController < ApplicationController
       @movements = @loan.loan_movement_personal_groups.where('amount > 0')
       @payments = @loan.payment_personal_groups.order('period ASC')
       @payments.where(period: @loan_movement.period).last.update_status
-     # @last_weekly_payment = @loan.last_weekly_payment
+      @last_weekly_payment = @loan.last_weekly_payment
       respond_to do |format|
         format.js
       end

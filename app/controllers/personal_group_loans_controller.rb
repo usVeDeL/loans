@@ -29,6 +29,7 @@ class PersonalGroupLoansController < ApplicationController
     loan = PersonalGroupLoan.find(params[:id])
     loan = Strategy::UpdatePersonalGroup.new(loan: loan, params: params[:personal_group_loan]).execute
     loan.update_status
+    @last_weekly_payment = loan.last_weekly_payment
     if loan
       create_log("Se ha actualizado el prestamo personal grupal #{loan.client.fullname}.")
       flash[:success] = success_text
