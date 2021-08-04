@@ -2,6 +2,7 @@ class LoanMovementPersonalGroupsController < ApplicationController
 	def create
 		if movement_params[:movement_type_id] == '2'
 			@loan = loan
+      loan.update_status
 			movement = movements.find_by(period: movement_params[:period])
 
 			if movement.update(
@@ -10,7 +11,7 @@ class LoanMovementPersonalGroupsController < ApplicationController
 				movement_type_id: movement_params[:movement_type_id], 
 				comments: movement_params[:comments]
 			)
-      AdjustLoansController.new(loan, movement_params)
+      TableAmortization::UpdatePersonalGroupService.new(@loan).execute
 			@movements = @loan.loan_movement_personal_groups.where('amount > 0')
 			@payments = @loan.payment_personal_groups
       @payments.where(period: movement_params[:period]).last.update_status
@@ -25,6 +26,7 @@ class LoanMovementPersonalGroupsController < ApplicationController
     loan_movement = LoanMovementPersonalGroup.find(params[:id])
     loan_movement.fill_other_movements(params[:amount])
     @loan = loan_movement.personal_group_loan
+    @loan.update_status
 
     if params[:movement_type_id] == '2'
       adjust_payment
@@ -55,7 +57,6 @@ class LoanMovementPersonalGroupsController < ApplicationController
 
 	def edit
     payment = PaymentPersonalGroup.find(params[:id])
-		binding.pry
     @loan_movement = LoanMovementPersonalGroup.where(loan_id: payment.loan_id).where(movement_type_id: 2).where(week: payment.week).last
     
 		respond_to do |format|

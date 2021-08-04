@@ -24,7 +24,7 @@ module TableAmortization
           capital_amount: @loan.capital_amount,
           interest_amount: @loan.interest_monthly,
           period_amount: @loan.payment_amount,
-          status: 'light'
+          status: payment.update_status
         }
 
         movements << {
@@ -40,7 +40,7 @@ module TableAmortization
       @loan.update!(
         sum_interest: (@loan.interest_monthly * @loan.payments_number).round(2),
         sum_capital: @loan.amount,
-        sum_payment_amount: (@loan.payment_amount * @loan.payments_number).round(2)
+        sum_payment_amount: (@loan.amount + (@loan.interest_monthly * @loan.payments_number).round(2)).round(2)
       )
     end
 	end    

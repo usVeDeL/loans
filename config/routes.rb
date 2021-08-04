@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :loan_movement_personal_groups
   get 'loan_reports/recents', to: 'loan_reports#recents'
   get 'loan_reports/interests_montly', to: 'loan_reports#interests_montly'
+  get 'loan_reports/finished_amount', to: 'loan_reports#finished_amount'
   get 'loan_reports/extensions', to: 'loan_reports#extensions'
   get 'loan_reports/clients', to: 'loan_reports#client_loans'
   get 'logs/index'
@@ -30,6 +31,8 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {:registrations => "registrations"}
   post '/add_client', to: 'clients#add_client'
   put '/pay_full_loan', to: 'loans#pay_full'
+  post '/pay_full_pg_loan', to: 'personal_group_loans#pay_full'
+  post '/saldar_full_pg_loan', to: 'personal_group_loans#saldar_pay'
   post '/search_clients', to: 'clients#search_clients'
   as :user do
     get "/register", to: "registrations#new", as: "register"

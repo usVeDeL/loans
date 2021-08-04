@@ -38,7 +38,8 @@ module Strategy
 				disbursement_date: @update_params[:disbursement_date] || @loan.disbursement_date,
 				address_contract: @update_params[:address_contract] || @loan.address_contract,
 				status: @update_params[:status] || @loan.status,
-				state_id: @update_params[:state_id] || @loan.state_id
+				state_id: @update_params[:state_id] || @loan.state_id,
+				finished_amount: @update_params[:finished_amount] || @loan.finished_amount
 			}
 		end
 	

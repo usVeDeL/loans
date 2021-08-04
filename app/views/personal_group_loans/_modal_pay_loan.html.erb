@@ -9,12 +9,17 @@
       </div>
       <div class="modal-body">
         <h4 class="text-center">
-          Para saldar este préstamo el grupo debe pagar <b><%= "#{number_to_currency(last_weekly_payment, precision: 2)}" %> MXN</b>
+          Para saldar este préstamo el grupo debe pagar:
         </h4>
-          <% if current_user.role_can_edit_loans %>  
-            <%= link_to 'Saldar ',pay_full_loan_path({ id: loan.id }), method: :put, data: { confirm: 'Estás seguro?. Este cambio es irreversible' }, class: 'btn btn-outline-danger col-md-2' %>
-          <% end %>
-        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+
+        <%= form_with url: "/pay_full_pg_loan", method: :post, local: true  do |form| %>
+          <div class="form-group">
+          <%= form.hidden_field :id, value: loan.id %>
+          <%= form.text_field :finished_amount, value: last_weekly_payment.round(2), class: 'form-control' %>
+          </div>
+          <%= form.submit "Saldar", data: { confirm: 'Estás seguro?. Este cambio es irreversible' }, class: 'btn btn-outline-danger col-md-2' %>
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+        <% end %>
       </div>
     </div>
   </div>

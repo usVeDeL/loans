@@ -51,6 +51,10 @@ class LoanReportsController < ApplicationController
     loans_interests
   end
 
+  def finished_amount
+    @loans = PersonalGroupLoan.where(state_id: 4).order('created_at desc')
+  end
+
   private
 
   def last_six_months

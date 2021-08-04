@@ -1,41 +1,44 @@
 <div class="container">
-  <br><br><br>
-  <h1 class="text-center">Préstamos Personales Grupales</h1>
-  <br><br><br>
-  <% if current_user.role_can_create_loans %>  
-    <%= link_to 'Nuevo', new_personal_group_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
-  <% end %>
+<br><br><br>
+  <h1 class="text-center">Préstamos pendientes de aprobacion para saldar</h1>
+  
   <br><br>
+
   <table id="dttb" class="table table-hover table-sm w-100">
     <thead>
       <tr>
-        <th>Fecha desembolso</th>
-        <th>Nombre</th>
-        <th>Monto</th>
-        <th>Inicio</th>
-        <th>Finaliza</th>
-        <th>Frecuencia</th>
-        <th>Editar</th>
-        <th>Eliminar</th>
+        <th></th>
+        <th>#</th>
+        <th>Cliente</th>
+        <th>Monto calculado saldar</th>
+        <th>Monto Saldado</th>
+        <th>Fecha inicial</th>
+        <th>Fecha Final</th>
+        <th>Aprobar</th>
       </tr>
     </thead>
     <tbody>
-      <% statuses = { paid: 'success', pending_pay: 'secondary', pending_accept: 'warning', not_paid: 'danger' } %>
-      <% @loans.each do |l| %>
-        <tr class="table-<%= statuses[l.status&.to_sym] %>">
+      <% @loans.each_with_index do |l, index| %>
+        <tr>
+          <td>
+            
+          </td>
+          <td>
+            <%= index+1 %>
+          </td>
           <td>
             <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
-              <small><span><%= l.disbursement_date&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l.disbursement_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></small>
+              <%= l.client.fullname %>
             <% end %>
           </td>
           <td>
             <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
-              <%= l.client.fullname.capitalize %>
+              <%= number_to_currency(l.last_weekly_payment, precision: 2) %>
             <% end %>
           </td>
           <td>
             <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
-              <%= number_to_currency(l.amount, precision: 2) %>
+              <%= number_to_currency(l.finished_amount, precision: 2) %>
             <% end %>
           </td>
           <td>
@@ -50,18 +53,11 @@
           </td>
           <td>
             <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
-              <%= l.frecuency %>
+              <%= l.end_date %>
             <% end %>
           </td>
           <td>
-            <% if current_user.role_can_edit_loans %>  
-              <%= link_to 'Editar', edit_personal_group_loan_path(l), class: 'btn  btn-sm btn-outline-warning' %>
-            <% end %>
-          </td>
-          <td>
-            <% if current_user.role_can_delete_loans %>  
-              <%= link_to 'Eliminar', personal_group_loan_path(l), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
-            <% end %>
+            <%= link_to 'Saldar ', saldar_full_pg_loan_path({ id: l.id }), method: :post, data: { confirm: 'Estás seguro?. Este cambio es irreversible' }, class: 'btn btn-outline-danger' %>
           </td>
         </tr>
       <% end %>
@@ -74,29 +70,21 @@
     display:none; 
 }
 
-.table-secondary > td{
-  background-color: #FF7659
-}
-
-.table-hover .table-secondary:hover{
-  background-color: red
-}
-
 </style>
 
 <script>
-  $(document).ready(function() {
+    $(document).ready(function() {
     $("#dttb").dataTable({
         dom: 'Bfrtip',
         paging: false,
-        order: [[ 0, "desc" ]],
+        bInfo: false,
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ],
         "language": {
             "lengthMenu": "Mostrando _MENU_ renglones por página",
             "zeroRecords": "No hay nada - disculpa",
-            "info": "",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos disponibles",
             "infoFiltered": "(filtered from _MAX_ total de renglones)",
             "sSearch": "Buscar:",
@@ -113,4 +101,5 @@
         }
     });
   });
+
 </script>

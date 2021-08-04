@@ -1,6 +1,13 @@
 class PaymentPersonalGroup < ApplicationRecord
     belongs_to :personal_group_loan
 
+    enum status: {
+      success: 'success',
+      danger: 'danger',
+      warning: 'warning',
+      light: 'light'
+    }
+
 
     def loan_movement_personal_group
       self.personal_group_loan&.loan_movement_personal_groups&.where(period: self.period)&.last
@@ -27,7 +34,7 @@ class PaymentPersonalGroup < ApplicationRecord
         'light'
       end
   
-      self.update(status: status)
+      status
     end
 
     def payment_amount
