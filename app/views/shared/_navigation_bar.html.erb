@@ -56,7 +56,6 @@
               <%= link_to 'Nuevos', loan_reports_recents_path, class: 'dropdown-item notify-item' %>
               <%= link_to 'Renovaciones', loan_reports_extensions_path, class: 'dropdown-item notify-item' %>
               <%= link_to 'Intereses mensuales', loan_reports_interests_montly_path, class: 'dropdown-item notify-item' %>
-              <%= link_to 'Pendiente de saldar', loan_reports_finished_amount_path, class: 'dropdown-item notify-item' %>
             <% end %>
           </div>
         </li>
@@ -69,6 +68,7 @@
               <%= link_to 'Todos', personal_group_loans_path, class: 'dropdown-item notify-item' %>
               <%= link_to 'Activos', personal_group_loans_path(filter: 'active'), class: 'dropdown-item notify-item' %>
               <%= link_to 'Finalizados', personal_group_loans_path(filter: 'finished'), class: 'dropdown-item notify-item' %>
+              <%= link_to 'Pendiente de saldar', loan_reports_finished_amount_path, class: 'dropdown-item notify-item' %>
             <% end %>
           </div>
         </li>
