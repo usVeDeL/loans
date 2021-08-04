@@ -1,9 +1,9 @@
 <div class="container">
   <br><br><br>
-  <h1 class="text-center">Préstamos <%= if @filter == 'active' then 'Activos' elsif @filter == 'pending' then 'Pendientes' elsif @filter == 'finished' then 'Finalizados' else @filter end %></h1>
+  <h1 class="text-center">Préstamos Personales Grupales</h1>
   <br><br><br>
   <% if current_user.role_can_create_loans %>  
-    <%= link_to 'Nuevo', new_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
+    <%= link_to 'Nuevo', new_personal_group_loan_path, class: 'btn btn-primary offset-md-10 col-md-2' %>
   <% end %>
   <br><br>
   <table id="dttb" class="table table-hover table-sm w-100">
@@ -12,10 +12,9 @@
         <th>Fecha desembolso</th>
         <th>Nombre</th>
         <th>Monto</th>
-        <th>Monto Semanal</th>
         <th>Inicio</th>
         <th>Finaliza</th>
-        <th>Ciclo</th>
+        <th>Frecuencia</th>
         <th>Editar</th>
         <th>Eliminar</th>
       </tr>
@@ -25,48 +24,43 @@
       <% @loans.each do |l| %>
         <tr class="table-<%= statuses[l.status&.to_sym] %>">
           <td>
-            <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
               <small><span><%= l.disbursement_date&.in_time_zone('Mexico City')&.strftime("%Y%m%d%r") %></span> <%= l.disbursement_date&.in_time_zone('Mexico City')&.strftime("%d/%m/%Y") %></small>
             <% end %>
           </td>
           <td>
-            <%= link_to edit_loan_path(l), class: 'nav-link' do %>
-              <%= l.name.capitalize %>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= l.client.fullname.capitalize %>
             <% end %>
           </td>
           <td>
-            <%= link_to edit_loan_path(l), class: 'nav-link' do %>
-              <%= number_to_currency(l.loan_amount, precision: 2) %>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= number_to_currency(l.amount, precision: 2) %>
             <% end %>
           </td>
           <td>
-            <%= link_to edit_loan_path(l), class: 'nav-link' do %>
-              <%= number_to_currency(l.weekly_amount, precision: 2) %>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
               <%= l.start_date&.strftime("%d/%m/%Y") %>
             <% end %>
           </td>
           <td>
-            <%= link_to edit_loan_path(l), class: 'nav-link' do %>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
               <%= l.end_date&.strftime("%d/%m/%Y") %>
             <% end %>
           </td>
           <td>
-            <%= link_to edit_loan_path(l), class: 'nav-link' do %>
-              <%= l.cycle %>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= l.frecuency %>
             <% end %>
           </td>
           <td>
             <% if current_user.role_can_edit_loans %>  
-              <%= link_to 'Editar', edit_loan_path(l), class: 'btn  btn-sm btn-outline-warning' %>
+              <%= link_to 'Editar', edit_personal_group_loan_path(l), class: 'btn  btn-sm btn-outline-warning' %>
             <% end %>
           </td>
           <td>
             <% if current_user.role_can_delete_loans %>  
-              <%= link_to 'Eliminar', loan_path(l, filter: @filter), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
+              <%= link_to 'Eliminar', personal_group_loan_path(l), class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Estás seguro?' }  %>
             <% end %>
           </td>
         </tr>

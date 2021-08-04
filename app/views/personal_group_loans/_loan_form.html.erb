@@ -1,0 +1,57 @@
+<%= form_with model: loan, id: 'form_personal_group', local: true do |f| %>
+  <div class="form-group row">
+    <%= f.label 'Cliente:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.collection_select :client_id, Client.order(:name),:id,:fullname, include_blank: true, class: 'form-control' %>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Monto:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.number_field :amount, step: :any, class: 'form-control'%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Porcentaje interés:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.number_field :interest_percent, value: 8.0, class: 'form-control'%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Numero de Pagos:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.number_field :payments_number, value: 12, step: 1, class: 'form-control'%>
+    </div>
+  </div><br>
+  <%= f.hidden_field :frecuency, value: 'mensual' %>
+  <%= f.hidden_field :status, value: loan.status %>
+  <div class="form-group row">
+    <%= f.label 'Fecha inicial:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.date_field :start_date, class: 'form-control'%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Asesor:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field :adviser_name, class: 'form-control'%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Fecha de desembolso:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.date_field :disbursement_date, value: Time.now.strftime('%Y-%m-%d'), class: 'form-control'%>
+    </div>
+  </div><br>
+  <div class="form-group row">
+    <%= f.label 'Lugar de pago:', class: 'col-sm-2 col-form-label font-weight-bold' %>
+    <div class="col-sm-10">
+      <%= f.text_field :address_contract, class: 'form-control'%>
+    </div>
+  </div><br>
+
+  <div class="row col-md-2 offset-md-10">
+    <%= f.submit "Guardar", class: 'text-center btn btn-success' %>
+  </div>
+  <br><br><br>
+<% end %>

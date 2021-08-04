@@ -1,0 +1,95 @@
+<div class="container">
+  <br><br><hr><br><br>
+  <table id="dttb"  class="table table-hover table-sm">
+    <thead>
+      <tr>
+        <th></th>
+        <th scope="col">Mes</th>
+        <th scope="col">Fecha Pago</th>
+        <th scope="col">Pago capital</th>
+        <th scope="col">Pago interes</th>
+        <th scope="col">Pago</th>
+        <th scope="col">Ajustar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% unless payments.nil? %>
+        <% payments.each do |payment| %>
+          <tr class="table-<%= payment.status %>">
+            <th></th>
+            <th><%= payment.period %></th>
+            <th><%= payment.payment_date&.in_time_zone('Mexico City')&.strftime('%d/%m/%Y') %></th>
+            <th><%= number_to_currency(payment.capital_amount, precision: 2) %></th>
+            <th><%= number_to_currency(payment.interest_amount, precision: 2) %></th>
+            <th><%= number_to_currency(payment.payment_amount, precision: 2) %></th>
+            <th>
+              <% if payment.payment_date < DateTime.now && @loan.state_id < 3 %>
+                <button 
+                  type="button"
+                  class="btn btn-warning btn-sm"
+                  id="add_client_button"
+                  data-toggle="modal"
+                  data-target="#editMovementPersonalGroupModal"
+                  data-amount="<%= payment.loan_movement_personal_group&.amount %>"
+                  data-comments="<%= payment.loan_movement_personal_group&.comments %>"
+                  data-id="<%= payment.loan_movement_personal_group&.id %>"
+                >
+                  Ajustar
+                </button>
+              <% end %>
+            </th>
+          </tr>
+        <% end %>
+        <tr class='table-secondary'>
+          <th></th>
+          <th>TOTALES:</th>
+          <th></th>
+          <th><%= number_to_currency(@loan.sum_capital, precision:2) %></th>
+          <th><%= number_to_currency(@loan.sum_interest, precision:2) %></th>
+          <th><%= number_to_currency(@loan.sum_payment_amount, precision:2) %></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<%= render partial: 'loan_movement_personal_groups/modal_update_loan_movement', locals: { loan: @loan } %>
+
+<script>
+    $(document).ready(function() {
+    $("#dttb").dataTable({
+        dom: 'Bfrtip',
+        order: [[ 0, "asc" ]],
+        paging: false,
+        bInfo: false,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ renglones por página",
+            "zeroRecords": "No hay nada - disculpa",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos disponibles",
+            "infoFiltered": "(filtered from _MAX_ total de renglones)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+              "sFirst":    "Primero",
+              "sPrevious": "Anterior",
+              "sNext":     "Siguiente",
+              "sLast":     "Último"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "print": "Imprimir"
+            }
+        }
+    });
+  });
+
+</script>
+
+

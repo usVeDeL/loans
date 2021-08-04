@@ -1,0 +1,50 @@
+<div class="container"><br><br>
+  <%= render partial: 'personal_group_loans/loan_action_items', locals: { loan: @loan } %>
+  <br><br><br>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">General</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Movimientos</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane  show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <br>
+      <div class='row col-md-12'>
+        <div class='col-md-8'>
+          <hr>
+          <%= render partial: 'personal_group_loans/loan_form', locals: { loan: @loan } %>
+        </div>
+        <div class='col-md-4' id="grid_loan_resume">
+          <%= render partial: 'personal_group_loans/table_loan_resume', locals: { loan: @loan } %>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane " id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      <br><br>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMovementPersonalGroupModal">
+        Agregar movimiento
+      </button>
+      <br><br>
+      <div id="loan_movements_grid">
+        <%= render partial: 'personal_group_loans/table_loan_movements', locals: { movements: @movements, loan: @loan } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row col-md-12">
+    <div id="grid_table_amortization">
+      <%= render partial: 'personal_group_loans/table_amortization', locals: { payments: @payments } %>
+    </div>
+  </div>
+</div>
+
+<div id="saldar_modal">
+  <%= render partial: 'personal_group_loans/modal_pay_loan', locals: { last_weekly_payment: @last_weekly_payment, loan: @loan } %>
+</div>
+
+
+<%= render partial: 'personal_group_loans/add_movement_modal', locals: { loan: @loan, avaiable_movements: (1..12).to_a } %>

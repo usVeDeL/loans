@@ -1,0 +1,33 @@
+<hr>
+<h5 class='text-center'>Resúmen</h5>
+
+<table style="border: 1px solid transparent" class="col-md-12">
+  <tr>
+    <td>Préstamo</td>
+    <td><%= number_to_currency(loan.amount, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Interéses</td>
+    <td><%= number_to_currency(loan.interest_monthly, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Pago Capital</td>
+    <td><%= number_to_currency(loan.capital_amount, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Pago Mensual</td>
+    <td><%= number_to_currency(loan.payment_amount, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Total a Pagar</td>
+    <td><%= number_to_currency(loan.sum_payment_amount, precision: 2) %></td>
+  </tr>
+  <tr>
+    <td>Fecha Inicial</td>
+    <td id="start_date_label"><%= loan.start_date.strftime("%d/%m/%Y") %></td>
+  </tr>
+  <tr>
+    <td>Fecha Final</td>
+    <td><%= loan&.end_date&.strftime("%d/%m/%Y") %></td>
+  </tr>  
+</table>

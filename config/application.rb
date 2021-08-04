@@ -17,6 +17,7 @@ module Financierav2
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.assets.initialize_on_precompile = false
+    config.autoload_paths << Rails.root.join('app/*')
 
     Humanize.configure do |config|
       config.default_locale = :en  # [:en, :es, :fr, :tr, :de, :id], default: :en

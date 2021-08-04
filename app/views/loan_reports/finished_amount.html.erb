@@ -1,0 +1,105 @@
+<div class="container">
+<br><br><br>
+  <h1 class="text-center">Préstamos pendientes de aprobacion para saldar</h1>
+  
+  <br><br>
+
+  <table id="dttb" class="table table-hover table-sm w-100">
+    <thead>
+      <tr>
+        <th></th>
+        <th>#</th>
+        <th>Cliente</th>
+        <th>Monto calculado saldar</th>
+        <th>Monto Saldado</th>
+        <th>Fecha inicial</th>
+        <th>Fecha Final</th>
+        <th>Aprobar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @loans.each_with_index do |l, index| %>
+        <tr>
+          <td>
+            
+          </td>
+          <td>
+            <%= index+1 %>
+          </td>
+          <td>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= l.client.fullname %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= number_to_currency(l.last_weekly_payment, precision: 2) %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= number_to_currency(l.finished_amount, precision: 2) %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= l.start_date&.strftime("%d/%m/%Y") %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= l.end_date&.strftime("%d/%m/%Y") %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_personal_group_loan_path(l), class: 'nav-link' do %>
+              <%= l.end_date %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Saldar ', saldar_full_pg_loan_path({ id: l.id }), method: :post, data: { confirm: 'Estás seguro?. Este cambio es irreversible' }, class: 'btn btn-outline-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  #dttb span {
+    display:none; 
+}
+
+</style>
+
+<script>
+    $(document).ready(function() {
+    $("#dttb").dataTable({
+        dom: 'Bfrtip',
+        paging: false,
+        bInfo: false,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ renglones por página",
+            "zeroRecords": "No hay nada - disculpa",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos disponibles",
+            "infoFiltered": "(filtered from _MAX_ total de renglones)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+              "sFirst":    "Primero",
+              "sPrevious": "Anterior",
+              "sNext":     "Siguiente",
+              "sLast":     "Último"
+            },
+            "buttons": {
+                "copy": "Copiar",
+                "print": "Imprimir"
+            }
+        }
+    });
+  });
+
+</script>
