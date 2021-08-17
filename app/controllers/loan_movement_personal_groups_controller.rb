@@ -15,6 +15,8 @@ class LoanMovementPersonalGroupsController < ApplicationController
 			@movements = @loan.loan_movement_personal_groups.where('amount > 0')
 			@payments = @loan.payment_personal_groups
       @payments.where(period: movement_params[:period]).last.update_status
+      @last_weekly_payment = @loan.last_weekly_payment
+      
 				respond_to do |format|
 					format.js
 				end
